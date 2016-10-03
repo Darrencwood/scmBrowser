@@ -1,0 +1,37 @@
+{
+  "name": "angular-seed",
+  "private": true,
+  "version": "0.0.0",
+  "description": "A starter project for AngularJS",
+  "repository": "https://github.com/angular/angular-seed",
+  "license": "MIT",
+  "devDependencies": {
+    "bower": "^1.7.7",
+    "http-server": "^0.9.0",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-chrome-launcher": "^0.2.3",
+    "karma-firefox-launcher": "^0.1.7",
+    "karma-jasmine": "^0.3.8",
+    "karma-junit-reporter": "^0.4.1",
+    "protractor": "^3.2.2",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "http-proxy": "1.15.1",
+    "method-override": "^2.3.6",
+    "morgan": "^1.7.0",
+    "ng-table": "^1.0.0",
+	"angular-ui-grid": "3.2.9",
+	"angular-formly": "8.4.0",
+	"angular-formly-templates-bootstrap": "6.4.0",
+	"api-check": "7.5.5",
+	"bootstrap": "3.3.7"
+  },
+  "scripts": {
+    "postinstall": "bower install",
+
+    "prestart": "npm install",
+    "start": "node app.js",
+    "preupdate-webdriver": "npm install"
+ }
+}
