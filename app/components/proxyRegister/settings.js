@@ -13,3 +13,4 @@ angular.module('myApp').service('proxyRegisterSettings', function() {
 angular.module('myApp').factory('apiProxyRegisterSettings', function($resource) {
     return $resource('/proxy/registerUrl');
 });
+

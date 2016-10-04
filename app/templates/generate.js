@@ -2,9 +2,6 @@ const Mustache = require('mustache');
 const _ = require('underscore');
 const fs = require('fs');
 
-var path = "../views/"
-var componentsPath = "../components/";
-
 function load_data(callback){
   fs.readFile('data.json', 'utf8', function (err, data) {
     if (err) throw err;
@@ -13,7 +10,7 @@ function load_data(callback){
   });
 }
 
-function check_viewDir(path, item, callback){
+function createViewsDirectory(path, item, callback){
   fs.exists(path + item.camel, function(exists) {
     if (!exists) {
       console.log(path + ' does not existing, creating dir' );
@@ -23,7 +20,17 @@ function check_viewDir(path, item, callback){
   });
 }
 
-function check_componentDir(path, item, callback){
+function createMainDirectory(mainPath, items, callback){
+  fs.exists(mainPath, function(exists) {
+    if (!exists) {
+      console.log(mainPath + ' does not existing, creating dir' );
+      fs.mkdirSync(mainPath,0744);
+    }
+    callback(mainPath,items);
+  });
+}
+
+function createComponentDirectory(path, item, callback){
   fs.exists(path + item.camel, function(exists) {
     if (!exists) {
       console.log(path + ' does not existing, creating dir' );
@@ -33,36 +40,54 @@ function check_componentDir(path, item, callback){
   });
 }
 
-function open_view(callback) {
+function openViewTpl(callback) {
   fs.readFile('view.tpl', 'utf8', (err, view) => {
     callback(view);
   });
 }
 
-function open_controller(callback) {
+function openMainTpl(callback) {
+  fs.readFile('main.tpl', 'utf8', (err, view) => {
+    callback(view);
+  });
+}
+
+function openMainMenuTpl(callback) {
+  fs.readFile('main_menu.tpl', 'utf8', (err, view) => {
+    callback(view);
+  });
+}
+
+function openSubmenuTpl(callback) {
+  fs.readFile('sub_menu.tpl', 'utf8', (err, view) => {
+    callback(view);
+  });
+}
+
+function openControllerTpl(callback) {
   fs.readFile('controller.tpl', 'utf8', (err, controller) => {
     callback(controller);
   });
 }
 
-function open_services(callback) {
+function openServicesTpl(callback) {
   fs.readFile('services.tpl', 'utf8', (err, services) => {
     callback(services);
   });
 }
 
-function create_view(path, item){
+function createViewsFiles(path, item){
   var htmlFileName = path + item.camel + '/' + item.camel + '.html';
   var controllerFileName = path + item.camel + '/' + item.camel + '.js';
   
-  open_view(function(view) {
+  openViewTpl(function(view) {
     fs.open(htmlFileName, 'w', (err, fd) => {
       console.log('Generating ' + htmlFileName);
       fs.write(fd, Mustache.render(view, item));
     });
   });
   
-  open_controller(function(controller) {
+  openControllerTpl(function(controller) {
     fs.open(controllerFileName, 'w', (err, fd) => {
       console.log('Generating ' + controllerFileName);
       fs.write(fd, Mustache.render(controller, item));
@@ -70,10 +95,30 @@ function create_view(path, item){
   });
 }
 
-function create_component(path, item){
+function createMainView(path, items){
+  var htmlFileName = path + '/main.html';
+  var htmlMainMenu = path + '/main_menu.html';
+  
+  openMainMenuTpl(function(view) {
+    fs.open(htmlMainMenu, 'w', (err, fd) => {
+      console.log('Generating ' + htmlMainMenu);
+      fs.write(fd, Mustache.render(view, items));
+    });
+  });
+
+    openMainTpl(function(view) {
+    fs.open(htmlFileName, 'w', (err, fd) => {
+      console.log('Generating ' + htmlFileName);
+      fs.write(fd, Mustache.render(view, items));
+    });
+    
+  });
+}
+
+function createComponentFiles(path, item){
   var componentFileName = path + item.camel + '/' + item.camel + '-api-service.js';
   
-  open_services(function(service) {
+  openServicesTpl(function(service) {
     fs.open(componentFileName, 'w', (err, fd) => {
       console.log('Generating ' + componentFileName);
       fs.write(fd, Mustache.render(service, item));
@@ -82,10 +127,13 @@ function create_component(path, item){
   
 }
 
+var path = "../views/"
+var componentsPath = "../components/";
 
 load_data(function(data){
   _.each(data.items, function(item){
-    check_viewDir(path, item, create_view);
-    check_componentDir(componentsPath, item, create_component);
+    createViewsDirectory(path, item, createViewsFiles);
+    createComponentDirectory(componentsPath, item, createComponentFiles);
   });
+  createMainDirectory(path + "main", data, createMainView);
 });

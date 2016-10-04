@@ -25,3 +25,20 @@ angular.module('myApp').service('current{{title}}', function() {
     return this.{{camel}};
   }
 });
+
+{{#selectedSubmenu}}
+angular.module('myApp').factory('api{{submenuNameCamel}}', function($resource) {
+    return $resource('/api/scm.config/1.0/{{submenuName}}', {}, 
+    {
+    	'query': {
+    		method: 'GET', 
+    		isArray: true , 
+    		responseType: 'json',
+    		transformResponse: function (data) {
+     			var wrapped = angular.fromJson(data); 
+     			return wrapped.items;
+    		} 
+    	}
+    });
+});
+{{/selectedSubmenu}}

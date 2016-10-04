@@ -1,12 +1,5 @@
 <div id="wrapper">
-	<!-- Sidebar -->
-		<div id="sidebar-wrapper">
-			<ul class="sidebar-nav">
-			{{#items}}
-				<li><a href="#!/{{camel}}">{{title}}</a></li>
-			{{/items}}
-      </ul>
-    </div>
+	<div ng-include="'/views/main/main_menu.html'"></div>
 	<!-- /#sidebar-wrapper -->
 			
 	<!-- Page Content -->

@@ -55,6 +55,12 @@ apiProxy.on('proxyReq', function(proxyReq, req, res, options) {
 	console.log(req.method);
 	console.log(req.url);
 	console.log(req.body);
+	if(req.body) {
+	  let bodyData = JSON.stringify(req.body);
+	  proxyReq.setHeader('Content-Type', 'application/json');
+	  proxyReq.setHeader('Content-Lenght', Buffer.byteLength(bodyData));
+	  proxyReq.write(bodyData);
+	}
 });
 
 apiProxy.on('proxyRes', function(proxyRes, req, res, options) {

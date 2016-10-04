@@ -145,7 +145,30 @@
                 		{ "key": "street_address", "type": "input", "option_type": "text", "require": "true" , "visible": "true"  },
                 		{ "key": "timezone", "type": "input", "option_type": "text", "require": "true" , "visible": "true" },
                 		{ "key": "uid", "type": "input", "option_type": "text", "require": "true" , "visible": "true" }
-                	]
+                	],
+                	"sampleDownload": "true",
+					"sampleHeaders": "name,longname,city",
+					"sampleData": "TestOrg, Test Organization, San Antonio",
+					"selectedSubmenu": "id",
+					"submenuNameCamel": "org", "submenuName": "Org",
+					"submenu_items": [
+						{ "fieldName": "org", "title": "Org", "came":"org",
+							"fields": [
+								{ "key": "city", "type": "input", "option_type": "text", "require": "true" , "visible": "true" },
+                				{ "key": "contact", "type": "input", "option_type": "text", "require": "true" , "visible": "true" },
+                				{ "key": "country", "type": "input", "option_type": "text", "require": "true" , "visible": "true" },
+                				{ "key": "gid", "type": "input", "option_type": "text", "require": "true" , "visible": "false" },
+                				{ "key": "id", "type": "input", "option_type": "text", "require": "true" , "visible": "false" },
+                				{ "key": "longname", "type": "input", "option_type": "text", "require": "true" , "visible": "true" },
+                				{ "key": "name", "type": "input", "option_type": "text", "require": "true" , "visible": "true" },
+                				{ "key": "realm", "type": "input", "option_type": "text", "require": "true" , "visible": "true" },
+                				{ "key": "street_address", "type": "input", "option_type": "text", "require": "true" , "visible": "true"  },
+                				{ "key": "timezone", "type": "input", "option_type": "text", "require": "true" , "visible": "true" },
+                				{ "key": "uid", "type": "input", "option_type": "text", "require": "true" , "visible": "true" }
+							]
+						},
+						{ "fieldName": "org", "title": "Org", "came":"org",
+					]
                 },
                 { "fieldName": "path_rules", "title": "PathRules", "camel":"pathRules",
                 	"fields":[
