@@ -1,8 +1,8 @@
 <!-- Sidebar -->
 	<div id="sidebar-wrapper">
 		<ul class="sidebar-nav">
-		{{#items}}
-			<li><a href="#!/{{camel}}">{{title}}</a></li>
-		{{/items}}
+		{{#.}}
+			<li><a href="#!/{{name}}">{{title}}</a></li>
+		{{/.}}
   </ul>
 </div>

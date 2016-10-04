@@ -1,7 +1,7 @@
 'use strict';
-
-angular.module('myApp').factory('api{{title}}', function($resource) {
-    return $resource('/api/scm.config/1.0/{{fieldName}}', {}, 
+{{#.}}
+angular.module('myApp').factory('api{{capWord}}', function($resource) {
+    return $resource('/api/scm.config/1.0{{& path}}', {}, 
     {
     	'query': {
     		method: 'GET', 
@@ -15,30 +15,15 @@ angular.module('myApp').factory('api{{title}}', function($resource) {
     });
 });
 
-angular.module('myApp').service('current{{title}}', function() {
-  this.{{camel}} = { id: ''};
-  this.set{{title}} = function(id){ 
-  	console.log('setting current {{title}} to: ' + id);
-    this.{{camel}}.id = id;
+angular.module('myApp').service('current{{capWord}}', function() {
+  this.{{capWord}} = { id: ''};
+  this.set{{capWord}} = function(id){ 
+  	console.log('setting current {{capWord}} to: ' + id);
+    this.{{capWord}}.id = id;
   }
-  this.get{{title}} = function(){
-    return this.{{camel}};
+  this.get{{capWord}} = function(){
+    return this.{{capWord}};
   }
 });
 
-{{#selectedSubmenu}}
-angular.module('myApp').factory('api{{submenuNameCamel}}', function($resource) {
-    return $resource('/api/scm.config/1.0/{{submenuName}}', {}, 
-    {
-    	'query': {
-    		method: 'GET', 
-    		isArray: true , 
-    		responseType: 'json',
-    		transformResponse: function (data) {
-     			var wrapped = angular.fromJson(data); 
-     			return wrapped.items;
-    		} 
-    	}
-    });
-});
-{{/selectedSubmenu}}
+{{/.}}
