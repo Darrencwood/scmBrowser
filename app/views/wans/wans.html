@@ -7,7 +7,7 @@
 	    <div class="container-fluid">
 	        <div class="row">
 	            <div class="col-lg-12">
-	            	<div><h2>{{title}}</h2>
+	            	<div><h2>Wans</h2>
 	<div class='row'>
 		<div class='col-xs-1 col-sm-1 col-md-1'>
 			<a id='download'>
@@ -20,7 +20,7 @@
 	</div>
 	<div class='row'>
 			<div class='col-xs-12 col-sm-12 col-md-12'>
-				<div id='grid1' ui-grid='{{capWord}}GridOptions'ui-grid-edit ui-grid-importer ui-grid-resize-columns class='grid'></div>
+				<div id='grid1' ui-grid='WansGridOptions'ui-grid-edit ui-grid-importer ui-grid-resize-columns class='grid'></div>
 			</div>
 	</div>
 	<div id='showRecord' ng-if="showSelectedRecord">
@@ -32,9 +32,9 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<form novalidate>
-					<h2>{{title}}</h2>
-						<formly-form model="{{capWord}}Selected" fields="{{capWord}}Fields" form="{{capWord}}Form">
-							<button type="submit" class="btn btn-primary" ng-disabled="{{capWord}}Form.$invalid" ng-click="save()">Save</button>
+					<h2>Wans</h2>
+						<formly-form model="WansSelected" fields="WansFields" form="WansForm">
+							<button type="submit" class="btn btn-primary" ng-disabled="WansForm.$invalid" ng-click="save()">Save</button>
 						</formly-form>
 				</form>
 			</div>
@@ -58,7 +58,6 @@
       						</tr>
 						</thead>
 						<tr ng-repeat="x in updateResults">
-							{{=<% %>=}}
 							<td>{{ $index }}</td>
 							<td>{{ x.status }}</td>
 							<td>{{ x.message}}</td>

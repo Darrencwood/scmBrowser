@@ -1,28 +1,28 @@
 'use strict';
 
-angular.module('myApp.{{camel}}', ['ngRoute'])
+angular.module('myApp.{{capWord}}', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/{{camel}}', {
-    templateUrl: 'views/{{camel}}/{{camel}}.html',
-    controller: '{{camel}}Ctrl'
+  $routeProvider.when('/{{name}}', {
+    templateUrl: 'views/{{name}}/{{name}}.html',
+    controller: '{{capWord}}Ctrl'
   });
 }])
 {{#selectedSubmenu}}
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/{{submenuName}}', {
-    templateUrl: 'views/{{camel}}/{{submenuName}}.html',
+    templateUrl: 'views/{{capWord}}/{{submenuName}}.html',
     controller: '{{submenuName}}Ctrl'
   });
 }])
 {{/selectedSubmenu}}
-.controller('{{camel}}Ctrl',
-		[ '$scope', 'api{{title}}', '$location', 'current{{title}}', '$timeout',
-			function($scope, api{{title}}, $location, current{{title}}, $timeout) {
+.controller('{{capWord}}Ctrl',
+		[ '$scope', 'api{{capWord}}', '$location', 'current{{capWord}}', '$timeout',
+			function($scope, api{{capWord}}, $location, current{{capWord}}, $timeout) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.{{camel}} = api{{title}}.query();
-				$scope.{{camel}}Selected = '';
+				$scope.{{capWord}} = api{{capWord}}.query();
+				$scope.{{capWord}}Selected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
 				
@@ -34,7 +34,7 @@ angular.module('myApp.{{camel}}', ['ngRoute'])
 				
 				$scope.clicked = true;
 				
-				$scope.{{camel}}GridOptions = {
+				$scope.{{capWord}}GridOptions = {
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
@@ -42,17 +42,17 @@ angular.module('myApp.{{camel}}', ['ngRoute'])
 					enableGridMenu: true,
 					enableImporter: false,
 					columnDefs: [
-					{{#fields}}
-						{ name:'{{key}}', field:'{{key}}', visible:{{visible}} },
-					{{/fields}}
+					{{#definition}}
+						{ name:'{{name}}', field:'{{name}}'/*, visible:{{visible}} */},
+					{{/definition}}
 					],
-					data: $scope.{{camel}},
+					data: $scope.{{capWord}},
 					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					api{{title}}.save(newObject).$promise.then(function(data){
-    						$scope.{{camel}}.push(data);
+    					api{{capWord}}.save(newObject).$promise.then(function(data){
+    						$scope.{{capWord}}.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
     					},function(error){
@@ -61,16 +61,16 @@ angular.module('myApp.{{camel}}', ['ngRoute'])
     					});
     				},
     				onRegisterApi: function(gridApi){ 
-      				$scope.gridApi = gridApi;
-      					//$scope.gridApi.rowEdit.on.saveRow($scope,
-      					//$scope.saveRow);
-    				}
-				};
+      					$scope.gridApi = gridApi;
+      						//$scope.gridApi.rowEdit.on.saveRow($scope,
+      						//$scope.saveRow);
+    					}
+					};
   			     
 				$scope.click = function(row){ 
 					$scope.clicked = $timeout(function(){
 						if ($scope.stopped == false){
-                			$scope.{{camel}}Selected = row.entity;
+                			$scope.{{capWord}}Selected = row.entity;
 							$scope.showSelectedRecord = true;
 						}
         			},500);
@@ -80,26 +80,26 @@ angular.module('myApp.{{camel}}', ['ngRoute'])
 					{{#selectedSubmenu}}
 					$scope.stopped = $timeout.cancel($scope.clicked);
 					//console.log(row.entity);	
-					current{{title}}.set{{title}}(row.entity.{{selectedSubmenu}});
+					current{{capWord}}.set{{capWord}}(row.entity.{{selectedSubmenu}});
 					$location.path('/org');
 					{{/selectedSubmenu}}
 				}
 				
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
-					$scope.{{camel}}Selected = undefined;
+					$scope.{{capWord}}Selected = undefined;
 				}
 				
-				$scope.{{camel}}Fields = [
-					{{#fields}}
-						{key: '{{key}}', type: '{{type}}',
+				$scope.{{capWord}}Fields = [
+					{{#definition}}
+						{key: '{{name}}', type: 'input',
             				templateOptions: {
-                				type: '{{option_type}}', label: '{{key}}', placeholder: '{{key}}', required: {{require}}
+                				type: '{{type}}', label: '{{name}}', placeholder: "{{description}}", required: {{required}}
             				}
           				},
-          			{{/fields}}
+          			{{/definition}}
 				];
-				
+				{{#sampleHeaders}}
 				var uploadZone = document.getElementById('upload');
 
     			// Optional.   Show the copy icon when dragging over.  Seems to
@@ -119,7 +119,7 @@ angular.module('myApp.{{camel}}', ['ngRoute'])
     		    	$scope.showUploadResults = true;
     		    	$scope.gridApi.importer.importFile(files[0]);
 				});
-				{{#sampleHeaders}}				
+								
 				var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("{{& sampleHeaders }}\n{{& sampleData }}");
 				var dlAnchorElem = document.getElementById('download');
 				dlAnchorElem.setAttribute("href",     dataStr     );

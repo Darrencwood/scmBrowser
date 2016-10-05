@@ -1,5 +1,5 @@
 'use strict';
-{{#.}}
+
 angular.module('myApp').factory('api{{capWord}}', function($resource) {
     return $resource('/api/scm.config/1.0{{& path}}', {}, 
     {
@@ -25,5 +25,3 @@ angular.module('myApp').service('current{{capWord}}', function() {
     return this.{{capWord}};
   }
 });
-
-{{/.}}
