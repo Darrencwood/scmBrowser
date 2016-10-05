@@ -225,7 +225,7 @@ function createComponentFiles(path, e){
 
 
 loadSwagger(function(data){
-  //console.log(data); 
+ /*
  let mainElements = _.chain(data.paths)
  .map(function(value, path) {
     let found = path.match(reId);
@@ -251,6 +251,37 @@ loadSwagger(function(data){
     createViewsDirectory(views, e, createViewsFiles);
     createComponentDirectory(components, e, createComponentFiles);
   });
-
+  */
+  let subElements = _.chain(data.paths)
+    .map(function(value, path) {
+      let found = path.match(reId);
+      // If this is main menu convert data for templates
+      if (found) { // main menu
+        return {
+          key: found[0],
+          properties: {
+            path: path,
+            ops: value
+          }
+        };
+      } 
+      return {
+        key: 'none',
+        path: path,
+        ops: value
+      }
+    })
+    .groupBy('key')
+    .value();
+  
+  console.log('========= MAIN ELEMENTS =========');
+  console.log(subElements['none']);
+  openMainMenuTpl(function(view){
+    mainMenu = views + '/main/main_menu.html';
+    fs.open(mainMenu, 'w', (err, fd) => {
+      console.log('Writing ' + mainMenu);
+      fs.write(fd, Mustache.render(view, subElements['none']));
+    });
+  });
 });
 
