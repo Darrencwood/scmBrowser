@@ -2,9 +2,39 @@ const Mustache = require('mustache');
 const _ = require('underscore');
 const fs = require('fs');
 const yaml = require('js-yaml');
-var fse = require('fs.extra');
+const fse = require('fs.extra');
+const _s = require('underscore.string');
+_.mixin(_s.exports());
 
 
+const mainMenuMappings = [
+  { id: 'ap', value: ':apid' },
+  { id: 'app_groups', value: ':appgrpid' },
+  { id: 'bgpneighs', value: ':bgpneighid' },
+  { id: 'broadcasts', value: ':bcastid' },
+  { id: 'clusters', value: ':clusterid' },
+  { id: 'custom_apps', value: ':appid' },
+  { id: 'dcinterfaces', value: ':dcinterfaceid' },
+  { id: 'dcuplinks', value: ':dcuplinkid' },
+  { id: 'devices', value: ':devid' },
+  { id: 'endpoints', value: ':epid' },
+  { id: 'inbound_rules', value: ':ruleid' },
+  { id: 'networks', value: ':netid' },
+  { id: 'nodes', value: ':nodeid' },
+  { id: 'orgs', value: ':orgid' },
+  { id: 'outbound_rules', value: ':ruleid' },
+  { id: 'path_rules', value: ':pruleid' },
+  { id: 'ports', value: ':portid' },
+  { id: 'sites', value: ':siteid' },
+  { id: 'ssids', value: ':ssidid' },
+  { id: 'switches', value: ':switchid' },
+  { id: 'uplinks', value: ':uplinkid' },
+  { id: 'users', value: ':userid' },
+  { id: 'wans', value: ':wanid' },
+  { id: 'zones', value: ':zoneid' },
+];
+
+  
 var createTitle = function(str)
 {
   return (str.charAt(0).toUpperCase() + str.substr(1)).replace('_',' ');
@@ -76,8 +106,6 @@ function createComponentDirectory(path, e, callback){
     callback(path,e);
   });
 }
-
-//copyFiles();
 
 var reId = /:(\w)+/;
 
@@ -190,8 +218,8 @@ function createMainMenuObject(data, path){
 }
 
 
-let views = "../views"
-let components = "../components";
+let views = "../views/"
+let components = "../components/";
 
 function createViewsFiles(path, e){
   let html = views + e.path + '/' + e.name + '.html';
@@ -223,65 +251,88 @@ function createComponentFiles(path, e){
   
 }
 
+function mkdirView(e, elements, callback){
+  
+  _.each(e.ops, function(value, key){
+    if ( value.path != null) {
+      let dir = views + e.id + '/' + value.path;
+      console.log('Checking ' + dir);
+      fs.exists(dir, function(exists) {
+        if (!exists) {
+          console.log(dir + ' does not existing, creating dir' );
+          fs.mkdirSync(dir, 0744);
+        }
+        console.log(dir);
+        console.log(value);
+      });
+    }
+  });
+  callback();
+}
+
+
+copyFiles();
 
 loadSwagger(function(data){
- /*
- let mainElements = _.chain(data.paths)
- .map(function(value, path) {
-    let found = path.match(reId);
-    // If this is main menu convert data for templates
-    if (!found) { // main menu
-      return createMainMenuObject(data, path);
-    } 
-    return null;
-  })
-  .filter(function(data) {
-    return (data == null)? false: true;
-  }).value();
-  // Generate Main Menu
-  openMainMenuTpl(function(view){
-    mainMenu = views + '/main/main_menu.html';
-    fs.open(mainMenu, 'w', (err, fd) => {
-      console.log('Writing ' + mainMenu);
-      fs.write(fd, Mustache.render(view, mainElements));
-    });
-  });
-  
-  _.each(mainElements, function(e) {
-    createViewsDirectory(views, e, createViewsFiles);
-    createComponentDirectory(components, e, createComponentFiles);
-  });
-  */
+  // CREATE DATA STRUCTURE TO PROCESS MENUS AND VIEWS
   let subElements = _.chain(data.paths)
     .map(function(value, path) {
       let found = path.match(reId);
-      // If this is main menu convert data for templates
-      if (found) { // main menu
-        return {
-          key: found[0],
-          properties: {
-            path: path,
-            ops: value
-          }
-        };
-      } 
-      return {
-        key: 'none',
-        path: path,
-        ops: value
+      let lastPath = path.split('/').pop();
+      let obj = {
+        prop: {
+          path: path,
+          ops: value
+        }
       }
+      if (found) { 
+        obj.key = found[0];
+        obj.path = (found[0] == lastPath)? null: lastPath;
+      } else {
+        obj.key = 'none';
+        obj.title = _.classify(path.substring(1, path.length));
+        obj.id = path.substring(1, path.length);
+      }
+      return obj;
     })
     .groupBy('key')
     .value();
-  
+  // CREATE MAIN MENU
   console.log('========= MAIN ELEMENTS =========');
-  console.log(subElements['none']);
   openMainMenuTpl(function(view){
-    mainMenu = views + '/main/main_menu.html';
+    mainMenu = views + 'main/main_menu.html';
     fs.open(mainMenu, 'w', (err, fd) => {
       console.log('Writing ' + mainMenu);
       fs.write(fd, Mustache.render(view, subElements['none']));
     });
   });
+  
+  var filtered = _.reduce(subElements, function(memo, value, key){
+    if( key !== 'none') memo[key] = value;
+    return memo;
+  }, {});
+  console.log(filtered);
+  _.each(filtered, function(e, k) {
+    //console.log(k);
+    let element = (_.find(mainMenuMappings, function(item) {
+      return item.value == k;
+    }));
+    element.ops = e;
+    /* Element:
+      [ { prop: { path: '/ap/:apid', ops: [Object] }, key: ':apid' },
+        id: 'ap',
+        value: ':apid' 
+      ]
+    */
+    //console.log(element);
+    //console.log(element[0].prop.ops);
+    //console.log('-----');
+    mkdirView(element, filtered, function(){
+      
+    });
+    //createViewsDirectory(views, e, createViewsFiles);
+    //createComponentDirectory(components, e, createComponentFiles);
+  });
+  
 });
 
