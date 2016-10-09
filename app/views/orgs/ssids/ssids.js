@@ -154,7 +154,7 @@ angular.module('myApp.ssids', ['ngRoute'])
     		    	$scope.gridApi.importer.importFile(files[0]);
 				});
 								
-				var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("[object Object]\n");
+				var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("org,ssid,security,encryption,key,authentication,eapol_version,dtim_period,bcasts\n");
 				var dlAnchorElem = document.getElementById('download');
 				dlAnchorElem.setAttribute("href",     dataStr     );
 				dlAnchorElem.setAttribute("download", "org.csv");

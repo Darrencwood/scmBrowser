@@ -232,7 +232,7 @@ angular.module('myApp.networks', ['ngRoute'])
     		    	$scope.gridApi.importer.importFile(files[0]);
 				});
 								
-				var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("[object Object]\n");
+				var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("nodenetcfgs,zone,name,dhcps_range_start,devices,dhcps_range_end,primary,site,netv6,netv4,org,gwv6,ra,wans,routes,gwv4,lnets,breakout_preference,breakout_sitelink_site,gw_noauto,dhcps_leasetime,dhcps_options\n");
 				var dlAnchorElem = document.getElementById('download');
 				dlAnchorElem.setAttribute("href",     dataStr     );
 				dlAnchorElem.setAttribute("download", "org.csv");

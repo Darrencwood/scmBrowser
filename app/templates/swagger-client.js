@@ -35,32 +35,99 @@ const mainMenuMappings = [
   { id: 'zones', value: ':zoneid' , definition: 'zone'},
 ];
 
-const sampleHeaders = {
-  node: { sampleData:{} },
-  app: {sampleData:{} },
-  appgrp: {sampleData:{} },
-  bgpneigh: {sampleData:{} },
-  broadcast: {sampleData:{} },
-  cluster: { sampleData:{}},
-  custom_app: {sampleData:{} },
-  dcinterface: {sampleData:{} },
-  dcuplink: {sampleData:{} },
-  device: {sampleData:{} },
-  endpoint: {sampleData:{} },
-  inboundrule: { sampleData:{}},
-  network: {sampleData:{} },
-  node: { sampleData:{}},
-  organization: {sampleData:{} },
-  outboundrule: { sampleData:{}},
-  pathrule: { sampleData:{}},
-  port: { sampleData:{}},
-  site: { sampleData:{}},
-  ssid: { sampleData:{}},
-  node : {sampleData:{} },
-  uplink: { sampleData:{}},
-  user: {sampleData:{} },
-  wan: { sampleData:{}},
-  zone: {sampleData:{} }
+const downloadSamples = {
+  app: {
+		sampleHeaders:"desc,dgrp,name",
+		sampleData:""
+	},
+  appgrp: {
+		sampleHeaders: "name,webcat,sapps,org,predefined,apps,id,desc",
+		sampleData:""
+	},
+  bgpneigh: {
+		sampleHeaders: "org,node,name,ipv4,remote_as,password,keepalive_time,hold_time",
+		sampleData:""
+	},
+  broadcast: {
+		sampleHeaders:"org,site,zone,ssid,inactive,dynzone,portal,hide_ssid,band",
+		sampleData:""
+	},
+  cluster: { 
+		sampleHeaders: "site,org,name,failover,members,dcuplinks,url,bgp_graceful_restart,bgp_tep_community_type,bgp_tep_community,bgp_branch_community_type,bgp_branch_community,bgp_deployment_mode,bgp_subnet_splitting",
+		sampleData: ""
+	},
+  custom_app: {
+		sampleHeaders: "appid,desc,name,appgrps,devgrp,org,dnats,device_proto,type,ipport,httphost,device,segments,device_ports",
+		sampleData:""
+	},
+  dcinterface: {
+		sampleHaders: "org,port,gateway_ipv4,gateway_ipv6,ipv4,ipv6,mtu,auto_negotiation,enabled",
+		sampleData:""
+	},
+  dcuplink: {
+		sampleHeaders: "org,net,public_ipv4,public_ipv6,nat_range_start,wan,cluster,tags",
+		sampleData:""
+	},
+  device: {
+		sampleHeaders:"user,mac,info,ipv4,ipv6,org,devgrps,tags,net,endpoint",
+		sampleData:""
+	},
+  endpoint: {
+		sampleHeaders: "zvmac,secret,devices,org,user,client_id",
+		sampleData:""
+	},
+  inboundrule: { 
+		sampleHeaders: "nat_port_offset,app,no_reflection,uplinks,mode,id,inactive,custom_ip,hostlist,use_hostlist",
+		sampleData:""
+	},
+  network: {
+		sampleHeaders:"nodenetcfgs,zone,name,dhcps_range_start,devices,dhcps_range_end,primary,site,netv6,netv4,org,gwv6,ra,wans,routes,gwv4,lnets,breakout_preference,breakout_sitelink_site,gw_noauto,dhcps_leasetime,dhcps_options",
+		sampleData: ""
+	},
+  node: { 
+		sampleHeaders: "site,org,local_as,router_id,serial,zones,radios,realm,location,ports,uplinks,inventory_version_cc,disable_stp,license,model,sitelink",
+		sampleData:""
+	},
+  organization: {
+		sampleHeaders: "name,longname,city",
+		sampleData: "TestOrg, Test Organization, San Antonio"
+	},
+  outboundrule: { 
+		sampleHeaders: "org,users,active,devices,zones,apps,srctype,dsttype,tags,allow,usergrps,devgrps,appgrps",
+		sampleData: ""
+	},
+  pathrule: { 
+		sampleHeaders:"dsttype,qos,marking,zones,srctype,active,sites,path_preference,org,dscp,apps,devices,tags,users",
+		sampleData:""
+	},
+  port: { 
+		sampleHeaders:"port_id,node,tag,type,speeds,speed,patchlabel,zone,uplink,portal,mac,virtual_mac,switch_id,autotrunk,bridge_with,ifname,dcinterface,auto,autocfg",
+		sampleData:""
+	},
+  site: { 
+		sampleHeaders: "name,org,longname,uplinks,networks,street_address,city,country,timezone,size",
+		sampleData:""
+	},
+  ssid: { 
+		sampleHeaders: "org,ssid,security,encryption,key,authentication,eapol_version,dtim_period,bcasts",
+		sampleData:""
+	},
+  uplink: { 
+		sampleHeaders: "org,qos_bw_up,qos_up,site,static_ip_v6,uin,uid,node,name,static_gw_v4,wan,static_gw_v6,qos_bw_down,qos_down,static_ip_v4,port,vlan,type",
+		sampleData:""
+	},
+  user: {
+		sampleHeaders: "devices,tags,org,usergrps,home_site,name,username,email,mobile,endpoints",
+		sampleData:""
+	},
+  wan: { 
+		sampleHeaders:"org,uplinks,nets,name,longname,internet,sitelink,pingcheck_ips,dcuplink,breakout,breakout_sites,xfer_networks",
+		sampleData:""
+	},
+  zone: {
+		sampleHeader: "org,name'site,mgmt,icmp,guest,tag,tags",
+		sampleData:""
+	}
 };
 
 let views = "../views/"
@@ -89,6 +156,12 @@ function openViewTpl(callback) {
 
 function openControllerTpl(callback) {
   fs.readFile('controller.tpl', 'utf8', (err, view) => {
+    callback(view);
+  });
+}
+
+function openServicesTpl(callback) {
+  fs.readFile('services.tpl', 'utf8', (err, view) => {
     callback(view);
   });
 }
@@ -139,7 +212,8 @@ function findSubMenuItem(data, mmap) {
           back: back,
         }
         if (method == "post") {
-          op.values.sampleHeaders = sampleHeaders[newMmap.definition];
+          op.values.sampleHeaders = downloadSamples[newMmap.definition].sampleHeaders;
+          op.values.sampleData = downloadSamples[newMmap.definition].sampleData;
         }
         v.mmap = newMmap;
       });
@@ -174,7 +248,8 @@ function getMainElements(data) {
           path: path
         }
         if (method == "post"){
-          op.values.sampleHeaders = sampleHeaders[mmap.definition];
+          op.values.sampleHeaders = downloadSamples[mmap.definition].sampleHeaders;
+          op.values.sampleData = downloadSamples[mmap.definition].sampleData;
         }
         v.mmap = mmap;
       });
@@ -213,20 +288,9 @@ function generateFiles(v, e){
     dir = views + v.ops['get'].values.name + '/' + e.ops['get'].values.name;
   }
   mkdir(dir, e, function(dir, e) {
-    if (!v) {
-      let _get = e.ops['get'];
-      html = dir + '/' + _get.values.name + '.html';
-      controller = dir + '/' + _get.values.name + '.js';
-    } else {
-      //console.log(e);
-      //console.log(v);
-      //let basePath = views + v.ops['get'].values.name;
-      html = dir + '/' + e.ops['get'].values.name + '.html';
-      controller = dir + '/' + e.ops['get'].values.name + '.js';
-    }
-    //console.log(dir);
-    //console.log(html);
-    //console.log(controller);
+    html = dir + '/' + e.ops['get'].values.name + '.html';
+    controller = dir + '/' + e.ops['get'].values.name + '.js';
+    service = dir + '/' + e.ops['get'].values.name + '-service.js';
     // WRITE VIEW FILES 
     openViewTpl(function(view) {
       fs.open(html, 'w', (err, fd) => {
@@ -242,6 +306,14 @@ function generateFiles(v, e){
         fs.write(fd, Mustache.render(view, e));
       });
     });
+    
+    // WRITE SERVICES FILES
+    openServicesTpl(function(view) {
+    fs.open(service, 'w', (err, fd) => {
+      console.log('Writing ' + service);
+      fs.write(fd, Mustache.render(view, e));
+    });
+  });
     
     // PROCESS SUBMENUS
     if (e.submenus) {
@@ -263,7 +335,9 @@ function generateFiles(v, e){
 
 loadSwagger(function(data){
   let elements = getMainElements(data);
-  console.log(JSON.stringify(elements));
+  fs.open("dump.json", "w", (err, fd) => {
+  	fs.write(fd, JSON.stringify(elements));
+  });
   
   // GENERATE MAIN MENU
   openMenuTpl(function(view){
@@ -273,7 +347,7 @@ loadSwagger(function(data){
       fs.write(fd, Mustache.render(view, elements));
     });
   });
-  // GENERATE VIEWS
+  // GENERATE FILES
   _.each(elements, function(e){
     generateFiles(undefined, e);
   });

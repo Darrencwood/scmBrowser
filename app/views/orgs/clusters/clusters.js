@@ -184,7 +184,7 @@ angular.module('myApp.clusters', ['ngRoute'])
     		    	$scope.gridApi.importer.importFile(files[0]);
 				});
 								
-				var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("[object Object]\n");
+				var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("site,org,name,failover,members,dcuplinks,url,bgp_graceful_restart,bgp_tep_community_type,bgp_tep_community,bgp_branch_community_type,bgp_branch_community,bgp_deployment_mode,bgp_subnet_splitting\n");
 				var dlAnchorElem = document.getElementById('download');
 				dlAnchorElem.setAttribute("href",     dataStr     );
 				dlAnchorElem.setAttribute("download", "org.csv");

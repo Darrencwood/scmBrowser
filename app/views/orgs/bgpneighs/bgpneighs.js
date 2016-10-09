@@ -142,7 +142,7 @@ angular.module('myApp.bgpneighs', ['ngRoute'])
     		    	$scope.gridApi.importer.importFile(files[0]);
 				});
 								
-				var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("[object Object]\n");
+				var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("org,node,name,ipv4,remote_as,password,keepalive_time,hold_time\n");
 				var dlAnchorElem = document.getElementById('download');
 				dlAnchorElem.setAttribute("href",     dataStr     );
 				dlAnchorElem.setAttribute("download", "org.csv");
