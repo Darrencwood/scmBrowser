@@ -12,7 +12,7 @@ angular.module('myApp', [
   'myApp.proxyRegister',
   'myApp.main',
   'myApp.ap',
-  'myApp.appgroups',
+  'myApp.appGroups',
   'myApp.bgpneighs',
   'myApp.broadcasts',
   'myApp.clusters',
