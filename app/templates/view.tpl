@@ -1,11 +1,11 @@
 <div id="wrapper">
 	{{#ops.get.values}}
-	{{#submenus}}
+	{{#back}}
 	<div ng-include="'/views{{& path}}/menu.html'"></div>
-	{{/submenus}}
-	{{^submenus}}
+	{{/back}}
+	{{^back}}
 	<div ng-include="'/views/main/main_menu.html'"></div>
-	{{/submenus}}
+	{{/back}}
 	<!-- /#sidebar-wrapper -->
 			
 	<!-- Page Content -->

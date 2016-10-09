@@ -1,15 +1,38 @@
+body {
+	font-family:'Open Sans', sans-serif;
+	font-size: 12px;
+	background-color: #2C2D2C;
+}
+
+.navbar-default {
+	background-color: #2C2D2C;
+	border-color: #2C2D2C;
+}
+
+body h2 {
+	color: #999999;
+}
+
 .centered-form{
 	margin-top: 60px;
 }
 
+.navbar-brand {
+	font-size: 14px;
+}
+
 .centered-form .panel{
-	background: rgba(255, 255, 255, 0.8);
-	box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
+	background-color: #2C2D2C;
+	#box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
 }
 
 .grid {
   width: 100%;
   height: 100%;
+}
+
+.ui-grid {
+	border: none;
 }
 
 /* Toggle Styles */
@@ -23,26 +46,22 @@
 }
 
 #wrapper.toggled {
-    padding-left: 250px;
+    padding-left: 50px;
 }
 
 #sidebar-wrapper {
     z-index: 1000;
     position: fixed;
-    left: 250px;
+    left: 125px;
     width: 0;
     height: 100%;
-    margin-left: -250px;
+    margin-left: -125px;
     overflow-y: auto;
-    background: #000;
+    background-color: #2C2D2C;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
-}
-
-#wrapper.toggled #sidebar-wrapper {
-    width: 250px;
 }
 
 #page-content-wrapper {
@@ -80,7 +99,7 @@
 
 .sidebar-nav li a:hover {
     text-decoration: none;
-    color: #fff;
+    color: #000;
     background: rgba(255,255,255,0.2);
 }
 
@@ -106,7 +125,7 @@
 
 @media(min-width:768px) {
     #wrapper {
-        padding-left: 250px;
+        padding-left: 120px;
     }
 
     #wrapper.toggled {
@@ -114,7 +133,7 @@
     }
 
     #sidebar-wrapper {
-        width: 250px;
+        width: 135px;
     }
 
     #wrapper.toggled #sidebar-wrapper {
@@ -131,5 +150,4 @@
         margin-right: 0;
     }
 }
-Contact GitHub API Training Shop Blog About
 
