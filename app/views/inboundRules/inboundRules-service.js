@@ -14,7 +14,7 @@ angular.module('myApp').factory('inboundRulesApi', function($resource) {
     });
 });
 
-angular.module('myApp').service('inboundRulesCurrent', function() {
+angular.module('myApp').service('inboundRulesSelectionSvc', function() {
   this.inboundRules = { id: ''};
   this.setinboundRules = function(id){ 
   	console.log('setting current inboundRules to: ' + id);

@@ -14,7 +14,7 @@ angular.module('myApp').factory('orgsApi', function($resource) {
     });
 });
 
-angular.module('myApp').service('orgsCurrent', function() {
+angular.module('myApp').service('orgsSelectionSvc', function() {
   this.orgs = { id: ''};
   this.setorgs = function(id){ 
   	console.log('setting current orgs to: ' + id);

@@ -14,7 +14,7 @@ angular.module('myApp').factory('nodesApi', function($resource) {
     });
 });
 
-angular.module('myApp').service('nodesCurrent', function() {
+angular.module('myApp').service('nodesSelectionSvc', function() {
   this.nodes = { id: ''};
   this.setnodes = function(id){ 
   	console.log('setting current nodes to: ' + id);

@@ -14,7 +14,7 @@ angular.module('myApp').factory('portsApi', function($resource) {
     });
 });
 
-angular.module('myApp').service('portsCurrent', function() {
+angular.module('myApp').service('portsSelectionSvc', function() {
   this.ports = { id: ''};
   this.setports = function(id){ 
   	console.log('setting current ports to: ' + id);

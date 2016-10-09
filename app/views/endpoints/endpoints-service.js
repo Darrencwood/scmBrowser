@@ -14,7 +14,7 @@ angular.module('myApp').factory('endpointsApi', function($resource) {
     });
 });
 
-angular.module('myApp').service('endpointsCurrent', function() {
+angular.module('myApp').service('endpointsSelectionSvc', function() {
   this.endpoints = { id: ''};
   this.setendpoints = function(id){ 
   	console.log('setting current endpoints to: ' + id);

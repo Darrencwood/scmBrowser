@@ -14,7 +14,7 @@ angular.module('myApp').factory('ssidsApi', function($resource) {
     });
 });
 
-angular.module('myApp').service('ssidsCurrent', function() {
+angular.module('myApp').service('ssidsSelectionSvc', function() {
   this.ssids = { id: ''};
   this.setssids = function(id){ 
   	console.log('setting current ssids to: ' + id);

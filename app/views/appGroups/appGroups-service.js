@@ -14,7 +14,7 @@ angular.module('myApp').factory('appGroupsApi', function($resource) {
     });
 });
 
-angular.module('myApp').service('appGroupsCurrent', function() {
+angular.module('myApp').service('appGroupsSelectionSvc', function() {
   this.appGroups = { id: ''};
   this.setappGroups = function(id){ 
   	console.log('setting current appGroups to: ' + id);

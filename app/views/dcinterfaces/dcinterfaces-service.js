@@ -14,7 +14,7 @@ angular.module('myApp').factory('dcinterfacesApi', function($resource) {
     });
 });
 
-angular.module('myApp').service('dcinterfacesCurrent', function() {
+angular.module('myApp').service('dcinterfacesSelectionSvc', function() {
   this.dcinterfaces = { id: ''};
   this.setdcinterfaces = function(id){ 
   	console.log('setting current dcinterfaces to: ' + id);

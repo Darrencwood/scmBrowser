@@ -14,7 +14,7 @@ angular.module('myApp').factory('devicesApi', function($resource) {
     });
 });
 
-angular.module('myApp').service('devicesCurrent', function() {
+angular.module('myApp').service('devicesSelectionSvc', function() {
   this.devices = { id: ''};
   this.setdevices = function(id){ 
   	console.log('setting current devices to: ' + id);

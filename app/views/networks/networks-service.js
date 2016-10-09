@@ -14,7 +14,7 @@ angular.module('myApp').factory('networksApi', function($resource) {
     });
 });
 
-angular.module('myApp').service('networksCurrent', function() {
+angular.module('myApp').service('networksSelectionSvc', function() {
   this.networks = { id: ''};
   this.setnetworks = function(id){ 
   	console.log('setting current networks to: ' + id);

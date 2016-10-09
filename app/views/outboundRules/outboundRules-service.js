@@ -14,7 +14,7 @@ angular.module('myApp').factory('outboundRulesApi', function($resource) {
     });
 });
 
-angular.module('myApp').service('outboundRulesCurrent', function() {
+angular.module('myApp').service('outboundRulesSelectionSvc', function() {
   this.outboundRules = { id: ''};
   this.setoutboundRules = function(id){ 
   	console.log('setting current outboundRules to: ' + id);

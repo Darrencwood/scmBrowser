@@ -14,7 +14,7 @@ angular.module('myApp').factory('sitesApi', function($resource) {
     });
 });
 
-angular.module('myApp').service('sitesCurrent', function() {
+angular.module('myApp').service('sitesSelectionSvc', function() {
   this.sites = { id: ''};
   this.setsites = function(id){ 
   	console.log('setting current sites to: ' + id);

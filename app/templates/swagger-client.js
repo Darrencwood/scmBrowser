@@ -205,7 +205,7 @@ function findSubMenuItem(data, mmap) {
       _.each(v.ops, function(op, method) {
         op.values = {
           id: newMmap.id,
-          name:  _.camelize(newMmap.id),
+          name:  mmap.id + _.capitalize(newMmap.id),
           title: _.titleize(_.humanize(newMmap.id)),
           definition: restructureDefinitions(data.definitions[newMmap.definition]),
           path: path,
@@ -294,7 +294,6 @@ function generateFiles(v, e){
     html = dir + '/' + e.ops['get'].values.name + '.html';
     controller = dir + '/' + e.ops['get'].values.name + '.js';
     service = dir + '/' + e.ops['get'].values.name + '-service.js';
-    console.log('------>');
     
     // WRITE VIEW FILES 
     openViewTpl(function(view) {

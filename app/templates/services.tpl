@@ -1,7 +1,9 @@
 'use strict';
 {{#ops.get.values}}
 angular.module('myApp').factory('{{name}}Api', function($resource) {
+{{/ops.get.values}}
     return $resource('/api/scm.config/1.0{{& path}}', {}, 
+{{#ops.get.values}}
     {
     	'query': {
     		method: 'GET', 
@@ -15,7 +17,7 @@ angular.module('myApp').factory('{{name}}Api', function($resource) {
     });
 });
 
-angular.module('myApp').service('{{name}}Current', function() {
+angular.module('myApp').service('{{name}}SelectionSvc', function() {
   this.{{name}} = { id: ''};
   this.set{{name}} = function(id){ 
   	console.log('setting current {{name}} to: ' + id);

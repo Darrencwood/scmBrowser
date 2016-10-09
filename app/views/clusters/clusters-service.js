@@ -14,7 +14,7 @@ angular.module('myApp').factory('clustersApi', function($resource) {
     });
 });
 
-angular.module('myApp').service('clustersCurrent', function() {
+angular.module('myApp').service('clustersSelectionSvc', function() {
   this.clusters = { id: ''};
   this.setclusters = function(id){ 
   	console.log('setting current clusters to: ' + id);

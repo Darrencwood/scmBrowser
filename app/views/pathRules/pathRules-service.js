@@ -14,7 +14,7 @@ angular.module('myApp').factory('pathRulesApi', function($resource) {
     });
 });
 
-angular.module('myApp').service('pathRulesCurrent', function() {
+angular.module('myApp').service('pathRulesSelectionSvc', function() {
   this.pathRules = { id: ''};
   this.setpathRules = function(id){ 
   	console.log('setting current pathRules to: ' + id);

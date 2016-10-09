@@ -14,7 +14,7 @@ angular.module('myApp').factory('wansApi', function($resource) {
     });
 });
 
-angular.module('myApp').service('wansCurrent', function() {
+angular.module('myApp').service('wansSelectionSvc', function() {
   this.wans = { id: ''};
   this.setwans = function(id){ 
   	console.log('setting current wans to: ' + id);

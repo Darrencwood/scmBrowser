@@ -14,7 +14,7 @@ angular.module('myApp').factory('apApi', function($resource) {
     });
 });
 
-angular.module('myApp').service('apCurrent', function() {
+angular.module('myApp').service('apSelectionSvc', function() {
   this.ap = { id: ''};
   this.setap = function(id){ 
   	console.log('setting current ap to: ' + id);

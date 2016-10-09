@@ -14,7 +14,7 @@ angular.module('myApp').factory('bgpneighsApi', function($resource) {
     });
 });
 
-angular.module('myApp').service('bgpneighsCurrent', function() {
+angular.module('myApp').service('bgpneighsSelectionSvc', function() {
   this.bgpneighs = { id: ''};
   this.setbgpneighs = function(id){ 
   	console.log('setting current bgpneighs to: ' + id);

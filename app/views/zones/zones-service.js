@@ -14,7 +14,7 @@ angular.module('myApp').factory('zonesApi', function($resource) {
     });
 });
 
-angular.module('myApp').service('zonesCurrent', function() {
+angular.module('myApp').service('zonesSelectionSvc', function() {
   this.zones = { id: ''};
   this.setzones = function(id){ 
   	console.log('setting current zones to: ' + id);

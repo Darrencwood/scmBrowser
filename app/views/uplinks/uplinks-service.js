@@ -14,7 +14,7 @@ angular.module('myApp').factory('uplinksApi', function($resource) {
     });
 });
 
-angular.module('myApp').service('uplinksCurrent', function() {
+angular.module('myApp').service('uplinksSelectionSvc', function() {
   this.uplinks = { id: ''};
   this.setuplinks = function(id){ 
   	console.log('setting current uplinks to: ' + id);

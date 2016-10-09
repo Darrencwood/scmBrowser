@@ -14,7 +14,7 @@ angular.module('myApp').factory('dcuplinksApi', function($resource) {
     });
 });
 
-angular.module('myApp').service('dcuplinksCurrent', function() {
+angular.module('myApp').service('dcuplinksSelectionSvc', function() {
   this.dcuplinks = { id: ''};
   this.setdcuplinks = function(id){ 
   	console.log('setting current dcuplinks to: ' + id);

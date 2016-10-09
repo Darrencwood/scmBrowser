@@ -14,7 +14,7 @@ angular.module('myApp').factory('appsApi', function($resource) {
     });
 });
 
-angular.module('myApp').service('appsCurrent', function() {
+angular.module('myApp').service('appsSelectionSvc', function() {
   this.apps = { id: ''};
   this.setapps = function(id){ 
   	console.log('setting current apps to: ' + id);
