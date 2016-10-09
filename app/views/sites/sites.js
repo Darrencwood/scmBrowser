@@ -78,8 +78,8 @@ angular.module('myApp.sites', ['ngRoute'])
 				
 				$scope.dblclick = function(row){
 					$scope.stopped = $timeout.cancel($scope.clicked);
-					//console.log(row.entity);	
-					sitesSelectionSvc.setsites(row.entity.);
+					console.log(row.entity);	
+					sitesSelectionSvc.setsites(row.entity.id);
 					$location.path('/org');
 				}
 				
@@ -150,3 +150,4 @@ angular.module('myApp.sites', ['ngRoute'])
             					}
           				},
 				];
+}]);

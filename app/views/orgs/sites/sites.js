@@ -173,6 +173,5 @@ angular.module('myApp.sites', ['ngRoute'])
 				
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;
-				}
-		}]
-)
+				};
+}]);

@@ -72,7 +72,7 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 				$scope.dblclick = function(row){
 					{{#submenus}}
 					$scope.stopped = $timeout.cancel($scope.clicked);
-					//console.log(row.entity);	
+					console.log(row.entity);	
 					{{name}}SelectionSvc.set{{name}}(row.entity.{{selectedSubmenu}});
 					$location.path('/org');
 					{{/submenus}}
@@ -122,9 +122,8 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 				
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;
-				}
+				};
 				{{/sampleHeaders}}
-		}]
-)
 {{/post.values}}
 {{/ops}}
+}]);

@@ -161,6 +161,5 @@ angular.module('myApp.inboundRules', ['ngRoute'])
 				
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;
-				}
-		}]
-)
+				};
+}]);

@@ -152,3 +152,4 @@ angular.module('myApp.zones', ['ngRoute'])
             					}
           				},
 				];
+}]);

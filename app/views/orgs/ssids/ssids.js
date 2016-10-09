@@ -161,6 +161,5 @@ angular.module('myApp.ssids', ['ngRoute'])
 				
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;
-				}
-		}]
-)
+				};
+}]);

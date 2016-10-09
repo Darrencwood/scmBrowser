@@ -173,6 +173,5 @@ angular.module('myApp.devices', ['ngRoute'])
 				
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;
-				}
-		}]
-)
+				};
+}]);

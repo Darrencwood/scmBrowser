@@ -191,6 +191,5 @@ angular.module('myApp.clusters', ['ngRoute'])
 				
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;
-				}
-		}]
-)
+				};
+}]);

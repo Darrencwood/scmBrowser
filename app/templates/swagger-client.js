@@ -8,31 +8,31 @@ _.mixin(_s.exports());
 
 
 const mainMenuMappings = [
-  { id: 'ap', value: ':apid' , definition: 'node'},
-  { id: 'apps', value: ':appid' , definition: 'app'},
-  { id: 'app_groups', value: ':appgrpid' , definition: 'appgrp'},
-  { id: 'bgpneighs', value: ':bgpneighid' , definition: 'bgpneigh'},
-  { id: 'broadcasts', value: ':bcastid' , definition: 'broadcast'},
-  { id: 'clusters', value: ':clusterid' , definition: 'cluster'},
-  { id: 'custom_apps', value: ':appid', definition: 'custom_app' },
-  { id: 'dcinterfaces', value: ':dcinterfaceid' , definition: 'dcinterface'},
-  { id: 'dcuplinks', value: ':dcuplinkid' , definition: 'dcuplink'},
-  { id: 'devices', value: ':devid' , definition: 'device'},
-  { id: 'endpoints', value: ':epid' , definition: 'endpoint'},
-  { id: 'inbound_rules', value: ':ruleid' , definition: 'inboundrule'},
-  { id: 'networks', value: ':netid' , definition: 'network'},
-  { id: 'nodes', value: ':nodeid' , definition: 'node'},
-  { id: 'orgs', value: ':orgid' , definition: 'organization'},
-  { id: 'outbound_rules', value: ':ruleid' , definition: 'outboundrule'},
-  { id: 'path_rules', value: ':pruleid' , definition: 'pathrule'},
-  { id: 'ports', value: ':portid', definition: 'port' },
-  { id: 'sites', value: ':siteid' , definition: 'site'},
-  { id: 'ssids', value: ':ssidid' , definition: 'ssid'},
-  { id: 'switches', value: ':switchid' , definition: 'node'},
-  { id: 'uplinks', value: ':uplinkid' , definition: 'uplink'},
-  { id: 'users', value: ':userid' , definition: 'user'},
-  { id: 'wans', value: ':wanid' , definition: 'wan'},
-  { id: 'zones', value: ':zoneid' , definition: 'zone'},
+  { id: 'ap', value: ':apid' , definition: 'node', selectedSubmenu: "id"},
+  { id: 'apps', value: ':appid' , definition: 'app', selectedSubmenu: "id"},
+  { id: 'app_groups', value: ':appgrpid' , definition: 'appgrp', selectedSubmenu: "id"},
+  { id: 'bgpneighs', value: ':bgpneighid' , definition: 'bgpneigh', selectedSubmenu: "id"},
+  { id: 'broadcasts', value: ':bcastid' , definition: 'broadcast', selectedSubmenu: "id"},
+  { id: 'clusters', value: ':clusterid' , definition: 'cluster', selectedSubmenu: "id"},
+  { id: 'custom_apps', value: ':appid', definition: 'custom_app' , selectedSubmenu: "id"},
+  { id: 'dcinterfaces', value: ':dcinterfaceid' , definition: 'dcinterface', selectedSubmenu: "id"},
+  { id: 'dcuplinks', value: ':dcuplinkid' , definition: 'dcuplink', selectedSubmenu: "id"},
+  { id: 'devices', value: ':devid' , definition: 'device', selectedSubmenu: "id"},
+  { id: 'endpoints', value: ':epid' , definition: 'endpoint', selectedSubmenu: "id"},
+  { id: 'inbound_rules', value: ':ruleid' , definition: 'inboundrule', selectedSubmenu: "id"},
+  { id: 'networks', value: ':netid' , definition: 'network', selectedSubmenu: "id"},
+  { id: 'nodes', value: ':nodeid' , definition: 'node', selectedSubmenu: "id"},
+  { id: 'orgs', value: ':orgid' , definition: 'organization', selectedSubmenu: "id"},
+  { id: 'outbound_rules', value: ':ruleid' , definition: 'outboundrule', selectedSubmenu: "id"},
+  { id: 'path_rules', value: ':pruleid' , definition: 'pathrule', selectedSubmenu: "id"},
+  { id: 'ports', value: ':portid', definition: 'port' , selectedSubmenu: "id"},
+  { id: 'sites', value: ':siteid' , definition: 'site', selectedSubmenu: "id"},
+  { id: 'ssids', value: ':ssidid' , definition: 'ssid', selectedSubmenu: "id"},
+  { id: 'switches', value: ':switchid' , definition: 'node', selectedSubmenu: "id"},
+  { id: 'uplinks', value: ':uplinkid' , definition: 'uplink', selectedSubmenu: "id"},
+  { id: 'users', value: ':userid' , definition: 'user', selectedSubmenu: "id"},
+  { id: 'wans', value: ':wanid' , definition: 'wan', selectedSubmenu: "id"},
+  { id: 'zones', value: ':zoneid' , definition: 'zone', selectedSubmenu: "id"}
 ];
 
 const downloadSamples = {
@@ -210,6 +210,7 @@ function findSubMenuItem(data, mmap) {
           definition: restructureDefinitions(data.definitions[newMmap.definition]),
           path: path,
           back: back,
+          selectedSubmenu: newMmap.selectedSubmenu
         }
         if (method == "post") {
           op.values.sampleHeaders = downloadSamples[newMmap.definition].sampleHeaders;
@@ -245,7 +246,8 @@ function getMainElements(data) {
           name:  _.camelize(mmap.id),
           title: _.titleize(_.humanize(mmap.id)),
           definition: restructureDefinitions(data.definitions[mmap.definition]),
-          path: path
+          path: path,
+          selectedSubmenu: mmap.selectedSubmenu
         }
         if (method == "post"){
           op.values.sampleHeaders = downloadSamples[mmap.definition].sampleHeaders;

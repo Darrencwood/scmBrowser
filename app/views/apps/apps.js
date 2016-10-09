@@ -98,3 +98,4 @@ angular.module('myApp.apps', ['ngRoute'])
             					}
           				},
 				];
+}]);

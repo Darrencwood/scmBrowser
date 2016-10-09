@@ -149,6 +149,5 @@ angular.module('myApp.dcuplinks', ['ngRoute'])
 				
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;
-				}
-		}]
-)
+				};
+}]);

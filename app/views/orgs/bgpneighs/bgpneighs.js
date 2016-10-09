@@ -149,6 +149,5 @@ angular.module('myApp.bgpneighs', ['ngRoute'])
 				
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;
-				}
-		}]
-)
+				};
+}]);

@@ -128,5 +128,4 @@ angular.module('myApp.dcinterfaces', ['ngRoute'])
             					}
           				},
 				];
-		}]
-)
+}]);

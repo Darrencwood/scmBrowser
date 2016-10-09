@@ -164,3 +164,4 @@ angular.module('myApp.clusters', ['ngRoute'])
             					}
           				},
 				];
+}]);

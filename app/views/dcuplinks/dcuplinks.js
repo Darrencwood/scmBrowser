@@ -122,3 +122,4 @@ angular.module('myApp.dcuplinks', ['ngRoute'])
             					}
           				},
 				];
+}]);

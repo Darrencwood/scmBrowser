@@ -85,8 +85,8 @@ angular.module('myApp.nodes', ['ngRoute'])
 				
 				$scope.dblclick = function(row){
 					$scope.stopped = $timeout.cancel($scope.clicked);
-					//console.log(row.entity);	
-					nodesSelectionSvc.setnodes(row.entity.);
+					console.log(row.entity);	
+					nodesSelectionSvc.setnodes(row.entity.id);
 					$location.path('/org');
 				}
 				
@@ -192,3 +192,4 @@ angular.module('myApp.nodes', ['ngRoute'])
             					}
           				},
 				];
+}]);

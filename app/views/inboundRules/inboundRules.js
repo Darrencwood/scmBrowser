@@ -134,3 +134,4 @@ angular.module('myApp.inboundRules', ['ngRoute'])
             					}
           				},
 				];
+}]);

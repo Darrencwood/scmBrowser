@@ -212,3 +212,4 @@ angular.module('myApp.networks', ['ngRoute'])
             					}
           				},
 				];
+}]);

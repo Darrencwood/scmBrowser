@@ -116,3 +116,4 @@ angular.module('myApp.endpoints', ['ngRoute'])
             					}
           				},
 				];
+}]);

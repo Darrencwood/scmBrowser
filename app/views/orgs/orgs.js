@@ -77,8 +77,8 @@ angular.module('myApp.orgs', ['ngRoute'])
 				
 				$scope.dblclick = function(row){
 					$scope.stopped = $timeout.cancel($scope.clicked);
-					//console.log(row.entity);	
-					orgsSelectionSvc.setorgs(row.entity.);
+					console.log(row.entity);	
+					orgsSelectionSvc.setorgs(row.entity.id);
 					$location.path('/org');
 				}
 				
@@ -171,6 +171,5 @@ angular.module('myApp.orgs', ['ngRoute'])
 				
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;
-				}
-		}]
-)
+				};
+}]);

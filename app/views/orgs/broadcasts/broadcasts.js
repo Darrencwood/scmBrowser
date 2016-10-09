@@ -161,6 +161,5 @@ angular.module('myApp.broadcasts', ['ngRoute'])
 				
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;
-				}
-		}]
-)
+				};
+}]);

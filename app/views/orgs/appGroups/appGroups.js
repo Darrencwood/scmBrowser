@@ -149,6 +149,5 @@ angular.module('myApp.appGroups', ['ngRoute'])
 				
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;
-				}
-		}]
-)
+				};
+}]);

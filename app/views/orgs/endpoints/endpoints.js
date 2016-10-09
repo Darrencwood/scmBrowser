@@ -143,6 +143,5 @@ angular.module('myApp.endpoints', ['ngRoute'])
 				
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;
-				}
-		}]
-)
+				};
+}]);

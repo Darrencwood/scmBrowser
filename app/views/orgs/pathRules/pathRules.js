@@ -197,6 +197,5 @@ angular.module('myApp.pathRules', ['ngRoute'])
 				
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;
-				}
-		}]
-)
+				};
+}]);

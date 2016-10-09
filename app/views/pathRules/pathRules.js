@@ -170,3 +170,4 @@ angular.module('myApp.pathRules', ['ngRoute'])
             					}
           				},
 				];
+}]);

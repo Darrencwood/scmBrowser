@@ -203,6 +203,5 @@ angular.module('myApp.customApps', ['ngRoute'])
 				
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;
-				}
-		}]
-)
+				};
+}]);

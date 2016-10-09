@@ -188,3 +188,4 @@ angular.module('myApp.nodes', ['ngRoute'])
             					}
           				},
 				];
+}]);

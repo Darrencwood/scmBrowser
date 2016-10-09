@@ -215,6 +215,5 @@ angular.module('myApp.nodes', ['ngRoute'])
 				
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;
-				}
-		}]
-)
+				};
+}]);
