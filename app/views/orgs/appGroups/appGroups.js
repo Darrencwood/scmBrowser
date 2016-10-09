@@ -1,21 +1,19 @@
 'use strict';
-{{#ops}}
-{{#get.values}}
-angular.module('myApp.{{name}}', ['ngRoute'])
+angular.module('myApp.appGroups', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/{{name}}', {
-    templateUrl: 'views/{{name}}/{{name}}.html',
-    controller: '{{name}}Ctrl'
+  $routeProvider.when('/appGroups', {
+    templateUrl: 'views/appGroups/appGroups.html',
+    controller: 'appGroupsCtrl'
   });
 }])
-.controller('{{name}}Ctrl',
-		[ '$scope', '{{name}}Api', '$location', '{{name}}SelectionSvc', '$timeout',
-			function($scope, {{name}}Api, $location, {{name}}SelectionSvc, $timeout) {
+.controller('appGroupsCtrl',
+		[ '$scope', 'appGroupsApi', '$location', 'appGroupsSelectionSvc', '$timeout',
+			function($scope, appGroupsApi, $location, appGroupsSelectionSvc, $timeout) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.{{name}} = {{name}}Api.query();
-				$scope.{{name}}Selected = '';
+				$scope.appGroups = appGroupsApi.query();
+				$scope.appGroupsSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
 				
@@ -27,7 +25,7 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 				
 				$scope.clicked = true;
 				
-				$scope.{{name}}GridOptions = {
+				$scope.appGroupsGridOptions = {
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
@@ -35,17 +33,22 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 					enableGridMenu: true,
 					enableImporter: false,
 					columnDefs: [
-					{{#definition}}
-						{ name:'{{title}}', field:'{{name}}'/*, visible:{{visible}} */},
-					{{/definition}}
+						{ name:'Name', field:'name'/*, visible: */},
+						{ name:'Webcat', field:'webcat'/*, visible: */},
+						{ name:'Sapps', field:'sapps'/*, visible: */},
+						{ name:'Org', field:'org'/*, visible: */},
+						{ name:'Predefined', field:'predefined'/*, visible: */},
+						{ name:'Apps', field:'apps'/*, visible: */},
+						{ name:'Id', field:'id'/*, visible: */},
+						{ name:'Desc', field:'desc'/*, visible: */},
 					],
-					data: $scope.{{name}},
+					data: $scope.appGroups,
 					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					{{name}}Api.save(newObject).$promise.then(function(data){
-    						$scope.{{name}}.push(data);
+    					appGroupsApi.save(newObject).$promise.then(function(data){
+    						$scope.appGroups.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
     					},function(error){
@@ -63,38 +66,62 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 				$scope.click = function(row){ 
 					$scope.clicked = $timeout(function(){
 						if ($scope.stopped == false){
-                					$scope.{{name}}Selected = row.entity;
+                					$scope.appGroupsSelected = row.entity;
 							$scope.showSelectedRecord = true;
 						}
         				},500);
 				}
 				
 				$scope.dblclick = function(row){
-					{{#submenus}}
-					$scope.stopped = $timeout.cancel($scope.clicked);
-					//console.log(row.entity);	
-					{{name}}SelectionSvc.set{{name}}(row.entity.{{selectedSubmenu}});
-					$location.path('/org');
-					{{/submenus}}
 				}
 				
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
-					$scope.{{name}}Selected = undefined;
+					$scope.appGroupsSelected = undefined;
 				}
 				
-				$scope.{{name}}Fields = [
-					{{#definition}}
-						{key: '{{name}}', type: 'input',
+				$scope.appGroupsFields = [
+						{key: 'name', type: 'input',
             					templateOptions: {
-                					type: '{{type}}', label: '{{name}}', placeholder: "{{description}}"/*, required: {{required}}*/
+                					type: 'input', label: 'name', placeholder: ""/*, required: */
             					}
           				},
-          			{{/definition}}
+						{key: 'webcat', type: 'input',
+            					templateOptions: {
+                					type: 'input', label: 'webcat', placeholder: ""/*, required: */
+            					}
+          				},
+						{key: 'sapps', type: 'input',
+            					templateOptions: {
+                					type: 'input', label: 'sapps', placeholder: ""/*, required: */
+            					}
+          				},
+						{key: 'org', type: 'input',
+            					templateOptions: {
+                					type: 'input', label: 'org', placeholder: ""/*, required: */
+            					}
+          				},
+						{key: 'predefined', type: 'input',
+            					templateOptions: {
+                					type: 'input', label: 'predefined', placeholder: ""/*, required: */
+            					}
+          				},
+						{key: 'apps', type: 'input',
+            					templateOptions: {
+                					type: 'input', label: 'apps', placeholder: ""/*, required: */
+            					}
+          				},
+						{key: 'id', type: 'input',
+            					templateOptions: {
+                					type: 'input', label: 'id', placeholder: ""/*, required: */
+            					}
+          				},
+						{key: 'desc', type: 'input',
+            					templateOptions: {
+                					type: 'input', label: 'desc', placeholder: ""/*, required: */
+            					}
+          				},
 				];
-{{/get.values}}
-{{#post.values}}
-				{{#sampleHeaders}}
 				var uploadZone = document.getElementById('upload');
 
     			// Optional.   Show the copy icon when dragging over.  Seems to
@@ -115,7 +142,7 @@ angular.module('myApp.{{name}}', ['ngRoute'])
     		    	$scope.gridApi.importer.importFile(files[0]);
 				});
 								
-				var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("{{& sampleHeaders }}\n{{& sampleData }}");
+				var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("[object Object]\n");
 				var dlAnchorElem = document.getElementById('download');
 				dlAnchorElem.setAttribute("href",     dataStr     );
 				dlAnchorElem.setAttribute("download", "org.csv");
@@ -123,8 +150,5 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;
 				}
-				{{/sampleHeaders}}
 		}]
 )
-{{/post.values}}
-{{/ops}}

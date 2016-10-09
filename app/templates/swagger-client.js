@@ -35,8 +35,63 @@ const mainMenuMappings = [
   { id: 'zones', value: ':zoneid' , definition: 'zone'},
 ];
 
+const sampleHeaders = {
+  node: { sampleData:{} },
+  app: {sampleData:{} },
+  appgrp: {sampleData:{} },
+  bgpneigh: {sampleData:{} },
+  broadcast: {sampleData:{} },
+  cluster: { sampleData:{}},
+  custom_app: {sampleData:{} },
+  dcinterface: {sampleData:{} },
+  dcuplink: {sampleData:{} },
+  device: {sampleData:{} },
+  endpoint: {sampleData:{} },
+  inboundrule: { sampleData:{}},
+  network: {sampleData:{} },
+  node: { sampleData:{}},
+  organization: {sampleData:{} },
+  outboundrule: { sampleData:{}},
+  pathrule: { sampleData:{}},
+  port: { sampleData:{}},
+  site: { sampleData:{}},
+  ssid: { sampleData:{}},
+  node : {sampleData:{} },
+  uplink: { sampleData:{}},
+  user: {sampleData:{} },
+  wan: { sampleData:{}},
+  zone: {sampleData:{} }
+};
+
 let views = "../views/"
 let components = "../components/";
+
+function copyFiles() {
+  fse.copyRecursive('./services/', '../components',function(err){
+    console.log("Copied components");
+  });
+  fse.copyRecursive('./views/', '../views',function(err){
+    console.log("Copied views");
+  });
+}
+
+function openMenuTpl(callback) {
+  fs.readFile('menu.tpl', 'utf8', (err, view) => {
+    callback(view);
+  });
+}
+
+function openViewTpl(callback) {
+  fs.readFile('view.tpl', 'utf8', (err, view) => {
+    callback(view);
+  });
+}
+
+function openControllerTpl(callback) {
+  fs.readFile('controller.tpl', 'utf8', (err, view) => {
+    callback(view);
+  });
+}
 
 function loadSwagger(callback){
   fs.readFile('swagger.yaml', 'utf8', function (err, data) {
@@ -44,6 +99,14 @@ function loadSwagger(callback){
     data = yaml.safeLoad(data);
     callback(data);
   });
+}
+
+function restructureDefinitions(definition){
+  return _.chain(definition.properties)
+  .map(function(v,k){
+    return { realType: v.type, type: 'input', name: k, title: _.titleize(_.humanize(k)) };
+  })
+  .value();
 }
 
 function findSubMenuItem(data, mmap) {
@@ -62,14 +125,23 @@ function findSubMenuItem(data, mmap) {
   .each(function(v){
     let uri = v.path.split('/');
     if(uri.length == 4){
-      _.each(v.ops, function(op) {
+      let name = uri[3];
+      let newMmap = _.find(mainMenuMappings, function(e) { return e.id == name; });
+      let path = '/' + mmap.id + '/' + uri[3];
+      let back = '/' + mmap.id;
+      _.each(v.ops, function(op, method) {
         op.values = {
-          id: mmap.id,
-          name:  _.camelize(mmap.id),
-          title: _.titleize(_.humanize(mmap.id)),
-          definition: data.definitions[mmap.definition]
+          id: newMmap.id,
+          name:  _.camelize(newMmap.id),
+          title: _.titleize(_.humanize(newMmap.id)),
+          definition: restructureDefinitions(data.definitions[newMmap.definition]),
+          path: path,
+          back: back,
         }
-        v.mmap = mmap;
+        if (method == "post") {
+          op.values.sampleHeaders = sampleHeaders[newMmap.definition];
+        }
+        v.mmap = newMmap;
       });
     }
   })
@@ -92,12 +164,17 @@ function getMainElements(data) {
         console.log('Not found ' + name);
         process.exit(1);
       }
-      _.each(v.ops, function(op) {
+      _.each(v.ops, function(op, method) {
+        let path = '/' + mmap.id;
         op.values = {
           id: mmap.value,
           name:  _.camelize(mmap.id),
           title: _.titleize(_.humanize(mmap.id)),
-          definition: data.definitions[mmap.definition]
+          definition: restructureDefinitions(data.definitions[mmap.definition]),
+          path: path
+        }
+        if (method == "post"){
+          op.values.sampleHeaders = sampleHeaders[mmap.definition];
         }
         v.mmap = mmap;
       });
@@ -106,6 +183,7 @@ function getMainElements(data) {
       let = submenus = findSubMenuItem(data, v.mmap);
       if (submenus && submenus.length > 0) {
         v.submenus = submenus;
+        v.ops['get'].values.submenus = true;
       } 
     })
     .value();
@@ -113,8 +191,105 @@ function getMainElements(data) {
   return elements;
 }
 
+function mkdir(dir, element, callback) {
+  fs.exists(dir, function(exists){
+    if (!exists){
+      console.log('creating dir ' + dir);
+      fs.mkdirSync(dir, 0744);
+    }
+  });
+  callback(dir, element);
+}
+
+//copyFiles();
+
+function generateFiles(v, e){
+  let dir =  '';  
+  let html = '';
+  let controller = '';
+  if (!v) {
+    dir = views + e.ops['get'].values.name;
+  } else {
+    dir = views + v.ops['get'].values.name + '/' + e.ops['get'].values.name;
+  }
+  mkdir(dir, e, function(dir, e) {
+    if (!v) {
+      let _get = e.ops['get'];
+      html = dir + '/' + _get.values.name + '.html';
+      controller = dir + '/' + _get.values.name + '.js';
+    } else {
+      //console.log(e);
+      //console.log(v);
+      //let basePath = views + v.ops['get'].values.name;
+      html = dir + '/' + e.ops['get'].values.name + '.html';
+      controller = dir + '/' + e.ops['get'].values.name + '.js';
+    }
+    //console.log(dir);
+    //console.log(html);
+    //console.log(controller);
+    // WRITE VIEW FILES 
+    openViewTpl(function(view) {
+      fs.open(html, 'w', (err, fd) => {
+        console.log('Generating ' + html);
+        fs.write(fd, Mustache.render(view, e));
+      });
+    });
+    
+    // WRITE CONTROLLER FILES
+    openControllerTpl(function(view) {
+      fs.open(controller, 'w', (err, fd) => {
+        console.log('Generating ' + controller);
+        fs.write(fd, Mustache.render(view, e));
+      });
+    });
+    
+    // PROCESS SUBMENUS
+    if (e.submenus) {
+      // WRITE MENU FILES
+      openMenuTpl(function(view){
+        let menu = views + e.ops['get'].values.name + '/menu.html';
+        fs.open(menu, 'w', (err, fd) => {
+          console.log('Generating ' + menu);
+          fs.write(fd, Mustache.render(view, e.submenus));
+        });
+      });
+      // ITERATE OVER SUBMENUS
+      _.each(e.submenus, function(s){
+        generateFiles(e, s);
+      });
+    }
+   });   
+}
+
 loadSwagger(function(data){
   let elements = getMainElements(data);
   console.log(JSON.stringify(elements));
   
+  // GENERATE MAIN MENU
+  openMenuTpl(function(view){
+    mainMenu = views + 'main/menu.html';
+    fs.open(mainMenu, 'w', (err, fd) => {
+      console.log('Generating ' + mainMenu);
+      fs.write(fd, Mustache.render(view, elements));
+    });
+  });
+  // GENERATE VIEWS
+  _.each(elements, function(e){
+    generateFiles(undefined, e);
+  });
+  
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+

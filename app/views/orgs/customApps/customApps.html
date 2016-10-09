@@ -1,6 +1,5 @@
 <div id="wrapper">
-	{{#ops.get.values}}
-	<div ng-include="'/views{{& path}}/menu.html'"></div>
+	<div ng-include="'/views/orgs/custom_apps/menu.html'"></div>
 
 	<!-- /#sidebar-wrapper -->
 			
@@ -9,7 +8,7 @@
 	    <div class="container-fluid">
 	        <div class="row">
 	            <div class="col-lg-12">
-	            	<div><h2>{{title}}</h2>
+	            	<div><h2>Custom Apps</h2>
 						<div class='row'>
 		<div class='col-xs-1 col-sm-1 col-md-1'>
 			<a id='download'>
@@ -22,7 +21,7 @@
 	</div>
 						<div class='row'>
 			<div class='col-xs-12 col-sm-12 col-md-12'>
-				<div id='grid1' ui-grid='{{name}}GridOptions'ui-grid-edit ui-grid-importer ui-grid-resize-columns class='grid'></div>
+				<div id='grid1' ui-grid='customAppsGridOptions'ui-grid-edit ui-grid-importer ui-grid-resize-columns class='grid'></div>
 			</div>
 	</div>
 						<div id='showRecord' ng-if="showSelectedRecord">
@@ -34,9 +33,9 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<form novalidate>
-					<h2>{{title}}</h2>
-						<formly-form model="{{name}}Selected" fields="{{name}}Fields" form="{{name}}Form">
-							<button type="submit" class="btn btn-primary" ng-disabled="{{name}}Form.$invalid" ng-click="save()">Save</button>
+					<h2>Custom Apps</h2>
+						<formly-form model="customAppsSelected" fields="customAppsFields" form="customAppsForm">
+							<button type="submit" class="btn btn-primary" ng-disabled="customAppsForm.$invalid" ng-click="save()">Save</button>
 						</formly-form>
 				</form>
 			</div>
@@ -60,11 +59,9 @@
       						</tr>
 						</thead>
 						<tr ng-repeat="x in updateResults">
-							{{=<% %>=}}
 							<td>{{ $index }}</td>
 							<td>{{ x.status }}</td>
 							<td>{{ x.message}}</td>
-							<%={{ }}=%>
 						</tr>
 					</table>
 				</div>	
@@ -76,7 +73,6 @@
 	    </div>
 	</div>
 	<!-- /#page-content-wrapper -->
-{{/ops.get.values}}
 </div>
 
 

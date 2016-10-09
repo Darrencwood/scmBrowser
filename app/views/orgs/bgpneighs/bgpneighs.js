@@ -1,21 +1,19 @@
 'use strict';
-{{#ops}}
-{{#get.values}}
-angular.module('myApp.{{name}}', ['ngRoute'])
+angular.module('myApp.bgpneighs', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/{{name}}', {
-    templateUrl: 'views/{{name}}/{{name}}.html',
-    controller: '{{name}}Ctrl'
+  $routeProvider.when('/bgpneighs', {
+    templateUrl: 'views/bgpneighs/bgpneighs.html',
+    controller: 'bgpneighsCtrl'
   });
 }])
-.controller('{{name}}Ctrl',
-		[ '$scope', '{{name}}Api', '$location', '{{name}}SelectionSvc', '$timeout',
-			function($scope, {{name}}Api, $location, {{name}}SelectionSvc, $timeout) {
+.controller('bgpneighsCtrl',
+		[ '$scope', 'bgpneighsApi', '$location', 'bgpneighsSelectionSvc', '$timeout',
+			function($scope, bgpneighsApi, $location, bgpneighsSelectionSvc, $timeout) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.{{name}} = {{name}}Api.query();
-				$scope.{{name}}Selected = '';
+				$scope.bgpneighs = bgpneighsApi.query();
+				$scope.bgpneighsSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
 				
@@ -27,7 +25,7 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 				
 				$scope.clicked = true;
 				
-				$scope.{{name}}GridOptions = {
+				$scope.bgpneighsGridOptions = {
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
@@ -35,17 +33,22 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 					enableGridMenu: true,
 					enableImporter: false,
 					columnDefs: [
-					{{#definition}}
-						{ name:'{{title}}', field:'{{name}}'/*, visible:{{visible}} */},
-					{{/definition}}
+						{ name:'Org', field:'org'/*, visible: */},
+						{ name:'Node', field:'node'/*, visible: */},
+						{ name:'Name', field:'name'/*, visible: */},
+						{ name:'Ipv4', field:'ipv4'/*, visible: */},
+						{ name:'Remote As', field:'remote_as'/*, visible: */},
+						{ name:'Password', field:'password'/*, visible: */},
+						{ name:'Keepalive Time', field:'keepalive_time'/*, visible: */},
+						{ name:'Hold Time', field:'hold_time'/*, visible: */},
 					],
-					data: $scope.{{name}},
+					data: $scope.bgpneighs,
 					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					{{name}}Api.save(newObject).$promise.then(function(data){
-    						$scope.{{name}}.push(data);
+    					bgpneighsApi.save(newObject).$promise.then(function(data){
+    						$scope.bgpneighs.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
     					},function(error){
@@ -63,38 +66,62 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 				$scope.click = function(row){ 
 					$scope.clicked = $timeout(function(){
 						if ($scope.stopped == false){
-                					$scope.{{name}}Selected = row.entity;
+                					$scope.bgpneighsSelected = row.entity;
 							$scope.showSelectedRecord = true;
 						}
         				},500);
 				}
 				
 				$scope.dblclick = function(row){
-					{{#submenus}}
-					$scope.stopped = $timeout.cancel($scope.clicked);
-					//console.log(row.entity);	
-					{{name}}SelectionSvc.set{{name}}(row.entity.{{selectedSubmenu}});
-					$location.path('/org');
-					{{/submenus}}
 				}
 				
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
-					$scope.{{name}}Selected = undefined;
+					$scope.bgpneighsSelected = undefined;
 				}
 				
-				$scope.{{name}}Fields = [
-					{{#definition}}
-						{key: '{{name}}', type: 'input',
+				$scope.bgpneighsFields = [
+						{key: 'org', type: 'input',
             					templateOptions: {
-                					type: '{{type}}', label: '{{name}}', placeholder: "{{description}}"/*, required: {{required}}*/
+                					type: 'input', label: 'org', placeholder: ""/*, required: */
             					}
           				},
-          			{{/definition}}
+						{key: 'node', type: 'input',
+            					templateOptions: {
+                					type: 'input', label: 'node', placeholder: ""/*, required: */
+            					}
+          				},
+						{key: 'name', type: 'input',
+            					templateOptions: {
+                					type: 'input', label: 'name', placeholder: ""/*, required: */
+            					}
+          				},
+						{key: 'ipv4', type: 'input',
+            					templateOptions: {
+                					type: 'input', label: 'ipv4', placeholder: ""/*, required: */
+            					}
+          				},
+						{key: 'remote_as', type: 'input',
+            					templateOptions: {
+                					type: 'input', label: 'remote_as', placeholder: ""/*, required: */
+            					}
+          				},
+						{key: 'password', type: 'input',
+            					templateOptions: {
+                					type: 'input', label: 'password', placeholder: ""/*, required: */
+            					}
+          				},
+						{key: 'keepalive_time', type: 'input',
+            					templateOptions: {
+                					type: 'input', label: 'keepalive_time', placeholder: ""/*, required: */
+            					}
+          				},
+						{key: 'hold_time', type: 'input',
+            					templateOptions: {
+                					type: 'input', label: 'hold_time', placeholder: ""/*, required: */
+            					}
+          				},
 				];
-{{/get.values}}
-{{#post.values}}
-				{{#sampleHeaders}}
 				var uploadZone = document.getElementById('upload');
 
     			// Optional.   Show the copy icon when dragging over.  Seems to
@@ -115,7 +142,7 @@ angular.module('myApp.{{name}}', ['ngRoute'])
     		    	$scope.gridApi.importer.importFile(files[0]);
 				});
 								
-				var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("{{& sampleHeaders }}\n{{& sampleData }}");
+				var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("[object Object]\n");
 				var dlAnchorElem = document.getElementById('download');
 				dlAnchorElem.setAttribute("href",     dataStr     );
 				dlAnchorElem.setAttribute("download", "org.csv");
@@ -123,8 +150,5 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;
 				}
-				{{/sampleHeaders}}
 		}]
 )
-{{/post.values}}
-{{/ops}}
