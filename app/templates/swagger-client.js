@@ -282,6 +282,7 @@ function generateFiles(v, e){
   let dir =  '';  
   let html = '';
   let controller = '';
+  let service = '';
   if (!v) {
     dir = views + e.ops['get'].values.name;
   } else {
@@ -291,10 +292,12 @@ function generateFiles(v, e){
     html = dir + '/' + e.ops['get'].values.name + '.html';
     controller = dir + '/' + e.ops['get'].values.name + '.js';
     service = dir + '/' + e.ops['get'].values.name + '-service.js';
+    console.log('------>');
+    
     // WRITE VIEW FILES 
     openViewTpl(function(view) {
       fs.open(html, 'w', (err, fd) => {
-        console.log('Generating ' + html);
+        //console.log('Generating ' + html);
         fs.write(fd, Mustache.render(view, e));
       });
     });
@@ -302,17 +305,17 @@ function generateFiles(v, e){
     // WRITE CONTROLLER FILES
     openControllerTpl(function(view) {
       fs.open(controller, 'w', (err, fd) => {
-        console.log('Generating ' + controller);
+        console.log(' <script src="' + controller + '"></script>');
         fs.write(fd, Mustache.render(view, e));
       });
     });
     
     // WRITE SERVICES FILES
     openServicesTpl(function(view) {
-    fs.open(service, 'w', (err, fd) => {
-      console.log('Writing ' + service);
-      fs.write(fd, Mustache.render(view, e));
-    });
+    	fs.open(service, 'w', (err, fd) => {
+      	console.log(' <script src="' + service + '"></script>');
+      	fs.write(fd, Mustache.render(view, e));
+    	});
   });
     
     // PROCESS SUBMENUS
@@ -321,7 +324,7 @@ function generateFiles(v, e){
       openMenuTpl(function(view){
         let menu = views + e.ops['get'].values.name + '/menu.html';
         fs.open(menu, 'w', (err, fd) => {
-          console.log('Generating ' + menu);
+          //console.log('Generating ' + menu);
           fs.write(fd, Mustache.render(view, e.submenus));
         });
       });

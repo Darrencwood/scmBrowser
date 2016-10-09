@@ -1,6 +1,6 @@
 'use strict';
-
-angular.module('myApp').factory('api{{capWord}}', function($resource) {
+{{#ops.get.values}}
+angular.module('myApp').factory('{{name}}Api', function($resource) {
     return $resource('/api/scm.config/1.0{{& path}}', {}, 
     {
     	'query': {
@@ -15,13 +15,14 @@ angular.module('myApp').factory('api{{capWord}}', function($resource) {
     });
 });
 
-angular.module('myApp').service('current{{capWord}}', function() {
-  this.{{capWord}} = { id: ''};
-  this.set{{capWord}} = function(id){ 
-  	console.log('setting current {{capWord}} to: ' + id);
-    this.{{capWord}}.id = id;
+angular.module('myApp').service('{{name}}Current', function() {
+  this.{{name}} = { id: ''};
+  this.set{{name}} = function(id){ 
+  	console.log('setting current {{name}} to: ' + id);
+    this.{{name}}.id = id;
   }
-  this.get{{capWord}} = function(){
-    return this.{{capWord}};
+  this.get{{name}} = function(){
+    return this.{{name}};
   }
 });
+{{/ops.get.values}}
