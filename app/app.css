@@ -35,6 +35,31 @@ body h2 {
 	border: none;
 }
 
+.ui-grid-header-cell {
+  align-items: center;
+  line-height: 1.5;
+  color: #999999;
+  background-color: #2C2D2C;
+}
+
+.ui-grid-cell .ui-grid-cell-contents {
+  display: flex;
+  align-items: center;
+  line-height: 1.5;
+  color: #999999;
+  background-color: #2C2D2C;
+}
+
+#closeSelectedRecord {
+  color: #999999;
+  background-color: #2C2D2C;
+}
+
+#download, #upload {
+  color: #999999;
+  background-color: #2C2D2C;
+}
+
 /* Toggle Styles */
 
 #wrapper {
