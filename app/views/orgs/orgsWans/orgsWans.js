@@ -32,6 +32,7 @@ angular.module('myApp.orgsWans', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Id', field:'id'/*, visible: */},
 						{ name:'Org', field:'org'/*, visible: */},
@@ -89,72 +90,72 @@ angular.module('myApp.orgsWans', ['ngRoute'])
 				$scope.orgsWansFields = [
 						{key: 'id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'id', placeholder: ""/*, required: */
+                					type: 'input', label: 'id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'org', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'org', placeholder: ""/*, required: */
+                					type: 'input', label: 'org', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'uplinks', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'uplinks', placeholder: ""/*, required: */
+                					type: 'input', label: 'uplinks', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'nets', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'nets', placeholder: ""/*, required: */
+                					type: 'input', label: 'nets', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'name', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'name', placeholder: ""/*, required: */
+                					type: 'input', label: 'name', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'longname', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'longname', placeholder: ""/*, required: */
+                					type: 'input', label: 'longname', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'uid', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'uid', placeholder: ""/*, required: */
+                					type: 'input', label: 'uid', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'internet', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'internet', placeholder: ""/*, required: */
+                					type: 'input', label: 'internet', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'sitelink', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'sitelink', placeholder: ""/*, required: */
+                					type: 'input', label: 'sitelink', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'pingcheck_ips', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'pingcheck_ips', placeholder: ""/*, required: */
+                					type: 'input', label: 'pingcheck_ips', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'dcuplink', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'dcuplink', placeholder: ""/*, required: */
+                					type: 'input', label: 'dcuplink', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'breakout', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'breakout', placeholder: ""/*, required: */
+                					type: 'input', label: 'breakout', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'breakout_sites', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'breakout_sites', placeholder: ""/*, required: */
+                					type: 'input', label: 'breakout_sites', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'xfer_networks', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'xfer_networks', placeholder: ""/*, required: */
+                					type: 'input', label: 'xfer_networks', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

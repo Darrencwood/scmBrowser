@@ -32,6 +32,7 @@ angular.module('myApp.sites', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Id', field:'id'/*, visible: */},
 						{ name:'Name', field:'name'/*, visible: */},
@@ -91,62 +92,62 @@ angular.module('myApp.sites', ['ngRoute'])
 				$scope.sitesFields = [
 						{key: 'id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'id', placeholder: ""/*, required: */
+                					type: 'input', label: 'id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'name', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'name', placeholder: ""/*, required: */
+                					type: 'input', label: 'name', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'org', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'org', placeholder: ""/*, required: */
+                					type: 'input', label: 'org', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'longname', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'longname', placeholder: ""/*, required: */
+                					type: 'input', label: 'longname', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'uplinks', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'uplinks', placeholder: ""/*, required: */
+                					type: 'input', label: 'uplinks', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'networks', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'networks', placeholder: ""/*, required: */
+                					type: 'input', label: 'networks', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'street_address', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'street_address', placeholder: ""/*, required: */
+                					type: 'input', label: 'street_address', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'city', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'city', placeholder: ""/*, required: */
+                					type: 'input', label: 'city', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'country', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'country', placeholder: ""/*, required: */
+                					type: 'input', label: 'country', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'timezone', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'timezone', placeholder: ""/*, required: */
+                					type: 'input', label: 'timezone', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'size', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'size', placeholder: ""/*, required: */
+                					type: 'input', label: 'size', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'uid', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'uid', placeholder: ""/*, required: */
+                					type: 'input', label: 'uid', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

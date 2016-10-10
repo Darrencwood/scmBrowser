@@ -34,6 +34,7 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 					{{#definition}}
 						{ name:'{{title}}', field:'{{name}}'/*, visible:{{visible}} */},
@@ -87,7 +88,7 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 					{{#definition}}
 						{key: '{{name}}', type: 'input',
             					templateOptions: {
-                					type: '{{type}}', label: '{{name}}', placeholder: "{{description}}"/*, required: {{required}}*/
+                					type: '{{type}}', label: '{{name}}', placeholder: "{{description}}", disabled: true/*, required: {{required}}*/ 
             					}
           				},
           			{{/definition}}

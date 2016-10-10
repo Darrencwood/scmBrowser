@@ -32,6 +32,7 @@ angular.module('myApp.nodes', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Site', field:'site'/*, visible: */},
 						{ name:'Org', field:'org'/*, visible: */},
@@ -98,97 +99,97 @@ angular.module('myApp.nodes', ['ngRoute'])
 				$scope.nodesFields = [
 						{key: 'site', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'site', placeholder: ""/*, required: */
+                					type: 'input', label: 'site', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'org', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'org', placeholder: ""/*, required: */
+                					type: 'input', label: 'org', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'local_as', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'local_as', placeholder: ""/*, required: */
+                					type: 'input', label: 'local_as', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'router_id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'router_id', placeholder: ""/*, required: */
+                					type: 'input', label: 'router_id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'serial', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'serial', placeholder: ""/*, required: */
+                					type: 'input', label: 'serial', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'id', placeholder: ""/*, required: */
+                					type: 'input', label: 'id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'uid', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'uid', placeholder: ""/*, required: */
+                					type: 'input', label: 'uid', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'zones', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'zones', placeholder: ""/*, required: */
+                					type: 'input', label: 'zones', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'radios', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'radios', placeholder: ""/*, required: */
+                					type: 'input', label: 'radios', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'realm', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'realm', placeholder: ""/*, required: */
+                					type: 'input', label: 'realm', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'location', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'location', placeholder: ""/*, required: */
+                					type: 'input', label: 'location', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'ports', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'ports', placeholder: ""/*, required: */
+                					type: 'input', label: 'ports', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'uplinks', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'uplinks', placeholder: ""/*, required: */
+                					type: 'input', label: 'uplinks', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'inventory_version_cc', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'inventory_version_cc', placeholder: ""/*, required: */
+                					type: 'input', label: 'inventory_version_cc', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'disable_stp', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'disable_stp', placeholder: ""/*, required: */
+                					type: 'input', label: 'disable_stp', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'license', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'license', placeholder: ""/*, required: */
+                					type: 'input', label: 'license', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'model', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'model', placeholder: ""/*, required: */
+                					type: 'input', label: 'model', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'sitelink', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'sitelink', placeholder: ""/*, required: */
+                					type: 'input', label: 'sitelink', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'simulated', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'simulated', placeholder: ""/*, required: */
+                					type: 'input', label: 'simulated', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

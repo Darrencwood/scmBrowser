@@ -32,6 +32,7 @@ angular.module('myApp.orgsOutbound_rules', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Id', field:'id'/*, visible: */},
 						{ name:'Org', field:'org'/*, visible: */},
@@ -89,72 +90,72 @@ angular.module('myApp.orgsOutbound_rules', ['ngRoute'])
 				$scope.orgsOutbound_rulesFields = [
 						{key: 'id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'id', placeholder: ""/*, required: */
+                					type: 'input', label: 'id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'org', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'org', placeholder: ""/*, required: */
+                					type: 'input', label: 'org', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'users', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'users', placeholder: ""/*, required: */
+                					type: 'input', label: 'users', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'active', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'active', placeholder: ""/*, required: */
+                					type: 'input', label: 'active', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'devices', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'devices', placeholder: ""/*, required: */
+                					type: 'input', label: 'devices', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'zones', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'zones', placeholder: ""/*, required: */
+                					type: 'input', label: 'zones', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'apps', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'apps', placeholder: ""/*, required: */
+                					type: 'input', label: 'apps', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'srctype', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'srctype', placeholder: ""/*, required: */
+                					type: 'input', label: 'srctype', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'dsttype', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'dsttype', placeholder: ""/*, required: */
+                					type: 'input', label: 'dsttype', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'tags', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'tags', placeholder: ""/*, required: */
+                					type: 'input', label: 'tags', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'allow', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'allow', placeholder: ""/*, required: */
+                					type: 'input', label: 'allow', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'usergrps', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'usergrps', placeholder: ""/*, required: */
+                					type: 'input', label: 'usergrps', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'devgrps', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'devgrps', placeholder: ""/*, required: */
+                					type: 'input', label: 'devgrps', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'appgrps', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'appgrps', placeholder: ""/*, required: */
+                					type: 'input', label: 'appgrps', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

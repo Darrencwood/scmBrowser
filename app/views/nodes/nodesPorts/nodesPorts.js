@@ -32,6 +32,7 @@ angular.module('myApp.nodesPorts', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Id', field:'id'/*, visible: */},
 						{ name:'Port', field:'port_id'/*, visible: */},
@@ -95,102 +96,102 @@ angular.module('myApp.nodesPorts', ['ngRoute'])
 				$scope.nodesPortsFields = [
 						{key: 'id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'id', placeholder: ""/*, required: */
+                					type: 'input', label: 'id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'port_id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'port_id', placeholder: ""/*, required: */
+                					type: 'input', label: 'port_id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'node', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'node', placeholder: ""/*, required: */
+                					type: 'input', label: 'node', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'tag', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'tag', placeholder: ""/*, required: */
+                					type: 'input', label: 'tag', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'type', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'type', placeholder: ""/*, required: */
+                					type: 'input', label: 'type', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'speeds', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'speeds', placeholder: ""/*, required: */
+                					type: 'input', label: 'speeds', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'speed', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'speed', placeholder: ""/*, required: */
+                					type: 'input', label: 'speed', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'patchlabel', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'patchlabel', placeholder: ""/*, required: */
+                					type: 'input', label: 'patchlabel', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'zone', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'zone', placeholder: ""/*, required: */
+                					type: 'input', label: 'zone', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'uplink', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'uplink', placeholder: ""/*, required: */
+                					type: 'input', label: 'uplink', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'portal', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'portal', placeholder: ""/*, required: */
+                					type: 'input', label: 'portal', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'mac', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'mac', placeholder: ""/*, required: */
+                					type: 'input', label: 'mac', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'virtual_mac', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'virtual_mac', placeholder: ""/*, required: */
+                					type: 'input', label: 'virtual_mac', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'switch_id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'switch_id', placeholder: ""/*, required: */
+                					type: 'input', label: 'switch_id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'autotrunk', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'autotrunk', placeholder: ""/*, required: */
+                					type: 'input', label: 'autotrunk', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'bridge_with', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'bridge_with', placeholder: ""/*, required: */
+                					type: 'input', label: 'bridge_with', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'ifname', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'ifname', placeholder: ""/*, required: */
+                					type: 'input', label: 'ifname', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'dcinterface', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'dcinterface', placeholder: ""/*, required: */
+                					type: 'input', label: 'dcinterface', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'auto', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'auto', placeholder: ""/*, required: */
+                					type: 'input', label: 'auto', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'autocfg', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'autocfg', placeholder: ""/*, required: */
+                					type: 'input', label: 'autocfg', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

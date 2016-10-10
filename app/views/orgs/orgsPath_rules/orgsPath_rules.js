@@ -32,6 +32,7 @@ angular.module('myApp.orgsPath_rules', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Dsttype', field:'dsttype'/*, visible: */},
 						{ name:'Qos', field:'qos'/*, visible: */},
@@ -91,82 +92,82 @@ angular.module('myApp.orgsPath_rules', ['ngRoute'])
 				$scope.orgsPath_rulesFields = [
 						{key: 'dsttype', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'dsttype', placeholder: ""/*, required: */
+                					type: 'input', label: 'dsttype', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'qos', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'qos', placeholder: ""/*, required: */
+                					type: 'input', label: 'qos', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'id', placeholder: ""/*, required: */
+                					type: 'input', label: 'id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'marking', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'marking', placeholder: ""/*, required: */
+                					type: 'input', label: 'marking', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'zones', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'zones', placeholder: ""/*, required: */
+                					type: 'input', label: 'zones', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'srctype', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'srctype', placeholder: ""/*, required: */
+                					type: 'input', label: 'srctype', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'uid', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'uid', placeholder: ""/*, required: */
+                					type: 'input', label: 'uid', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'active', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'active', placeholder: ""/*, required: */
+                					type: 'input', label: 'active', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'sites', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'sites', placeholder: ""/*, required: */
+                					type: 'input', label: 'sites', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'path_preference', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'path_preference', placeholder: ""/*, required: */
+                					type: 'input', label: 'path_preference', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'org', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'org', placeholder: ""/*, required: */
+                					type: 'input', label: 'org', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'dscp', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'dscp', placeholder: ""/*, required: */
+                					type: 'input', label: 'dscp', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'apps', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'apps', placeholder: ""/*, required: */
+                					type: 'input', label: 'apps', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'devices', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'devices', placeholder: ""/*, required: */
+                					type: 'input', label: 'devices', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'tags', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'tags', placeholder: ""/*, required: */
+                					type: 'input', label: 'tags', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'users', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'users', placeholder: ""/*, required: */
+                					type: 'input', label: 'users', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

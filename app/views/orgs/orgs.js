@@ -32,6 +32,7 @@ angular.module('myApp.orgs', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Id', field:'id'/*, visible: */},
 						{ name:'Name', field:'name'/*, visible: */},
@@ -90,57 +91,57 @@ angular.module('myApp.orgs', ['ngRoute'])
 				$scope.orgsFields = [
 						{key: 'id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'id', placeholder: ""/*, required: */
+                					type: 'input', label: 'id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'name', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'name', placeholder: ""/*, required: */
+                					type: 'input', label: 'name', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'contact', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'contact', placeholder: ""/*, required: */
+                					type: 'input', label: 'contact', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'uid', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'uid', placeholder: ""/*, required: */
+                					type: 'input', label: 'uid', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'realm', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'realm', placeholder: ""/*, required: */
+                					type: 'input', label: 'realm', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'gid', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'gid', placeholder: ""/*, required: */
+                					type: 'input', label: 'gid', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'longname', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'longname', placeholder: ""/*, required: */
+                					type: 'input', label: 'longname', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'city', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'city', placeholder: ""/*, required: */
+                					type: 'input', label: 'city', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'country', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'country', placeholder: ""/*, required: */
+                					type: 'input', label: 'country', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'street_address', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'street_address', placeholder: ""/*, required: */
+                					type: 'input', label: 'street_address', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'timezone', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'timezone', placeholder: ""/*, required: */
+                					type: 'input', label: 'timezone', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

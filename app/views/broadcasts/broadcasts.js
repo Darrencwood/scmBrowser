@@ -32,6 +32,7 @@ angular.module('myApp.broadcasts', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Id', field:'id'/*, visible: */},
 						{ name:'Org', field:'org'/*, visible: */},
@@ -85,52 +86,52 @@ angular.module('myApp.broadcasts', ['ngRoute'])
 				$scope.broadcastsFields = [
 						{key: 'id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'id', placeholder: ""/*, required: */
+                					type: 'input', label: 'id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'org', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'org', placeholder: ""/*, required: */
+                					type: 'input', label: 'org', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'site', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'site', placeholder: ""/*, required: */
+                					type: 'input', label: 'site', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'zone', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'zone', placeholder: ""/*, required: */
+                					type: 'input', label: 'zone', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'ssid', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'ssid', placeholder: ""/*, required: */
+                					type: 'input', label: 'ssid', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'inactive', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'inactive', placeholder: ""/*, required: */
+                					type: 'input', label: 'inactive', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'dynzone', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'dynzone', placeholder: ""/*, required: */
+                					type: 'input', label: 'dynzone', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'portal', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'portal', placeholder: ""/*, required: */
+                					type: 'input', label: 'portal', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'hide_ssid', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'hide_ssid', placeholder: ""/*, required: */
+                					type: 'input', label: 'hide_ssid', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'band', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'band', placeholder: ""/*, required: */
+                					type: 'input', label: 'band', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

@@ -32,6 +32,7 @@ angular.module('myApp.networks', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Nodenetcfgs', field:'nodenetcfgs'/*, visible: */},
 						{ name:'Zone', field:'zone'/*, visible: */},
@@ -98,117 +99,117 @@ angular.module('myApp.networks', ['ngRoute'])
 				$scope.networksFields = [
 						{key: 'nodenetcfgs', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'nodenetcfgs', placeholder: ""/*, required: */
+                					type: 'input', label: 'nodenetcfgs', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'zone', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'zone', placeholder: ""/*, required: */
+                					type: 'input', label: 'zone', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'name', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'name', placeholder: ""/*, required: */
+                					type: 'input', label: 'name', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'dhcps_range_start', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'dhcps_range_start', placeholder: ""/*, required: */
+                					type: 'input', label: 'dhcps_range_start', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'devices', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'devices', placeholder: ""/*, required: */
+                					type: 'input', label: 'devices', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'dhcps_range_end', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'dhcps_range_end', placeholder: ""/*, required: */
+                					type: 'input', label: 'dhcps_range_end', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'primary', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'primary', placeholder: ""/*, required: */
+                					type: 'input', label: 'primary', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'site', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'site', placeholder: ""/*, required: */
+                					type: 'input', label: 'site', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'netv6', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'netv6', placeholder: ""/*, required: */
+                					type: 'input', label: 'netv6', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'netv4', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'netv4', placeholder: ""/*, required: */
+                					type: 'input', label: 'netv4', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'org', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'org', placeholder: ""/*, required: */
+                					type: 'input', label: 'org', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'gwv6', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'gwv6', placeholder: ""/*, required: */
+                					type: 'input', label: 'gwv6', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'ra', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'ra', placeholder: ""/*, required: */
+                					type: 'input', label: 'ra', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'wans', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'wans', placeholder: ""/*, required: */
+                					type: 'input', label: 'wans', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'routes', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'routes', placeholder: ""/*, required: */
+                					type: 'input', label: 'routes', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'id', placeholder: ""/*, required: */
+                					type: 'input', label: 'id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'gwv4', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'gwv4', placeholder: ""/*, required: */
+                					type: 'input', label: 'gwv4', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'lnets', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'lnets', placeholder: ""/*, required: */
+                					type: 'input', label: 'lnets', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'breakout_preference', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'breakout_preference', placeholder: ""/*, required: */
+                					type: 'input', label: 'breakout_preference', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'breakout_sitelink_site', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'breakout_sitelink_site', placeholder: ""/*, required: */
+                					type: 'input', label: 'breakout_sitelink_site', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'gw_noauto', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'gw_noauto', placeholder: ""/*, required: */
+                					type: 'input', label: 'gw_noauto', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'dhcps_leasetime', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'dhcps_leasetime', placeholder: ""/*, required: */
+                					type: 'input', label: 'dhcps_leasetime', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'dhcps_options', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'dhcps_options', placeholder: ""/*, required: */
+                					type: 'input', label: 'dhcps_options', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

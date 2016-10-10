@@ -32,6 +32,7 @@ angular.module('myApp.orgsCustom_apps', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Id', field:'id'/*, visible: */},
 						{ name:'Appid', field:'appid'/*, visible: */},
@@ -92,87 +93,87 @@ angular.module('myApp.orgsCustom_apps', ['ngRoute'])
 				$scope.orgsCustom_appsFields = [
 						{key: 'id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'id', placeholder: ""/*, required: */
+                					type: 'input', label: 'id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'appid', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'appid', placeholder: ""/*, required: */
+                					type: 'input', label: 'appid', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'desc', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'desc', placeholder: ""/*, required: */
+                					type: 'input', label: 'desc', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'name', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'name', placeholder: ""/*, required: */
+                					type: 'input', label: 'name', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'appgrps', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'appgrps', placeholder: ""/*, required: */
+                					type: 'input', label: 'appgrps', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'devgrp', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'devgrp', placeholder: ""/*, required: */
+                					type: 'input', label: 'devgrp', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'org', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'org', placeholder: ""/*, required: */
+                					type: 'input', label: 'org', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'dnats', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'dnats', placeholder: ""/*, required: */
+                					type: 'input', label: 'dnats', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'device_proto', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'device_proto', placeholder: ""/*, required: */
+                					type: 'input', label: 'device_proto', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'type', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'type', placeholder: ""/*, required: */
+                					type: 'input', label: 'type', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'internal', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'internal', placeholder: ""/*, required: */
+                					type: 'input', label: 'internal', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'ipport', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'ipport', placeholder: ""/*, required: */
+                					type: 'input', label: 'ipport', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'httphost', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'httphost', placeholder: ""/*, required: */
+                					type: 'input', label: 'httphost', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'device', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'device', placeholder: ""/*, required: */
+                					type: 'input', label: 'device', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'segments', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'segments', placeholder: ""/*, required: */
+                					type: 'input', label: 'segments', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'device_ports', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'device_ports', placeholder: ""/*, required: */
+                					type: 'input', label: 'device_ports', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'uid', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'uid', placeholder: ""/*, required: */
+                					type: 'input', label: 'uid', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

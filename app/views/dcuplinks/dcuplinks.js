@@ -32,6 +32,7 @@ angular.module('myApp.dcuplinks', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Org', field:'org'/*, visible: */},
 						{ name:'Net', field:'net'/*, visible: */},
@@ -83,42 +84,42 @@ angular.module('myApp.dcuplinks', ['ngRoute'])
 				$scope.dcuplinksFields = [
 						{key: 'org', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'org', placeholder: ""/*, required: */
+                					type: 'input', label: 'org', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'net', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'net', placeholder: ""/*, required: */
+                					type: 'input', label: 'net', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'public_ipv4', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'public_ipv4', placeholder: ""/*, required: */
+                					type: 'input', label: 'public_ipv4', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'public_ipv6', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'public_ipv6', placeholder: ""/*, required: */
+                					type: 'input', label: 'public_ipv6', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'nat_range_start', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'nat_range_start', placeholder: ""/*, required: */
+                					type: 'input', label: 'nat_range_start', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'wan', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'wan', placeholder: ""/*, required: */
+                					type: 'input', label: 'wan', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'cluster', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'cluster', placeholder: ""/*, required: */
+                					type: 'input', label: 'cluster', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'tags', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'tags', placeholder: ""/*, required: */
+                					type: 'input', label: 'tags', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

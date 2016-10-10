@@ -32,6 +32,7 @@ angular.module('myApp.orgsDcinterfaces', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Org', field:'org'/*, visible: */},
 						{ name:'Port', field:'port'/*, visible: */},
@@ -84,47 +85,47 @@ angular.module('myApp.orgsDcinterfaces', ['ngRoute'])
 				$scope.orgsDcinterfacesFields = [
 						{key: 'org', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'org', placeholder: ""/*, required: */
+                					type: 'input', label: 'org', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'port', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'port', placeholder: ""/*, required: */
+                					type: 'input', label: 'port', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'gateway_ipv4', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'gateway_ipv4', placeholder: ""/*, required: */
+                					type: 'input', label: 'gateway_ipv4', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'gateway_ipv6', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'gateway_ipv6', placeholder: ""/*, required: */
+                					type: 'input', label: 'gateway_ipv6', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'ipv4', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'ipv4', placeholder: ""/*, required: */
+                					type: 'input', label: 'ipv4', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'ipv6', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'ipv6', placeholder: ""/*, required: */
+                					type: 'input', label: 'ipv6', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'mtu', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'mtu', placeholder: ""/*, required: */
+                					type: 'input', label: 'mtu', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'auto_negotiation', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'auto_negotiation', placeholder: ""/*, required: */
+                					type: 'input', label: 'auto_negotiation', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'enabled', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'enabled', placeholder: ""/*, required: */
+                					type: 'input', label: 'enabled', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

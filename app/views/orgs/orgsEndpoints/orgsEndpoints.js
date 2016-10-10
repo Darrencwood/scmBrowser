@@ -32,6 +32,7 @@ angular.module('myApp.orgsEndpoints', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Vmac', field:'vmac'/*, visible: */},
 						{ name:'Secret', field:'secret'/*, visible: */},
@@ -82,37 +83,37 @@ angular.module('myApp.orgsEndpoints', ['ngRoute'])
 				$scope.orgsEndpointsFields = [
 						{key: 'vmac', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'vmac', placeholder: ""/*, required: */
+                					type: 'input', label: 'vmac', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'secret', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'secret', placeholder: ""/*, required: */
+                					type: 'input', label: 'secret', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'id', placeholder: ""/*, required: */
+                					type: 'input', label: 'id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'devices', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'devices', placeholder: ""/*, required: */
+                					type: 'input', label: 'devices', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'org', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'org', placeholder: ""/*, required: */
+                					type: 'input', label: 'org', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'user', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'user', placeholder: ""/*, required: */
+                					type: 'input', label: 'user', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'client_id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'client_id', placeholder: ""/*, required: */
+                					type: 'input', label: 'client_id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

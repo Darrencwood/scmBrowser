@@ -32,6 +32,7 @@ angular.module('myApp.orgsSsids', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Id', field:'id'/*, visible: */},
 						{ name:'Org', field:'org'/*, visible: */},
@@ -85,52 +86,52 @@ angular.module('myApp.orgsSsids', ['ngRoute'])
 				$scope.orgsSsidsFields = [
 						{key: 'id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'id', placeholder: ""/*, required: */
+                					type: 'input', label: 'id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'org', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'org', placeholder: ""/*, required: */
+                					type: 'input', label: 'org', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'ssid', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'ssid', placeholder: ""/*, required: */
+                					type: 'input', label: 'ssid', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'security', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'security', placeholder: ""/*, required: */
+                					type: 'input', label: 'security', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'encryption', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'encryption', placeholder: ""/*, required: */
+                					type: 'input', label: 'encryption', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'key', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'key', placeholder: ""/*, required: */
+                					type: 'input', label: 'key', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'authentication', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'authentication', placeholder: ""/*, required: */
+                					type: 'input', label: 'authentication', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'eapol_version', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'eapol_version', placeholder: ""/*, required: */
+                					type: 'input', label: 'eapol_version', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'dtim_period', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'dtim_period', placeholder: ""/*, required: */
+                					type: 'input', label: 'dtim_period', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'bcasts', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'bcasts', placeholder: ""/*, required: */
+                					type: 'input', label: 'bcasts', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

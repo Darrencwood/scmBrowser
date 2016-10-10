@@ -32,6 +32,7 @@ angular.module('myApp.devices', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Id', field:'id'/*, visible: */},
 						{ name:'Uid', field:'uid'/*, visible: */},
@@ -87,62 +88,62 @@ angular.module('myApp.devices', ['ngRoute'])
 				$scope.devicesFields = [
 						{key: 'id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'id', placeholder: ""/*, required: */
+                					type: 'input', label: 'id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'uid', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'uid', placeholder: ""/*, required: */
+                					type: 'input', label: 'uid', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'user', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'user', placeholder: ""/*, required: */
+                					type: 'input', label: 'user', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'mac', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'mac', placeholder: ""/*, required: */
+                					type: 'input', label: 'mac', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'info', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'info', placeholder: ""/*, required: */
+                					type: 'input', label: 'info', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'ipv4', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'ipv4', placeholder: ""/*, required: */
+                					type: 'input', label: 'ipv4', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'ipv6', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'ipv6', placeholder: ""/*, required: */
+                					type: 'input', label: 'ipv6', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'org', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'org', placeholder: ""/*, required: */
+                					type: 'input', label: 'org', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'devgrps', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'devgrps', placeholder: ""/*, required: */
+                					type: 'input', label: 'devgrps', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'tags', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'tags', placeholder: ""/*, required: */
+                					type: 'input', label: 'tags', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'net', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'net', placeholder: ""/*, required: */
+                					type: 'input', label: 'net', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'endpoint', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'endpoint', placeholder: ""/*, required: */
+                					type: 'input', label: 'endpoint', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

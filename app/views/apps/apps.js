@@ -32,6 +32,7 @@ angular.module('myApp.apps', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Desc', field:'desc'/*, visible: */},
 						{ name:'Dgrp', field:'dgrp'/*, visible: */},
@@ -79,22 +80,22 @@ angular.module('myApp.apps', ['ngRoute'])
 				$scope.appsFields = [
 						{key: 'desc', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'desc', placeholder: ""/*, required: */
+                					type: 'input', label: 'desc', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'dgrp', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'dgrp', placeholder: ""/*, required: */
+                					type: 'input', label: 'dgrp', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'name', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'name', placeholder: ""/*, required: */
+                					type: 'input', label: 'name', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'id', placeholder: ""/*, required: */
+                					type: 'input', label: 'id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

@@ -5,20 +5,28 @@ body {
 }
 
 .navbar-default {
-	background-color: #2C2D2C;
+	background-color: #3B3D3D;
 	border-color: #2C2D2C;
+	margin-right: 75px;
 }
 
 body h2 {
-	color: #999999;
+	color: #dddddd;
+	font-size: 18px;
 }
 
 .centered-form{
 	margin-top: 60px;
 }
 
-.navbar-brand {
+.navbar-default a.navbar-brand {
+	font-size: 18px;
+	color: #FF6725;
+}
+
+.navbar-default .navbar-nav a {
 	font-size: 14px;
+	color: #dddddd;
 }
 
 .centered-form .panel{
@@ -36,27 +44,38 @@ body h2 {
 }
 
 .ui-grid-header-cell {
-  align-items: center;
+  text-align: center;
   line-height: 1.5;
-  color: #999999;
+  color: #dddddd;
   background-color: #2C2D2C;
+  border-right: 0px;
 }
 
 .ui-grid-cell .ui-grid-cell-contents {
-  display: flex;
-  align-items: center;
-  line-height: 1.5;
-  color: #999999;
+  color: #dddddd;
   background-color: #2C2D2C;
+  text-align: center;
+}
+
+.ui-grid-menu-button {
+  color: #dddddd;
+  background-color: #2C2D2C;
+  border: none;
+}
+
+.ui-grid-cell 
+{
+    border-right: 0px;
+    text-align: center;
 }
 
 #closeSelectedRecord {
-  color: #999999;
+  color: #dddddd;
   background-color: #2C2D2C;
 }
 
-#download, #upload {
-  color: #999999;
+#download a, #upload {
+  color: #dddddd;
   background-color: #2C2D2C;
 }
 
@@ -77,12 +96,13 @@ body h2 {
 #sidebar-wrapper {
     z-index: 1000;
     position: fixed;
+    top: 50px;
     left: 125px;
     width: 0;
     height: 100%;
     margin-left: -125px;
     overflow-y: auto;
-    background-color: #2C2D2C;
+    background-color: #3B3D3D;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
@@ -119,12 +139,12 @@ body h2 {
 .sidebar-nav li a {
     display: block;
     text-decoration: none;
-    color: #999999;
+    color: #dddddd;
 }
 
 .sidebar-nav li a:hover {
     text-decoration: none;
-    color: #000;
+    color: #dddddd;
     background: rgba(255,255,255,0.2);
 }
 
@@ -140,12 +160,25 @@ body h2 {
 }
 
 .sidebar-nav > .sidebar-brand a {
-    color: #999999;
+    color: #dddddd;
 }
 
 .sidebar-nav > .sidebar-brand a:hover {
     color: #fff;
     background: none;
+}
+
+.formly {
+  /* style your forms however you like */
+  font-size: 12px;
+  color: #dddddd;
+}
+
+.formly .form-control {
+	font-size: 12px;
+	background-color: #2C2D2C;
+	#border: none;
+	color: #dddddd;
 }
 
 @media(min-width:768px) {
@@ -174,5 +207,9 @@ body h2 {
         position: relative;
         margin-right: 0;
     }
+    
+    .mainGrid{
+    	height: 480px;
+  	}
 }
 

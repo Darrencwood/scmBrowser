@@ -32,6 +32,7 @@ angular.module('myApp.bgpneighs', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Org', field:'org'/*, visible: */},
 						{ name:'Node', field:'node'/*, visible: */},
@@ -83,42 +84,42 @@ angular.module('myApp.bgpneighs', ['ngRoute'])
 				$scope.bgpneighsFields = [
 						{key: 'org', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'org', placeholder: ""/*, required: */
+                					type: 'input', label: 'org', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'node', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'node', placeholder: ""/*, required: */
+                					type: 'input', label: 'node', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'name', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'name', placeholder: ""/*, required: */
+                					type: 'input', label: 'name', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'ipv4', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'ipv4', placeholder: ""/*, required: */
+                					type: 'input', label: 'ipv4', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'remote_as', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'remote_as', placeholder: ""/*, required: */
+                					type: 'input', label: 'remote_as', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'password', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'password', placeholder: ""/*, required: */
+                					type: 'input', label: 'password', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'keepalive_time', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'keepalive_time', placeholder: ""/*, required: */
+                					type: 'input', label: 'keepalive_time', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'hold_time', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'hold_time', placeholder: ""/*, required: */
+                					type: 'input', label: 'hold_time', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

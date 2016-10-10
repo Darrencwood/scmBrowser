@@ -32,6 +32,7 @@ angular.module('myApp.sitesClusters', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Site', field:'site'/*, visible: */},
 						{ name:'Org', field:'org'/*, visible: */},
@@ -90,77 +91,77 @@ angular.module('myApp.sitesClusters', ['ngRoute'])
 				$scope.sitesClustersFields = [
 						{key: 'site', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'site', placeholder: ""/*, required: */
+                					type: 'input', label: 'site', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'org', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'org', placeholder: ""/*, required: */
+                					type: 'input', label: 'org', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'name', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'name', placeholder: ""/*, required: */
+                					type: 'input', label: 'name', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'failover', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'failover', placeholder: ""/*, required: */
+                					type: 'input', label: 'failover', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'members', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'members', placeholder: ""/*, required: */
+                					type: 'input', label: 'members', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'id', placeholder: ""/*, required: */
+                					type: 'input', label: 'id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'dcuplinks', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'dcuplinks', placeholder: ""/*, required: */
+                					type: 'input', label: 'dcuplinks', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'url', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'url', placeholder: ""/*, required: */
+                					type: 'input', label: 'url', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'bgp_graceful_restart', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'bgp_graceful_restart', placeholder: ""/*, required: */
+                					type: 'input', label: 'bgp_graceful_restart', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'bgp_tep_community_type', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'bgp_tep_community_type', placeholder: ""/*, required: */
+                					type: 'input', label: 'bgp_tep_community_type', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'bgp_tep_community', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'bgp_tep_community', placeholder: ""/*, required: */
+                					type: 'input', label: 'bgp_tep_community', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'bgp_branch_community_type', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'bgp_branch_community_type', placeholder: ""/*, required: */
+                					type: 'input', label: 'bgp_branch_community_type', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'bgp_branch_community', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'bgp_branch_community', placeholder: ""/*, required: */
+                					type: 'input', label: 'bgp_branch_community', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'bgp_deployment_mode', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'bgp_deployment_mode', placeholder: ""/*, required: */
+                					type: 'input', label: 'bgp_deployment_mode', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'bgp_subnet_splitting', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'bgp_subnet_splitting', placeholder: ""/*, required: */
+                					type: 'input', label: 'bgp_subnet_splitting', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

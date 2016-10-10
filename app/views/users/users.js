@@ -32,6 +32,7 @@ angular.module('myApp.users', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Id', field:'id'/*, visible: */},
 						{ name:'Uid', field:'uid'/*, visible: */},
@@ -87,62 +88,62 @@ angular.module('myApp.users', ['ngRoute'])
 				$scope.usersFields = [
 						{key: 'id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'id', placeholder: ""/*, required: */
+                					type: 'input', label: 'id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'uid', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'uid', placeholder: ""/*, required: */
+                					type: 'input', label: 'uid', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'devices', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'devices', placeholder: ""/*, required: */
+                					type: 'input', label: 'devices', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'tags', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'tags', placeholder: ""/*, required: */
+                					type: 'input', label: 'tags', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'org', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'org', placeholder: ""/*, required: */
+                					type: 'input', label: 'org', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'usergrps', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'usergrps', placeholder: ""/*, required: */
+                					type: 'input', label: 'usergrps', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'home_site', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'home_site', placeholder: ""/*, required: */
+                					type: 'input', label: 'home_site', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'name', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'name', placeholder: ""/*, required: */
+                					type: 'input', label: 'name', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'username', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'username', placeholder: ""/*, required: */
+                					type: 'input', label: 'username', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'email', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'email', placeholder: ""/*, required: */
+                					type: 'input', label: 'email', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'mobile', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'mobile', placeholder: ""/*, required: */
+                					type: 'input', label: 'mobile', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'endpoints', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'endpoints', placeholder: ""/*, required: */
+                					type: 'input', label: 'endpoints', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

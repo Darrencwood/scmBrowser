@@ -32,6 +32,7 @@ angular.module('myApp.uplinks', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Org', field:'org'/*, visible: */},
 						{ name:'Qos Bw Up', field:'qos_bw_up'/*, visible: */},
@@ -94,97 +95,97 @@ angular.module('myApp.uplinks', ['ngRoute'])
 				$scope.uplinksFields = [
 						{key: 'org', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'org', placeholder: ""/*, required: */
+                					type: 'input', label: 'org', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'qos_bw_up', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'qos_bw_up', placeholder: ""/*, required: */
+                					type: 'input', label: 'qos_bw_up', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'qos_up', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'qos_up', placeholder: ""/*, required: */
+                					type: 'input', label: 'qos_up', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'site', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'site', placeholder: ""/*, required: */
+                					type: 'input', label: 'site', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'static_ip_v6', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'static_ip_v6', placeholder: ""/*, required: */
+                					type: 'input', label: 'static_ip_v6', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'uin', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'uin', placeholder: ""/*, required: */
+                					type: 'input', label: 'uin', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'uid', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'uid', placeholder: ""/*, required: */
+                					type: 'input', label: 'uid', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'node', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'node', placeholder: ""/*, required: */
+                					type: 'input', label: 'node', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'name', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'name', placeholder: ""/*, required: */
+                					type: 'input', label: 'name', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'static_gw_v4', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'static_gw_v4', placeholder: ""/*, required: */
+                					type: 'input', label: 'static_gw_v4', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'id', placeholder: ""/*, required: */
+                					type: 'input', label: 'id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'wan', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'wan', placeholder: ""/*, required: */
+                					type: 'input', label: 'wan', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'static_gw_v6', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'static_gw_v6', placeholder: ""/*, required: */
+                					type: 'input', label: 'static_gw_v6', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'qos_bw_down', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'qos_bw_down', placeholder: ""/*, required: */
+                					type: 'input', label: 'qos_bw_down', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'qos_down', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'qos_down', placeholder: ""/*, required: */
+                					type: 'input', label: 'qos_down', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'static_ip_v4', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'static_ip_v4', placeholder: ""/*, required: */
+                					type: 'input', label: 'static_ip_v4', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'port', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'port', placeholder: ""/*, required: */
+                					type: 'input', label: 'port', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'vlan', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'vlan', placeholder: ""/*, required: */
+                					type: 'input', label: 'vlan', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'type', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'type', placeholder: ""/*, required: */
+                					type: 'input', label: 'type', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

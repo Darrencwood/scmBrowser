@@ -32,6 +32,7 @@ angular.module('myApp.inboundRules', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Nat Port Offset', field:'nat_port_offset'/*, visible: */},
 						{ name:'App', field:'app'/*, visible: */},
@@ -85,52 +86,52 @@ angular.module('myApp.inboundRules', ['ngRoute'])
 				$scope.inboundRulesFields = [
 						{key: 'nat_port_offset', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'nat_port_offset', placeholder: ""/*, required: */
+                					type: 'input', label: 'nat_port_offset', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'app', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'app', placeholder: ""/*, required: */
+                					type: 'input', label: 'app', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'no_reflection', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'no_reflection', placeholder: ""/*, required: */
+                					type: 'input', label: 'no_reflection', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'uplinks', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'uplinks', placeholder: ""/*, required: */
+                					type: 'input', label: 'uplinks', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'mode', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'mode', placeholder: ""/*, required: */
+                					type: 'input', label: 'mode', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'id', placeholder: ""/*, required: */
+                					type: 'input', label: 'id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'inactive', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'inactive', placeholder: ""/*, required: */
+                					type: 'input', label: 'inactive', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'custom_ip', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'custom_ip', placeholder: ""/*, required: */
+                					type: 'input', label: 'custom_ip', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'hostlist', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'hostlist', placeholder: ""/*, required: */
+                					type: 'input', label: 'hostlist', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'use_hostlist', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'use_hostlist', placeholder: ""/*, required: */
+                					type: 'input', label: 'use_hostlist', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

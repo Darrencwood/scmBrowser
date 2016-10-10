@@ -32,6 +32,7 @@ angular.module('myApp.appGroups', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Name', field:'name'/*, visible: */},
 						{ name:'Webcat', field:'webcat'/*, visible: */},
@@ -83,42 +84,42 @@ angular.module('myApp.appGroups', ['ngRoute'])
 				$scope.appGroupsFields = [
 						{key: 'name', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'name', placeholder: ""/*, required: */
+                					type: 'input', label: 'name', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'webcat', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'webcat', placeholder: ""/*, required: */
+                					type: 'input', label: 'webcat', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'sapps', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'sapps', placeholder: ""/*, required: */
+                					type: 'input', label: 'sapps', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'org', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'org', placeholder: ""/*, required: */
+                					type: 'input', label: 'org', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'predefined', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'predefined', placeholder: ""/*, required: */
+                					type: 'input', label: 'predefined', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'apps', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'apps', placeholder: ""/*, required: */
+                					type: 'input', label: 'apps', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'id', placeholder: ""/*, required: */
+                					type: 'input', label: 'id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'desc', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'desc', placeholder: ""/*, required: */
+                					type: 'input', label: 'desc', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];

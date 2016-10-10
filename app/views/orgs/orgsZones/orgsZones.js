@@ -32,6 +32,7 @@ angular.module('myApp.orgsZones', ['ngRoute'])
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					rowHeight: 40,
 					columnDefs: [
 						{ name:'Id', field:'id'/*, visible: */},
 						{ name:'Org', field:'org'/*, visible: */},
@@ -88,67 +89,67 @@ angular.module('myApp.orgsZones', ['ngRoute'])
 				$scope.orgsZonesFields = [
 						{key: 'id', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'id', placeholder: ""/*, required: */
+                					type: 'input', label: 'id', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'org', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'org', placeholder: ""/*, required: */
+                					type: 'input', label: 'org', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'name', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'name', placeholder: ""/*, required: */
+                					type: 'input', label: 'name', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'site', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'site', placeholder: ""/*, required: */
+                					type: 'input', label: 'site', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'networks', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'networks', placeholder: ""/*, required: */
+                					type: 'input', label: 'networks', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'mgmt', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'mgmt', placeholder: ""/*, required: */
+                					type: 'input', label: 'mgmt', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'icmp', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'icmp', placeholder: ""/*, required: */
+                					type: 'input', label: 'icmp', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'guest', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'guest', placeholder: ""/*, required: */
+                					type: 'input', label: 'guest', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'breakout_preference', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'breakout_preference', placeholder: ""/*, required: */
+                					type: 'input', label: 'breakout_preference', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'routes', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'routes', placeholder: ""/*, required: */
+                					type: 'input', label: 'routes', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'bcasts', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'bcasts', placeholder: ""/*, required: */
+                					type: 'input', label: 'bcasts', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'tag', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'tag', placeholder: ""/*, required: */
+                					type: 'input', label: 'tag', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 						{key: 'tags', type: 'input',
             					templateOptions: {
-                					type: 'input', label: 'tags', placeholder: ""/*, required: */
+                					type: 'input', label: 'tags', placeholder: "", disabled: true/*, required: */ 
             					}
           				},
 				];
