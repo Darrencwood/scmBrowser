@@ -11,14 +11,14 @@
 	            		<div class='row'>
 	            			<h2>Nodes</h2>
 	            		</div>
-						<div class='row' ng-if="!showSelectedRecord">
-							<div id='download' class='col-xs-1 col-sm-1 col-md-1'>
-								<a>
+						<div class='row' ng-show="!showSelectedRecord">
+							<div  class='col-xs-1 col-sm-1 col-md-1'>
+								<a id="download">
 									<span class="glyphicon glyphicon-download "style="font-size:3em;"></span>
 								</a>
 							</div>
-							<div id='upload' class='col-xs-1 col-sm-1 col-md-1'>
-								<span class="glyphicon glyphicon-upload "style="font-size:3em;"></span>
+							<div id="upload" class='col-xs-1 col-sm-1 col-md-1'>
+								<span  class="glyphicon glyphicon-upload "style="font-size:3em;"></span>
 							</div>
 						</div>
 						<div id='showRecord' ng-if="showSelectedRecord">

@@ -177,31 +177,32 @@ angular.module('myApp.orgsCustom_apps', ['ngRoute'])
             					}
           				},
 				];
-				var uploadZone = document.getElementById('upload');
+				console.log();
+            		var uploadZone = document.getElementById('upload');
 
-    			// Optional.   Show the copy icon when dragging over.  Seems to
-    			// only work for chrome.
-    			uploadZone.addEventListener('dragover', function(e) {
-    		    	e.stopPropagation();
-    		    	e.preventDefault();
-    		    	e.dataTransfer.dropEffect = 'copy';
-    			});
-		
-    			// Get file data on drop
-    			uploadZone.addEventListener('drop', function(e) {
-    		    	e.stopPropagation();
-    		    	e.preventDefault();
-    		    	var files = e.dataTransfer.files; // Array of all files
-    		    	$scope.updateResults =[];
-    		    	$scope.showUploadResults = true;
-    		    	$scope.gridApi.importer.importFile(files[0]);
-				});
-								
-				var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("appid,desc,name,appgrps,devgrp,org,dnats,device_proto,type,ipport,httphost,device,segments,device_ports\n");
-				var dlAnchorElem = document.getElementById('download');
-				dlAnchorElem.setAttribute("href",     dataStr     );
-				dlAnchorElem.setAttribute("download", "org.csv");
-				
+					// Optional.   Show the copy icon when dragging over.  Seems to
+    				// only work for chrome.
+    				uploadZone.addEventListener('dragover', function(e) {
+    		    		e.stopPropagation();
+    		    		e.preventDefault();
+    		    		e.dataTransfer.dropEffect = 'copy';
+    				});
+            
+            		// Get file data on drop
+    				uploadZone.addEventListener('drop', function(e) {
+    		    		e.stopPropagation();
+    		    		e.preventDefault();
+    		    		var files = e.dataTransfer.files; // Array of all files
+    		    		$scope.updateResults =[];
+    		    		$scope.showUploadResults = true;
+    		    		$scope.gridApi.importer.importFile(files[0]);
+					});
+					
+					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("appid,desc,name,appgrps,devgrp,org,dnats,device_proto,type,ipport,httphost,device,segments,device_ports\n");
+					var dlAnchorElem = document.getElementById('download');
+					dlAnchorElem.setAttribute("href",     dataStr     );
+					dlAnchorElem.setAttribute("download", "org.csv");
+							
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;
 				};
