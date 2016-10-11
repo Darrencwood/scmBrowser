@@ -180,7 +180,7 @@ angular.module('myApp.orgsZones', ['ngRoute'])
     		    		$scope.gridApi.importer.importFile(files[0]);
 					});
 					
-					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("org,*name,*site,mgmt,icmp,guest,tag,tags\n");
+					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("name,site\nTestZone1, ");
 					var dlAnchorElem = document.getElementById('download');
 					dlAnchorElem.setAttribute("href",     dataStr     );
 					dlAnchorElem.setAttribute("download", "zones.csv");
