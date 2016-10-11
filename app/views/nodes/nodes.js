@@ -2,17 +2,19 @@
 angular.module('myApp.nodes', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/nodes', {
-    templateUrl: 'views/nodes/nodes.html',
+  	templateUrl: 'views/nodes/nodes.html',
     controller: 'nodesCtrl'
   });
 }])
 .controller('nodesCtrl',
-		[ '$scope', 'nodesApi', '$location', 'nodesSelectionSvc', '$timeout',
-			function($scope, nodesApi, $location, nodesSelectionSvc, $timeout) {
+		[ '$scope', 'nodesApi', '$location', 'nodesSelectionSvc', '$timeout', 
+			function($scope, nodesApi, $location, nodesSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.nodes = nodesApi.query();
+				
 				$scope.nodesSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -80,6 +82,8 @@ angular.module('myApp.nodes', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.nodesSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							nodesSelectionSvc.setnodes(row.entity);
 						}
         				},500);
 				}

@@ -15,10 +15,10 @@ angular.module('myApp').factory('bgpneighsApi', function($resource) {
 });
 
 angular.module('myApp').service('bgpneighsSelectionSvc', function() {
-  this.bgpneighs = { id: ''};
-  this.setbgpneighs = function(id){ 
-  	console.log('setting current bgpneighs to: ' + id);
-    this.bgpneighs.id = id;
+  this.bgpneighs = { };
+  this.setbgpneighs = function(obj){ 
+  	console.log('setting current bgpneighs to: ' + obj.id);
+    this.bgpneighs = obj;
   }
   this.getbgpneighs = function(){
     return this.bgpneighs;

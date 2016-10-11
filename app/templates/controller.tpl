@@ -3,18 +3,27 @@
 {{#get.values}}
 angular.module('myApp.{{name}}', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/{{name}}', {
-    templateUrl: 'views/{{name}}/{{name}}.html',
+  $routeProvider.when('{{&path}}', {
+  	templateUrl: 'views{{&path}}/{{name}}.html',
     controller: '{{name}}Ctrl'
   });
 }])
 .controller('{{name}}Ctrl',
-		[ '$scope', '{{name}}Api', '$location', '{{name}}SelectionSvc', '$timeout',
-			function($scope, {{name}}Api, $location, {{name}}SelectionSvc, $timeout) {
+		[ '$scope', '{{name}}Api', '$location', '{{name}}SelectionSvc', '$timeout', {{#isSubMenu}} '{{originalName}}SelectionSvc' , {{/isSubMenu}}
+			function($scope, {{name}}Api, $location, {{name}}SelectionSvc, $timeout {{#isSubMenu}} , {{originalName}}SelectionSvc {{/isSubMenu}} ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				{{#isSubMenu}}
+				let id = {{originalName}}SelectionSvc.get{{originalName}}();
+				console.log(id);
+				$scope.{{name}} = {{name}}Api.query({ {{originalId}}: id.{{selectedSubmenu}} });
+				{{/isSubMenu}}
+				{{^isSubMenu}}
 				$scope.{{name}} = {{name}}Api.query();
+				{{/isSubMenu}}
+				
 				$scope.{{name}}Selected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -45,7 +54,12 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
+    				{{#isSubMenu}}
+    					{{name}}Api.save({ {{originalId}}: id.{{selectedSubmenu}} }, newObject).$promise.then(function(data){
+    				{{/isSubMenu}}
+    				{{^isSubMenu}}
     					{{name}}Api.save(newObject).$promise.then(function(data){
+    				{{/isSubMenu}}
     						$scope.{{name}}.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -66,6 +80,8 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.{{name}}Selected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							{{name}}SelectionSvc.set{{name}}(row.entity);
 						}
         				},500);
 				}
@@ -120,7 +136,7 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("{{& sampleHeaders }}\n{{& sampleData }}");
 					var dlAnchorElem = document.getElementById('download');
 					dlAnchorElem.setAttribute("href",     dataStr     );
-					dlAnchorElem.setAttribute("download", "org.csv");
+					dlAnchorElem.setAttribute("download", "{{id}}.csv");
 							
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;

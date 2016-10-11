@@ -15,10 +15,10 @@ angular.module('myApp').factory('dcuplinksApi', function($resource) {
 });
 
 angular.module('myApp').service('dcuplinksSelectionSvc', function() {
-  this.dcuplinks = { id: ''};
-  this.setdcuplinks = function(id){ 
-  	console.log('setting current dcuplinks to: ' + id);
-    this.dcuplinks.id = id;
+  this.dcuplinks = { };
+  this.setdcuplinks = function(obj){ 
+  	console.log('setting current dcuplinks to: ' + obj.id);
+    this.dcuplinks = obj;
   }
   this.getdcuplinks = function(){
     return this.dcuplinks;

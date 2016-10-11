@@ -1,18 +1,20 @@
 'use strict';
 angular.module('myApp.inboundRules', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/inboundRules', {
-    templateUrl: 'views/inboundRules/inboundRules.html',
+  $routeProvider.when('/inbound_rules', {
+  	templateUrl: 'views/inbound_rules/inboundRules.html',
     controller: 'inboundRulesCtrl'
   });
 }])
 .controller('inboundRulesCtrl',
-		[ '$scope', 'inboundRulesApi', '$location', 'inboundRulesSelectionSvc', '$timeout',
-			function($scope, inboundRulesApi, $location, inboundRulesSelectionSvc, $timeout) {
+		[ '$scope', 'inboundRulesApi', '$location', 'inboundRulesSelectionSvc', '$timeout', 
+			function($scope, inboundRulesApi, $location, inboundRulesSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.inboundRules = inboundRulesApi.query();
+				
 				$scope.inboundRulesSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -71,6 +73,8 @@ angular.module('myApp.inboundRules', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.inboundRulesSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							inboundRulesSelectionSvc.setinboundRules(row.entity);
 						}
         				},500);
 				}

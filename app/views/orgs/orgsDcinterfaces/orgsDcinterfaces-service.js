@@ -15,10 +15,10 @@ angular.module('myApp').factory('orgsDcinterfacesApi', function($resource) {
 });
 
 angular.module('myApp').service('orgsDcinterfacesSelectionSvc', function() {
-  this.orgsDcinterfaces = { id: ''};
-  this.setorgsDcinterfaces = function(id){ 
-  	console.log('setting current orgsDcinterfaces to: ' + id);
-    this.orgsDcinterfaces.id = id;
+  this.orgsDcinterfaces = { };
+  this.setorgsDcinterfaces = function(obj){ 
+  	console.log('setting current orgsDcinterfaces to: ' + obj.id);
+    this.orgsDcinterfaces = obj;
   }
   this.getorgsDcinterfaces = function(){
     return this.orgsDcinterfaces;

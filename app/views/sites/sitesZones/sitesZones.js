@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.sitesZones', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/sitesZones', {
-    templateUrl: 'views/sitesZones/sitesZones.html',
+  $routeProvider.when('/sites/sitesZones', {
+  	templateUrl: 'views/sites/sitesZones/sitesZones.html',
     controller: 'sitesZonesCtrl'
   });
 }])
 .controller('sitesZonesCtrl',
-		[ '$scope', 'sitesZonesApi', '$location', 'sitesZonesSelectionSvc', '$timeout',
-			function($scope, sitesZonesApi, $location, sitesZonesSelectionSvc, $timeout) {
+		[ '$scope', 'sitesZonesApi', '$location', 'sitesZonesSelectionSvc', '$timeout',  'sitesSelectionSvc' , 
+			function($scope, sitesZonesApi, $location, sitesZonesSelectionSvc, $timeout  , sitesSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.sitesZones = sitesZonesApi.query();
+				
+				let id = sitesSelectionSvc.getsites();
+				console.log(id);
+				$scope.sitesZones = sitesZonesApi.query({ siteid: id.id });
+				
 				$scope.sitesZonesSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -53,7 +57,7 @@ angular.module('myApp.sitesZones', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					sitesZonesApi.save(newObject).$promise.then(function(data){
+    					sitesZonesApi.save({ siteid: id.id }, newObject).$promise.then(function(data){
     						$scope.sitesZones.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -74,6 +78,8 @@ angular.module('myApp.sitesZones', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.sitesZonesSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							sitesZonesSelectionSvc.setsitesZones(row.entity);
 						}
         				},500);
 				}

@@ -15,10 +15,10 @@ angular.module('myApp').factory('sitesZonesApi', function($resource) {
 });
 
 angular.module('myApp').service('sitesZonesSelectionSvc', function() {
-  this.sitesZones = { id: ''};
-  this.setsitesZones = function(id){ 
-  	console.log('setting current sitesZones to: ' + id);
-    this.sitesZones.id = id;
+  this.sitesZones = { };
+  this.setsitesZones = function(obj){ 
+  	console.log('setting current sitesZones to: ' + obj.id);
+    this.sitesZones = obj;
   }
   this.getsitesZones = function(){
     return this.sitesZones;

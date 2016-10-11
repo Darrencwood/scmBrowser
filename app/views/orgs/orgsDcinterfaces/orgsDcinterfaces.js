@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.orgsDcinterfaces', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgsDcinterfaces', {
-    templateUrl: 'views/orgsDcinterfaces/orgsDcinterfaces.html',
+  $routeProvider.when('/orgs/orgsDcinterfaces', {
+  	templateUrl: 'views/orgs/orgsDcinterfaces/orgsDcinterfaces.html',
     controller: 'orgsDcinterfacesCtrl'
   });
 }])
 .controller('orgsDcinterfacesCtrl',
-		[ '$scope', 'orgsDcinterfacesApi', '$location', 'orgsDcinterfacesSelectionSvc', '$timeout',
-			function($scope, orgsDcinterfacesApi, $location, orgsDcinterfacesSelectionSvc, $timeout) {
+		[ '$scope', 'orgsDcinterfacesApi', '$location', 'orgsDcinterfacesSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
+			function($scope, orgsDcinterfacesApi, $location, orgsDcinterfacesSelectionSvc, $timeout  , orgsSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.orgsDcinterfaces = orgsDcinterfacesApi.query();
+				
+				let id = orgsSelectionSvc.getorgs();
+				console.log(id);
+				$scope.orgsDcinterfaces = orgsDcinterfacesApi.query({ orgid: id.id });
+				
 				$scope.orgsDcinterfacesSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -49,7 +53,7 @@ angular.module('myApp.orgsDcinterfaces', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsDcinterfacesApi.save(newObject).$promise.then(function(data){
+    					orgsDcinterfacesApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
     						$scope.orgsDcinterfaces.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -70,6 +74,8 @@ angular.module('myApp.orgsDcinterfaces', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsDcinterfacesSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							orgsDcinterfacesSelectionSvc.setorgsDcinterfaces(row.entity);
 						}
         				},500);
 				}

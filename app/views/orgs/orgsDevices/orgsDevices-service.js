@@ -15,10 +15,10 @@ angular.module('myApp').factory('orgsDevicesApi', function($resource) {
 });
 
 angular.module('myApp').service('orgsDevicesSelectionSvc', function() {
-  this.orgsDevices = { id: ''};
-  this.setorgsDevices = function(id){ 
-  	console.log('setting current orgsDevices to: ' + id);
-    this.orgsDevices.id = id;
+  this.orgsDevices = { };
+  this.setorgsDevices = function(obj){ 
+  	console.log('setting current orgsDevices to: ' + obj.id);
+    this.orgsDevices = obj;
   }
   this.getorgsDevices = function(){
     return this.orgsDevices;

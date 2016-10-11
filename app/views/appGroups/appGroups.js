@@ -1,18 +1,20 @@
 'use strict';
 angular.module('myApp.appGroups', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/appGroups', {
-    templateUrl: 'views/appGroups/appGroups.html',
+  $routeProvider.when('/app_groups', {
+  	templateUrl: 'views/app_groups/appGroups.html',
     controller: 'appGroupsCtrl'
   });
 }])
 .controller('appGroupsCtrl',
-		[ '$scope', 'appGroupsApi', '$location', 'appGroupsSelectionSvc', '$timeout',
-			function($scope, appGroupsApi, $location, appGroupsSelectionSvc, $timeout) {
+		[ '$scope', 'appGroupsApi', '$location', 'appGroupsSelectionSvc', '$timeout', 
+			function($scope, appGroupsApi, $location, appGroupsSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.appGroups = appGroupsApi.query();
+				
 				$scope.appGroupsSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -69,6 +71,8 @@ angular.module('myApp.appGroups', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.appGroupsSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							appGroupsSelectionSvc.setappGroups(row.entity);
 						}
         				},500);
 				}

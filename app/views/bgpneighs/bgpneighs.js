@@ -2,17 +2,19 @@
 angular.module('myApp.bgpneighs', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/bgpneighs', {
-    templateUrl: 'views/bgpneighs/bgpneighs.html',
+  	templateUrl: 'views/bgpneighs/bgpneighs.html',
     controller: 'bgpneighsCtrl'
   });
 }])
 .controller('bgpneighsCtrl',
-		[ '$scope', 'bgpneighsApi', '$location', 'bgpneighsSelectionSvc', '$timeout',
-			function($scope, bgpneighsApi, $location, bgpneighsSelectionSvc, $timeout) {
+		[ '$scope', 'bgpneighsApi', '$location', 'bgpneighsSelectionSvc', '$timeout', 
+			function($scope, bgpneighsApi, $location, bgpneighsSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.bgpneighs = bgpneighsApi.query();
+				
 				$scope.bgpneighsSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -69,6 +71,8 @@ angular.module('myApp.bgpneighs', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.bgpneighsSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							bgpneighsSelectionSvc.setbgpneighs(row.entity);
 						}
         				},500);
 				}

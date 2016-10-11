@@ -15,10 +15,10 @@ angular.module('myApp').factory('devicesApi', function($resource) {
 });
 
 angular.module('myApp').service('devicesSelectionSvc', function() {
-  this.devices = { id: ''};
-  this.setdevices = function(id){ 
-  	console.log('setting current devices to: ' + id);
-    this.devices.id = id;
+  this.devices = { };
+  this.setdevices = function(obj){ 
+  	console.log('setting current devices to: ' + obj.id);
+    this.devices = obj;
   }
   this.getdevices = function(){
     return this.devices;

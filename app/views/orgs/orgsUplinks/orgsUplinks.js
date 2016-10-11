@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.orgsUplinks', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgsUplinks', {
-    templateUrl: 'views/orgsUplinks/orgsUplinks.html',
+  $routeProvider.when('/orgs/orgsUplinks', {
+  	templateUrl: 'views/orgs/orgsUplinks/orgsUplinks.html',
     controller: 'orgsUplinksCtrl'
   });
 }])
 .controller('orgsUplinksCtrl',
-		[ '$scope', 'orgsUplinksApi', '$location', 'orgsUplinksSelectionSvc', '$timeout',
-			function($scope, orgsUplinksApi, $location, orgsUplinksSelectionSvc, $timeout) {
+		[ '$scope', 'orgsUplinksApi', '$location', 'orgsUplinksSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
+			function($scope, orgsUplinksApi, $location, orgsUplinksSelectionSvc, $timeout  , orgsSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.orgsUplinks = orgsUplinksApi.query();
+				
+				let id = orgsSelectionSvc.getorgs();
+				console.log(id);
+				$scope.orgsUplinks = orgsUplinksApi.query({ orgid: id.id });
+				
 				$scope.orgsUplinksSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -59,7 +63,7 @@ angular.module('myApp.orgsUplinks', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsUplinksApi.save(newObject).$promise.then(function(data){
+    					orgsUplinksApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
     						$scope.orgsUplinks.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -80,6 +84,8 @@ angular.module('myApp.orgsUplinks', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsUplinksSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							orgsUplinksSelectionSvc.setorgsUplinks(row.entity);
 						}
         				},500);
 				}
@@ -213,7 +219,7 @@ angular.module('myApp.orgsUplinks', ['ngRoute'])
 					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("org,qos_bw_up,qos_up,site,static_ip_v6,uin,uid,node,name,static_gw_v4,wan,static_gw_v6,qos_bw_down,qos_down,static_ip_v4,port,vlan,type\n");
 					var dlAnchorElem = document.getElementById('download');
 					dlAnchorElem.setAttribute("href",     dataStr     );
-					dlAnchorElem.setAttribute("download", "org.csv");
+					dlAnchorElem.setAttribute("download", "uplinks.csv");
 							
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;

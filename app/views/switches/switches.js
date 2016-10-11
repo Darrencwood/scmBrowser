@@ -2,17 +2,19 @@
 angular.module('myApp.switches', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/switches', {
-    templateUrl: 'views/switches/switches.html',
+  	templateUrl: 'views/switches/switches.html',
     controller: 'switchesCtrl'
   });
 }])
 .controller('switchesCtrl',
-		[ '$scope', 'switchesApi', '$location', 'switchesSelectionSvc', '$timeout',
-			function($scope, switchesApi, $location, switchesSelectionSvc, $timeout) {
+		[ '$scope', 'switchesApi', '$location', 'switchesSelectionSvc', '$timeout', 
+			function($scope, switchesApi, $location, switchesSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.switches = switchesApi.query();
+				
 				$scope.switchesSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -80,6 +82,8 @@ angular.module('myApp.switches', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.switchesSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							switchesSelectionSvc.setswitches(row.entity);
 						}
         				},500);
 				}

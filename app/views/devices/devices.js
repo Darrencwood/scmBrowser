@@ -2,17 +2,19 @@
 angular.module('myApp.devices', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/devices', {
-    templateUrl: 'views/devices/devices.html',
+  	templateUrl: 'views/devices/devices.html',
     controller: 'devicesCtrl'
   });
 }])
 .controller('devicesCtrl',
-		[ '$scope', 'devicesApi', '$location', 'devicesSelectionSvc', '$timeout',
-			function($scope, devicesApi, $location, devicesSelectionSvc, $timeout) {
+		[ '$scope', 'devicesApi', '$location', 'devicesSelectionSvc', '$timeout', 
+			function($scope, devicesApi, $location, devicesSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.devices = devicesApi.query();
+				
 				$scope.devicesSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -73,6 +75,8 @@ angular.module('myApp.devices', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.devicesSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							devicesSelectionSvc.setdevices(row.entity);
 						}
         				},500);
 				}

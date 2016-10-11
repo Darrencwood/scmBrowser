@@ -2,17 +2,19 @@
 angular.module('myApp.networks', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/networks', {
-    templateUrl: 'views/networks/networks.html',
+  	templateUrl: 'views/networks/networks.html',
     controller: 'networksCtrl'
   });
 }])
 .controller('networksCtrl',
-		[ '$scope', 'networksApi', '$location', 'networksSelectionSvc', '$timeout',
-			function($scope, networksApi, $location, networksSelectionSvc, $timeout) {
+		[ '$scope', 'networksApi', '$location', 'networksSelectionSvc', '$timeout', 
+			function($scope, networksApi, $location, networksSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.networks = networksApi.query();
+				
 				$scope.networksSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -84,6 +86,8 @@ angular.module('myApp.networks', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.networksSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							networksSelectionSvc.setnetworks(row.entity);
 						}
         				},500);
 				}

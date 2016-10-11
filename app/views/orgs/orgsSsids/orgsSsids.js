@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.orgsSsids', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgsSsids', {
-    templateUrl: 'views/orgsSsids/orgsSsids.html',
+  $routeProvider.when('/orgs/orgsSsids', {
+  	templateUrl: 'views/orgs/orgsSsids/orgsSsids.html',
     controller: 'orgsSsidsCtrl'
   });
 }])
 .controller('orgsSsidsCtrl',
-		[ '$scope', 'orgsSsidsApi', '$location', 'orgsSsidsSelectionSvc', '$timeout',
-			function($scope, orgsSsidsApi, $location, orgsSsidsSelectionSvc, $timeout) {
+		[ '$scope', 'orgsSsidsApi', '$location', 'orgsSsidsSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
+			function($scope, orgsSsidsApi, $location, orgsSsidsSelectionSvc, $timeout  , orgsSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.orgsSsids = orgsSsidsApi.query();
+				
+				let id = orgsSelectionSvc.getorgs();
+				console.log(id);
+				$scope.orgsSsids = orgsSsidsApi.query({ orgid: id.id });
+				
 				$scope.orgsSsidsSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -50,7 +54,7 @@ angular.module('myApp.orgsSsids', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsSsidsApi.save(newObject).$promise.then(function(data){
+    					orgsSsidsApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
     						$scope.orgsSsids.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -71,6 +75,8 @@ angular.module('myApp.orgsSsids', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsSsidsSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							orgsSsidsSelectionSvc.setorgsSsids(row.entity);
 						}
         				},500);
 				}
@@ -159,7 +165,7 @@ angular.module('myApp.orgsSsids', ['ngRoute'])
 					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("org,ssid,security,encryption,key,authentication,eapol_version,dtim_period,bcasts\n");
 					var dlAnchorElem = document.getElementById('download');
 					dlAnchorElem.setAttribute("href",     dataStr     );
-					dlAnchorElem.setAttribute("download", "org.csv");
+					dlAnchorElem.setAttribute("download", "ssids.csv");
 							
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;

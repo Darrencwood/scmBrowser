@@ -2,17 +2,19 @@
 angular.module('myApp.sites', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/sites', {
-    templateUrl: 'views/sites/sites.html',
+  	templateUrl: 'views/sites/sites.html',
     controller: 'sitesCtrl'
   });
 }])
 .controller('sitesCtrl',
-		[ '$scope', 'sitesApi', '$location', 'sitesSelectionSvc', '$timeout',
-			function($scope, sitesApi, $location, sitesSelectionSvc, $timeout) {
+		[ '$scope', 'sitesApi', '$location', 'sitesSelectionSvc', '$timeout', 
+			function($scope, sitesApi, $location, sitesSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.sites = sitesApi.query();
+				
 				$scope.sitesSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -73,6 +75,8 @@ angular.module('myApp.sites', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.sitesSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							sitesSelectionSvc.setsites(row.entity);
 						}
         				},500);
 				}

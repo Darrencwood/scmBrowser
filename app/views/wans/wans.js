@@ -2,17 +2,19 @@
 angular.module('myApp.wans', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/wans', {
-    templateUrl: 'views/wans/wans.html',
+  	templateUrl: 'views/wans/wans.html',
     controller: 'wansCtrl'
   });
 }])
 .controller('wansCtrl',
-		[ '$scope', 'wansApi', '$location', 'wansSelectionSvc', '$timeout',
-			function($scope, wansApi, $location, wansSelectionSvc, $timeout) {
+		[ '$scope', 'wansApi', '$location', 'wansSelectionSvc', '$timeout', 
+			function($scope, wansApi, $location, wansSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.wans = wansApi.query();
+				
 				$scope.wansSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -75,6 +77,8 @@ angular.module('myApp.wans', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.wansSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							wansSelectionSvc.setwans(row.entity);
 						}
         				},500);
 				}

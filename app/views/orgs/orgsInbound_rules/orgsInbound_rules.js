@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.orgsInbound_rules', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgsInbound_rules', {
-    templateUrl: 'views/orgsInbound_rules/orgsInbound_rules.html',
+  $routeProvider.when('/orgs/orgsInbound_rules', {
+  	templateUrl: 'views/orgs/orgsInbound_rules/orgsInbound_rules.html',
     controller: 'orgsInbound_rulesCtrl'
   });
 }])
 .controller('orgsInbound_rulesCtrl',
-		[ '$scope', 'orgsInbound_rulesApi', '$location', 'orgsInbound_rulesSelectionSvc', '$timeout',
-			function($scope, orgsInbound_rulesApi, $location, orgsInbound_rulesSelectionSvc, $timeout) {
+		[ '$scope', 'orgsInbound_rulesApi', '$location', 'orgsInbound_rulesSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
+			function($scope, orgsInbound_rulesApi, $location, orgsInbound_rulesSelectionSvc, $timeout  , orgsSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.orgsInbound_rules = orgsInbound_rulesApi.query();
+				
+				let id = orgsSelectionSvc.getorgs();
+				console.log(id);
+				$scope.orgsInbound_rules = orgsInbound_rulesApi.query({ orgid: id.id });
+				
 				$scope.orgsInbound_rulesSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -50,7 +54,7 @@ angular.module('myApp.orgsInbound_rules', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsInbound_rulesApi.save(newObject).$promise.then(function(data){
+    					orgsInbound_rulesApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
     						$scope.orgsInbound_rules.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -71,6 +75,8 @@ angular.module('myApp.orgsInbound_rules', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsInbound_rulesSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							orgsInbound_rulesSelectionSvc.setorgsInbound_rules(row.entity);
 						}
         				},500);
 				}
@@ -159,7 +165,7 @@ angular.module('myApp.orgsInbound_rules', ['ngRoute'])
 					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("nat_port_offset,app,no_reflection,uplinks,mode,id,inactive,custom_ip,hostlist,use_hostlist\n");
 					var dlAnchorElem = document.getElementById('download');
 					dlAnchorElem.setAttribute("href",     dataStr     );
-					dlAnchorElem.setAttribute("download", "org.csv");
+					dlAnchorElem.setAttribute("download", "inbound_rules.csv");
 							
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;

@@ -15,10 +15,10 @@ angular.module('myApp').factory('zonesApi', function($resource) {
 });
 
 angular.module('myApp').service('zonesSelectionSvc', function() {
-  this.zones = { id: ''};
-  this.setzones = function(id){ 
-  	console.log('setting current zones to: ' + id);
-    this.zones.id = id;
+  this.zones = { };
+  this.setzones = function(obj){ 
+  	console.log('setting current zones to: ' + obj.id);
+    this.zones = obj;
   }
   this.getzones = function(){
     return this.zones;

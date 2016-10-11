@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.orgsWans', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgsWans', {
-    templateUrl: 'views/orgsWans/orgsWans.html',
+  $routeProvider.when('/orgs/orgsWans', {
+  	templateUrl: 'views/orgs/orgsWans/orgsWans.html',
     controller: 'orgsWansCtrl'
   });
 }])
 .controller('orgsWansCtrl',
-		[ '$scope', 'orgsWansApi', '$location', 'orgsWansSelectionSvc', '$timeout',
-			function($scope, orgsWansApi, $location, orgsWansSelectionSvc, $timeout) {
+		[ '$scope', 'orgsWansApi', '$location', 'orgsWansSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
+			function($scope, orgsWansApi, $location, orgsWansSelectionSvc, $timeout  , orgsSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.orgsWans = orgsWansApi.query();
+				
+				let id = orgsSelectionSvc.getorgs();
+				console.log(id);
+				$scope.orgsWans = orgsWansApi.query({ orgid: id.id });
+				
 				$scope.orgsWansSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -54,7 +58,7 @@ angular.module('myApp.orgsWans', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsWansApi.save(newObject).$promise.then(function(data){
+    					orgsWansApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
     						$scope.orgsWans.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -75,6 +79,8 @@ angular.module('myApp.orgsWans', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsWansSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							orgsWansSelectionSvc.setorgsWans(row.entity);
 						}
         				},500);
 				}
@@ -183,7 +189,7 @@ angular.module('myApp.orgsWans', ['ngRoute'])
 					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("org,uplinks,nets,name,longname,internet,sitelink,pingcheck_ips,dcuplink,breakout,breakout_sites,xfer_networks\n");
 					var dlAnchorElem = document.getElementById('download');
 					dlAnchorElem.setAttribute("href",     dataStr     );
-					dlAnchorElem.setAttribute("download", "org.csv");
+					dlAnchorElem.setAttribute("download", "wans.csv");
 							
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;

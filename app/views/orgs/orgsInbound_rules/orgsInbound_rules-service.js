@@ -15,10 +15,10 @@ angular.module('myApp').factory('orgsInbound_rulesApi', function($resource) {
 });
 
 angular.module('myApp').service('orgsInbound_rulesSelectionSvc', function() {
-  this.orgsInbound_rules = { id: ''};
-  this.setorgsInbound_rules = function(id){ 
-  	console.log('setting current orgsInbound_rules to: ' + id);
-    this.orgsInbound_rules.id = id;
+  this.orgsInbound_rules = { };
+  this.setorgsInbound_rules = function(obj){ 
+  	console.log('setting current orgsInbound_rules to: ' + obj.id);
+    this.orgsInbound_rules = obj;
   }
   this.getorgsInbound_rules = function(){
     return this.orgsInbound_rules;

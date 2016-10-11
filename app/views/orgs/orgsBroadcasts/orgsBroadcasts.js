@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.orgsBroadcasts', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgsBroadcasts', {
-    templateUrl: 'views/orgsBroadcasts/orgsBroadcasts.html',
+  $routeProvider.when('/orgs/orgsBroadcasts', {
+  	templateUrl: 'views/orgs/orgsBroadcasts/orgsBroadcasts.html',
     controller: 'orgsBroadcastsCtrl'
   });
 }])
 .controller('orgsBroadcastsCtrl',
-		[ '$scope', 'orgsBroadcastsApi', '$location', 'orgsBroadcastsSelectionSvc', '$timeout',
-			function($scope, orgsBroadcastsApi, $location, orgsBroadcastsSelectionSvc, $timeout) {
+		[ '$scope', 'orgsBroadcastsApi', '$location', 'orgsBroadcastsSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
+			function($scope, orgsBroadcastsApi, $location, orgsBroadcastsSelectionSvc, $timeout  , orgsSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.orgsBroadcasts = orgsBroadcastsApi.query();
+				
+				let id = orgsSelectionSvc.getorgs();
+				console.log(id);
+				$scope.orgsBroadcasts = orgsBroadcastsApi.query({ orgid: id.id });
+				
 				$scope.orgsBroadcastsSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -50,7 +54,7 @@ angular.module('myApp.orgsBroadcasts', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsBroadcastsApi.save(newObject).$promise.then(function(data){
+    					orgsBroadcastsApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
     						$scope.orgsBroadcasts.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -71,6 +75,8 @@ angular.module('myApp.orgsBroadcasts', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsBroadcastsSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							orgsBroadcastsSelectionSvc.setorgsBroadcasts(row.entity);
 						}
         				},500);
 				}
@@ -159,7 +165,7 @@ angular.module('myApp.orgsBroadcasts', ['ngRoute'])
 					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("org,site,zone,ssid,inactive,dynzone,portal,hide_ssid,band\n");
 					var dlAnchorElem = document.getElementById('download');
 					dlAnchorElem.setAttribute("href",     dataStr     );
-					dlAnchorElem.setAttribute("download", "org.csv");
+					dlAnchorElem.setAttribute("download", "broadcasts.csv");
 							
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;

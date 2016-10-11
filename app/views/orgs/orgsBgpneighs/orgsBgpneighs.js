@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.orgsBgpneighs', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgsBgpneighs', {
-    templateUrl: 'views/orgsBgpneighs/orgsBgpneighs.html',
+  $routeProvider.when('/orgs/orgsBgpneighs', {
+  	templateUrl: 'views/orgs/orgsBgpneighs/orgsBgpneighs.html',
     controller: 'orgsBgpneighsCtrl'
   });
 }])
 .controller('orgsBgpneighsCtrl',
-		[ '$scope', 'orgsBgpneighsApi', '$location', 'orgsBgpneighsSelectionSvc', '$timeout',
-			function($scope, orgsBgpneighsApi, $location, orgsBgpneighsSelectionSvc, $timeout) {
+		[ '$scope', 'orgsBgpneighsApi', '$location', 'orgsBgpneighsSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
+			function($scope, orgsBgpneighsApi, $location, orgsBgpneighsSelectionSvc, $timeout  , orgsSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.orgsBgpneighs = orgsBgpneighsApi.query();
+				
+				let id = orgsSelectionSvc.getorgs();
+				console.log(id);
+				$scope.orgsBgpneighs = orgsBgpneighsApi.query({ orgid: id.id });
+				
 				$scope.orgsBgpneighsSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -48,7 +52,7 @@ angular.module('myApp.orgsBgpneighs', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsBgpneighsApi.save(newObject).$promise.then(function(data){
+    					orgsBgpneighsApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
     						$scope.orgsBgpneighs.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -69,6 +73,8 @@ angular.module('myApp.orgsBgpneighs', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsBgpneighsSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							orgsBgpneighsSelectionSvc.setorgsBgpneighs(row.entity);
 						}
         				},500);
 				}
@@ -147,7 +153,7 @@ angular.module('myApp.orgsBgpneighs', ['ngRoute'])
 					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("org,node,name,ipv4,remote_as,password,keepalive_time,hold_time\n");
 					var dlAnchorElem = document.getElementById('download');
 					dlAnchorElem.setAttribute("href",     dataStr     );
-					dlAnchorElem.setAttribute("download", "org.csv");
+					dlAnchorElem.setAttribute("download", "bgpneighs.csv");
 							
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;

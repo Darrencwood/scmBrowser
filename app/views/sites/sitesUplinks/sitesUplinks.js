@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.sitesUplinks', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/sitesUplinks', {
-    templateUrl: 'views/sitesUplinks/sitesUplinks.html',
+  $routeProvider.when('/sites/sitesUplinks', {
+  	templateUrl: 'views/sites/sitesUplinks/sitesUplinks.html',
     controller: 'sitesUplinksCtrl'
   });
 }])
 .controller('sitesUplinksCtrl',
-		[ '$scope', 'sitesUplinksApi', '$location', 'sitesUplinksSelectionSvc', '$timeout',
-			function($scope, sitesUplinksApi, $location, sitesUplinksSelectionSvc, $timeout) {
+		[ '$scope', 'sitesUplinksApi', '$location', 'sitesUplinksSelectionSvc', '$timeout',  'sitesSelectionSvc' , 
+			function($scope, sitesUplinksApi, $location, sitesUplinksSelectionSvc, $timeout  , sitesSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.sitesUplinks = sitesUplinksApi.query();
+				
+				let id = sitesSelectionSvc.getsites();
+				console.log(id);
+				$scope.sitesUplinks = sitesUplinksApi.query({ siteid: id.id });
+				
 				$scope.sitesUplinksSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -59,7 +63,7 @@ angular.module('myApp.sitesUplinks', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					sitesUplinksApi.save(newObject).$promise.then(function(data){
+    					sitesUplinksApi.save({ siteid: id.id }, newObject).$promise.then(function(data){
     						$scope.sitesUplinks.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -80,6 +84,8 @@ angular.module('myApp.sitesUplinks', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.sitesUplinksSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							sitesUplinksSelectionSvc.setsitesUplinks(row.entity);
 						}
         				},500);
 				}

@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.orgsSites', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgsSites', {
-    templateUrl: 'views/orgsSites/orgsSites.html',
+  $routeProvider.when('/orgs/orgsSites', {
+  	templateUrl: 'views/orgs/orgsSites/orgsSites.html',
     controller: 'orgsSitesCtrl'
   });
 }])
 .controller('orgsSitesCtrl',
-		[ '$scope', 'orgsSitesApi', '$location', 'orgsSitesSelectionSvc', '$timeout',
-			function($scope, orgsSitesApi, $location, orgsSitesSelectionSvc, $timeout) {
+		[ '$scope', 'orgsSitesApi', '$location', 'orgsSitesSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
+			function($scope, orgsSitesApi, $location, orgsSitesSelectionSvc, $timeout  , orgsSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.orgsSites = orgsSitesApi.query();
+				
+				let id = orgsSelectionSvc.getorgs();
+				console.log(id);
+				$scope.orgsSites = orgsSitesApi.query({ orgid: id.id });
+				
 				$scope.orgsSitesSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -52,7 +56,7 @@ angular.module('myApp.orgsSites', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsSitesApi.save(newObject).$promise.then(function(data){
+    					orgsSitesApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
     						$scope.orgsSites.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -73,6 +77,8 @@ angular.module('myApp.orgsSites', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsSitesSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							orgsSitesSelectionSvc.setorgsSites(row.entity);
 						}
         				},500);
 				}
@@ -168,10 +174,10 @@ angular.module('myApp.orgsSites', ['ngRoute'])
     		    		$scope.gridApi.importer.importFile(files[0]);
 					});
 					
-					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("name,org,longname,uplinks,networks,street_address,city,country,timezone,size\n");
+					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("name,longname,city\nTestSite1,This is test site #1, San Antonio");
 					var dlAnchorElem = document.getElementById('download');
 					dlAnchorElem.setAttribute("href",     dataStr     );
-					dlAnchorElem.setAttribute("download", "org.csv");
+					dlAnchorElem.setAttribute("download", "sites.csv");
 							
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;

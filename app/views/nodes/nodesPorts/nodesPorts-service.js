@@ -15,10 +15,10 @@ angular.module('myApp').factory('nodesPortsApi', function($resource) {
 });
 
 angular.module('myApp').service('nodesPortsSelectionSvc', function() {
-  this.nodesPorts = { id: ''};
-  this.setnodesPorts = function(id){ 
-  	console.log('setting current nodesPorts to: ' + id);
-    this.nodesPorts.id = id;
+  this.nodesPorts = { };
+  this.setnodesPorts = function(obj){ 
+  	console.log('setting current nodesPorts to: ' + obj.id);
+    this.nodesPorts = obj;
   }
   this.getnodesPorts = function(){
     return this.nodesPorts;

@@ -2,17 +2,19 @@
 angular.module('myApp.orgs', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/orgs', {
-    templateUrl: 'views/orgs/orgs.html',
+  	templateUrl: 'views/orgs/orgs.html',
     controller: 'orgsCtrl'
   });
 }])
 .controller('orgsCtrl',
-		[ '$scope', 'orgsApi', '$location', 'orgsSelectionSvc', '$timeout',
-			function($scope, orgsApi, $location, orgsSelectionSvc, $timeout) {
+		[ '$scope', 'orgsApi', '$location', 'orgsSelectionSvc', '$timeout', 
+			function($scope, orgsApi, $location, orgsSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.orgs = orgsApi.query();
+				
 				$scope.orgsSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -72,6 +74,8 @@ angular.module('myApp.orgs', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							orgsSelectionSvc.setorgs(row.entity);
 						}
         				},500);
 				}
@@ -169,7 +173,7 @@ angular.module('myApp.orgs', ['ngRoute'])
 					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("name,longname,city\nTestOrg, Test Organization, San Antonio");
 					var dlAnchorElem = document.getElementById('download');
 					dlAnchorElem.setAttribute("href",     dataStr     );
-					dlAnchorElem.setAttribute("download", "org.csv");
+					dlAnchorElem.setAttribute("download", ":orgid.csv");
 							
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;

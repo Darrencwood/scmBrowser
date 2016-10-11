@@ -15,10 +15,10 @@ angular.module('myApp').factory('orgsWansApi', function($resource) {
 });
 
 angular.module('myApp').service('orgsWansSelectionSvc', function() {
-  this.orgsWans = { id: ''};
-  this.setorgsWans = function(id){ 
-  	console.log('setting current orgsWans to: ' + id);
-    this.orgsWans.id = id;
+  this.orgsWans = { };
+  this.setorgsWans = function(obj){ 
+  	console.log('setting current orgsWans to: ' + obj.id);
+    this.orgsWans = obj;
   }
   this.getorgsWans = function(){
     return this.orgsWans;

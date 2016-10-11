@@ -2,17 +2,19 @@
 angular.module('myApp.broadcasts', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/broadcasts', {
-    templateUrl: 'views/broadcasts/broadcasts.html',
+  	templateUrl: 'views/broadcasts/broadcasts.html',
     controller: 'broadcastsCtrl'
   });
 }])
 .controller('broadcastsCtrl',
-		[ '$scope', 'broadcastsApi', '$location', 'broadcastsSelectionSvc', '$timeout',
-			function($scope, broadcastsApi, $location, broadcastsSelectionSvc, $timeout) {
+		[ '$scope', 'broadcastsApi', '$location', 'broadcastsSelectionSvc', '$timeout', 
+			function($scope, broadcastsApi, $location, broadcastsSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.broadcasts = broadcastsApi.query();
+				
 				$scope.broadcastsSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -71,6 +73,8 @@ angular.module('myApp.broadcasts', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.broadcastsSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							broadcastsSelectionSvc.setbroadcasts(row.entity);
 						}
         				},500);
 				}

@@ -15,10 +15,10 @@ angular.module('myApp').factory('ssidsApi', function($resource) {
 });
 
 angular.module('myApp').service('ssidsSelectionSvc', function() {
-  this.ssids = { id: ''};
-  this.setssids = function(id){ 
-  	console.log('setting current ssids to: ' + id);
-    this.ssids.id = id;
+  this.ssids = { };
+  this.setssids = function(obj){ 
+  	console.log('setting current ssids to: ' + obj.id);
+    this.ssids = obj;
   }
   this.getssids = function(){
     return this.ssids;

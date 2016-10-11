@@ -2,17 +2,19 @@
 angular.module('myApp.endpoints', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/endpoints', {
-    templateUrl: 'views/endpoints/endpoints.html',
+  	templateUrl: 'views/endpoints/endpoints.html',
     controller: 'endpointsCtrl'
   });
 }])
 .controller('endpointsCtrl',
-		[ '$scope', 'endpointsApi', '$location', 'endpointsSelectionSvc', '$timeout',
-			function($scope, endpointsApi, $location, endpointsSelectionSvc, $timeout) {
+		[ '$scope', 'endpointsApi', '$location', 'endpointsSelectionSvc', '$timeout', 
+			function($scope, endpointsApi, $location, endpointsSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.endpoints = endpointsApi.query();
+				
 				$scope.endpointsSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -68,6 +70,8 @@ angular.module('myApp.endpoints', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.endpointsSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							endpointsSelectionSvc.setendpoints(row.entity);
 						}
         				},500);
 				}

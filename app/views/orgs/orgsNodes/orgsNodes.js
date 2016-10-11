@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.orgsNodes', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgsNodes', {
-    templateUrl: 'views/orgsNodes/orgsNodes.html',
+  $routeProvider.when('/orgs/orgsNodes', {
+  	templateUrl: 'views/orgs/orgsNodes/orgsNodes.html',
     controller: 'orgsNodesCtrl'
   });
 }])
 .controller('orgsNodesCtrl',
-		[ '$scope', 'orgsNodesApi', '$location', 'orgsNodesSelectionSvc', '$timeout',
-			function($scope, orgsNodesApi, $location, orgsNodesSelectionSvc, $timeout) {
+		[ '$scope', 'orgsNodesApi', '$location', 'orgsNodesSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
+			function($scope, orgsNodesApi, $location, orgsNodesSelectionSvc, $timeout  , orgsSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.orgsNodes = orgsNodesApi.query();
+				
+				let id = orgsSelectionSvc.getorgs();
+				console.log(id);
+				$scope.orgsNodes = orgsNodesApi.query({ orgid: id.id });
+				
 				$scope.orgsNodesSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -59,7 +63,7 @@ angular.module('myApp.orgsNodes', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsNodesApi.save(newObject).$promise.then(function(data){
+    					orgsNodesApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
     						$scope.orgsNodes.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -80,6 +84,8 @@ angular.module('myApp.orgsNodes', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsNodesSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							orgsNodesSelectionSvc.setorgsNodes(row.entity);
 						}
         				},500);
 				}
@@ -213,7 +219,7 @@ angular.module('myApp.orgsNodes', ['ngRoute'])
 					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("site,org,local_as,router_id,serial,zones,radios,realm,location,ports,uplinks,inventory_version_cc,disable_stp,license,model,sitelink\n");
 					var dlAnchorElem = document.getElementById('download');
 					dlAnchorElem.setAttribute("href",     dataStr     );
-					dlAnchorElem.setAttribute("download", "org.csv");
+					dlAnchorElem.setAttribute("download", "nodes.csv");
 							
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;

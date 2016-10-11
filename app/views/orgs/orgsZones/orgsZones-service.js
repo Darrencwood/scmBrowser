@@ -15,10 +15,10 @@ angular.module('myApp').factory('orgsZonesApi', function($resource) {
 });
 
 angular.module('myApp').service('orgsZonesSelectionSvc', function() {
-  this.orgsZones = { id: ''};
-  this.setorgsZones = function(id){ 
-  	console.log('setting current orgsZones to: ' + id);
-    this.orgsZones.id = id;
+  this.orgsZones = { };
+  this.setorgsZones = function(obj){ 
+  	console.log('setting current orgsZones to: ' + obj.id);
+    this.orgsZones = obj;
   }
   this.getorgsZones = function(){
     return this.orgsZones;

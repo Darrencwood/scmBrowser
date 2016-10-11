@@ -15,10 +15,10 @@ angular.module('myApp').factory('sitesClustersApi', function($resource) {
 });
 
 angular.module('myApp').service('sitesClustersSelectionSvc', function() {
-  this.sitesClusters = { id: ''};
-  this.setsitesClusters = function(id){ 
-  	console.log('setting current sitesClusters to: ' + id);
-    this.sitesClusters.id = id;
+  this.sitesClusters = { };
+  this.setsitesClusters = function(obj){ 
+  	console.log('setting current sitesClusters to: ' + obj.id);
+    this.sitesClusters = obj;
   }
   this.getsitesClusters = function(){
     return this.sitesClusters;

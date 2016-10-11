@@ -15,10 +15,10 @@ angular.module('myApp').factory('orgsDcuplinksApi', function($resource) {
 });
 
 angular.module('myApp').service('orgsDcuplinksSelectionSvc', function() {
-  this.orgsDcuplinks = { id: ''};
-  this.setorgsDcuplinks = function(id){ 
-  	console.log('setting current orgsDcuplinks to: ' + id);
-    this.orgsDcuplinks.id = id;
+  this.orgsDcuplinks = { };
+  this.setorgsDcuplinks = function(obj){ 
+  	console.log('setting current orgsDcuplinks to: ' + obj.id);
+    this.orgsDcuplinks = obj;
   }
   this.getorgsDcuplinks = function(){
     return this.orgsDcuplinks;

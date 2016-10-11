@@ -18,10 +18,10 @@ angular.module('myApp').factory('{{name}}Api', function($resource) {
 });
 
 angular.module('myApp').service('{{name}}SelectionSvc', function() {
-  this.{{name}} = { id: ''};
-  this.set{{name}} = function(id){ 
-  	console.log('setting current {{name}} to: ' + id);
-    this.{{name}}.id = id;
+  this.{{name}} = { };
+  this.set{{name}} = function(obj){ 
+  	console.log('setting current {{name}} to: ' + obj.{{selectedSubmenu}});
+    this.{{name}} = obj;
   }
   this.get{{name}} = function(){
     return this.{{name}};

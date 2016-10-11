@@ -15,10 +15,10 @@ angular.module('myApp').factory('orgsCustom_appsApi', function($resource) {
 });
 
 angular.module('myApp').service('orgsCustom_appsSelectionSvc', function() {
-  this.orgsCustom_apps = { id: ''};
-  this.setorgsCustom_apps = function(id){ 
-  	console.log('setting current orgsCustom_apps to: ' + id);
-    this.orgsCustom_apps.id = id;
+  this.orgsCustom_apps = { };
+  this.setorgsCustom_apps = function(obj){ 
+  	console.log('setting current orgsCustom_apps to: ' + obj.id);
+    this.orgsCustom_apps = obj;
   }
   this.getorgsCustom_apps = function(){
     return this.orgsCustom_apps;

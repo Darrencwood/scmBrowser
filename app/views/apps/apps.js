@@ -2,17 +2,19 @@
 angular.module('myApp.apps', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/apps', {
-    templateUrl: 'views/apps/apps.html',
+  	templateUrl: 'views/apps/apps.html',
     controller: 'appsCtrl'
   });
 }])
 .controller('appsCtrl',
-		[ '$scope', 'appsApi', '$location', 'appsSelectionSvc', '$timeout',
-			function($scope, appsApi, $location, appsSelectionSvc, $timeout) {
+		[ '$scope', 'appsApi', '$location', 'appsSelectionSvc', '$timeout', 
+			function($scope, appsApi, $location, appsSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.apps = appsApi.query();
+				
 				$scope.appsSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -65,6 +67,8 @@ angular.module('myApp.apps', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.appsSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							appsSelectionSvc.setapps(row.entity);
 						}
         				},500);
 				}

@@ -1,18 +1,20 @@
 'use strict';
 angular.module('myApp.customApps', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/customApps', {
-    templateUrl: 'views/customApps/customApps.html',
+  $routeProvider.when('/custom_apps', {
+  	templateUrl: 'views/custom_apps/customApps.html',
     controller: 'customAppsCtrl'
   });
 }])
 .controller('customAppsCtrl',
-		[ '$scope', 'customAppsApi', '$location', 'customAppsSelectionSvc', '$timeout',
-			function($scope, customAppsApi, $location, customAppsSelectionSvc, $timeout) {
+		[ '$scope', 'customAppsApi', '$location', 'customAppsSelectionSvc', '$timeout', 
+			function($scope, customAppsApi, $location, customAppsSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.customApps = customAppsApi.query();
+				
 				$scope.customAppsSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -78,6 +80,8 @@ angular.module('myApp.customApps', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.customAppsSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							customAppsSelectionSvc.setcustomApps(row.entity);
 						}
         				},500);
 				}

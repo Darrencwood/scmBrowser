@@ -15,10 +15,10 @@ angular.module('myApp').factory('orgsUplinksApi', function($resource) {
 });
 
 angular.module('myApp').service('orgsUplinksSelectionSvc', function() {
-  this.orgsUplinks = { id: ''};
-  this.setorgsUplinks = function(id){ 
-  	console.log('setting current orgsUplinks to: ' + id);
-    this.orgsUplinks.id = id;
+  this.orgsUplinks = { };
+  this.setorgsUplinks = function(obj){ 
+  	console.log('setting current orgsUplinks to: ' + obj.id);
+    this.orgsUplinks = obj;
   }
   this.getorgsUplinks = function(){
     return this.orgsUplinks;

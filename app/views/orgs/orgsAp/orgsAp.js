@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.orgsAp', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgsAp', {
-    templateUrl: 'views/orgsAp/orgsAp.html',
+  $routeProvider.when('/orgs/orgsAp', {
+  	templateUrl: 'views/orgs/orgsAp/orgsAp.html',
     controller: 'orgsApCtrl'
   });
 }])
 .controller('orgsApCtrl',
-		[ '$scope', 'orgsApApi', '$location', 'orgsApSelectionSvc', '$timeout',
-			function($scope, orgsApApi, $location, orgsApSelectionSvc, $timeout) {
+		[ '$scope', 'orgsApApi', '$location', 'orgsApSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
+			function($scope, orgsApApi, $location, orgsApSelectionSvc, $timeout  , orgsSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.orgsAp = orgsApApi.query();
+				
+				let id = orgsSelectionSvc.getorgs();
+				console.log(id);
+				$scope.orgsAp = orgsApApi.query({ orgid: id.id });
+				
 				$scope.orgsApSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -59,7 +63,7 @@ angular.module('myApp.orgsAp', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsApApi.save(newObject).$promise.then(function(data){
+    					orgsApApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
     						$scope.orgsAp.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -80,6 +84,8 @@ angular.module('myApp.orgsAp', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsApSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							orgsApSelectionSvc.setorgsAp(row.entity);
 						}
         				},500);
 				}
@@ -213,7 +219,7 @@ angular.module('myApp.orgsAp', ['ngRoute'])
 					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("site,org,local_as,router_id,serial,zones,radios,realm,location,ports,uplinks,inventory_version_cc,disable_stp,license,model,sitelink\n");
 					var dlAnchorElem = document.getElementById('download');
 					dlAnchorElem.setAttribute("href",     dataStr     );
-					dlAnchorElem.setAttribute("download", "org.csv");
+					dlAnchorElem.setAttribute("download", "ap.csv");
 							
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;

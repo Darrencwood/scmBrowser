@@ -15,10 +15,10 @@ angular.module('myApp').factory('orgsBroadcastsApi', function($resource) {
 });
 
 angular.module('myApp').service('orgsBroadcastsSelectionSvc', function() {
-  this.orgsBroadcasts = { id: ''};
-  this.setorgsBroadcasts = function(id){ 
-  	console.log('setting current orgsBroadcasts to: ' + id);
-    this.orgsBroadcasts.id = id;
+  this.orgsBroadcasts = { };
+  this.setorgsBroadcasts = function(obj){ 
+  	console.log('setting current orgsBroadcasts to: ' + obj.id);
+    this.orgsBroadcasts = obj;
   }
   this.getorgsBroadcasts = function(){
     return this.orgsBroadcasts;

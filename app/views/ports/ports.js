@@ -2,17 +2,19 @@
 angular.module('myApp.ports', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/ports', {
-    templateUrl: 'views/ports/ports.html',
+  	templateUrl: 'views/ports/ports.html',
     controller: 'portsCtrl'
   });
 }])
 .controller('portsCtrl',
-		[ '$scope', 'portsApi', '$location', 'portsSelectionSvc', '$timeout',
-			function($scope, portsApi, $location, portsSelectionSvc, $timeout) {
+		[ '$scope', 'portsApi', '$location', 'portsSelectionSvc', '$timeout', 
+			function($scope, portsApi, $location, portsSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.ports = portsApi.query();
+				
 				$scope.portsSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -81,6 +83,8 @@ angular.module('myApp.ports', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.portsSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							portsSelectionSvc.setports(row.entity);
 						}
         				},500);
 				}

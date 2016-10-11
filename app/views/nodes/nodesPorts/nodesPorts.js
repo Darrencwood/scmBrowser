@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.nodesPorts', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/nodesPorts', {
-    templateUrl: 'views/nodesPorts/nodesPorts.html',
+  $routeProvider.when('/nodes/nodesPorts', {
+  	templateUrl: 'views/nodes/nodesPorts/nodesPorts.html',
     controller: 'nodesPortsCtrl'
   });
 }])
 .controller('nodesPortsCtrl',
-		[ '$scope', 'nodesPortsApi', '$location', 'nodesPortsSelectionSvc', '$timeout',
-			function($scope, nodesPortsApi, $location, nodesPortsSelectionSvc, $timeout) {
+		[ '$scope', 'nodesPortsApi', '$location', 'nodesPortsSelectionSvc', '$timeout',  'nodesSelectionSvc' , 
+			function($scope, nodesPortsApi, $location, nodesPortsSelectionSvc, $timeout  , nodesSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.nodesPorts = nodesPortsApi.query();
+				
+				let id = nodesSelectionSvc.getnodes();
+				console.log(id);
+				$scope.nodesPorts = nodesPortsApi.query({ nodeid: id.id });
+				
 				$scope.nodesPortsSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -60,7 +64,7 @@ angular.module('myApp.nodesPorts', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					nodesPortsApi.save(newObject).$promise.then(function(data){
+    					nodesPortsApi.save({ nodeid: id.id }, newObject).$promise.then(function(data){
     						$scope.nodesPorts.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -81,6 +85,8 @@ angular.module('myApp.nodesPorts', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.nodesPortsSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							nodesPortsSelectionSvc.setnodesPorts(row.entity);
 						}
         				},500);
 				}

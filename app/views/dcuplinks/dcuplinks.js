@@ -2,17 +2,19 @@
 angular.module('myApp.dcuplinks', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/dcuplinks', {
-    templateUrl: 'views/dcuplinks/dcuplinks.html',
+  	templateUrl: 'views/dcuplinks/dcuplinks.html',
     controller: 'dcuplinksCtrl'
   });
 }])
 .controller('dcuplinksCtrl',
-		[ '$scope', 'dcuplinksApi', '$location', 'dcuplinksSelectionSvc', '$timeout',
-			function($scope, dcuplinksApi, $location, dcuplinksSelectionSvc, $timeout) {
+		[ '$scope', 'dcuplinksApi', '$location', 'dcuplinksSelectionSvc', '$timeout', 
+			function($scope, dcuplinksApi, $location, dcuplinksSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.dcuplinks = dcuplinksApi.query();
+				
 				$scope.dcuplinksSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -69,6 +71,8 @@ angular.module('myApp.dcuplinks', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.dcuplinksSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							dcuplinksSelectionSvc.setdcuplinks(row.entity);
 						}
         				},500);
 				}

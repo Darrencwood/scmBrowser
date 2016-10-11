@@ -2,17 +2,19 @@
 angular.module('myApp.ssids', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/ssids', {
-    templateUrl: 'views/ssids/ssids.html',
+  	templateUrl: 'views/ssids/ssids.html',
     controller: 'ssidsCtrl'
   });
 }])
 .controller('ssidsCtrl',
-		[ '$scope', 'ssidsApi', '$location', 'ssidsSelectionSvc', '$timeout',
-			function($scope, ssidsApi, $location, ssidsSelectionSvc, $timeout) {
+		[ '$scope', 'ssidsApi', '$location', 'ssidsSelectionSvc', '$timeout', 
+			function($scope, ssidsApi, $location, ssidsSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.ssids = ssidsApi.query();
+				
 				$scope.ssidsSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -71,6 +73,8 @@ angular.module('myApp.ssids', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.ssidsSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							ssidsSelectionSvc.setssids(row.entity);
 						}
         				},500);
 				}

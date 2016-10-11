@@ -2,17 +2,19 @@
 angular.module('myApp.zones', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/zones', {
-    templateUrl: 'views/zones/zones.html',
+  	templateUrl: 'views/zones/zones.html',
     controller: 'zonesCtrl'
   });
 }])
 .controller('zonesCtrl',
-		[ '$scope', 'zonesApi', '$location', 'zonesSelectionSvc', '$timeout',
-			function($scope, zonesApi, $location, zonesSelectionSvc, $timeout) {
+		[ '$scope', 'zonesApi', '$location', 'zonesSelectionSvc', '$timeout', 
+			function($scope, zonesApi, $location, zonesSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.zones = zonesApi.query();
+				
 				$scope.zonesSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -74,6 +76,8 @@ angular.module('myApp.zones', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.zonesSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							zonesSelectionSvc.setzones(row.entity);
 						}
         				},500);
 				}

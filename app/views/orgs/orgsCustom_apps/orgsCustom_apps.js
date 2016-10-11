@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.orgsCustom_apps', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgsCustom_apps', {
-    templateUrl: 'views/orgsCustom_apps/orgsCustom_apps.html',
+  $routeProvider.when('/orgs/orgsCustom_apps', {
+  	templateUrl: 'views/orgs/orgsCustom_apps/orgsCustom_apps.html',
     controller: 'orgsCustom_appsCtrl'
   });
 }])
 .controller('orgsCustom_appsCtrl',
-		[ '$scope', 'orgsCustom_appsApi', '$location', 'orgsCustom_appsSelectionSvc', '$timeout',
-			function($scope, orgsCustom_appsApi, $location, orgsCustom_appsSelectionSvc, $timeout) {
+		[ '$scope', 'orgsCustom_appsApi', '$location', 'orgsCustom_appsSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
+			function($scope, orgsCustom_appsApi, $location, orgsCustom_appsSelectionSvc, $timeout  , orgsSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.orgsCustom_apps = orgsCustom_appsApi.query();
+				
+				let id = orgsSelectionSvc.getorgs();
+				console.log(id);
+				$scope.orgsCustom_apps = orgsCustom_appsApi.query({ orgid: id.id });
+				
 				$scope.orgsCustom_appsSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -57,7 +61,7 @@ angular.module('myApp.orgsCustom_apps', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsCustom_appsApi.save(newObject).$promise.then(function(data){
+    					orgsCustom_appsApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
     						$scope.orgsCustom_apps.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -78,6 +82,8 @@ angular.module('myApp.orgsCustom_apps', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsCustom_appsSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							orgsCustom_appsSelectionSvc.setorgsCustom_apps(row.entity);
 						}
         				},500);
 				}
@@ -201,7 +207,7 @@ angular.module('myApp.orgsCustom_apps', ['ngRoute'])
 					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("appid,desc,name,appgrps,devgrp,org,dnats,device_proto,type,ipport,httphost,device,segments,device_ports\n");
 					var dlAnchorElem = document.getElementById('download');
 					dlAnchorElem.setAttribute("href",     dataStr     );
-					dlAnchorElem.setAttribute("download", "org.csv");
+					dlAnchorElem.setAttribute("download", "custom_apps.csv");
 							
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;

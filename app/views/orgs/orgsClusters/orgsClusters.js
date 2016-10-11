@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.orgsClusters', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgsClusters', {
-    templateUrl: 'views/orgsClusters/orgsClusters.html',
+  $routeProvider.when('/orgs/orgsClusters', {
+  	templateUrl: 'views/orgs/orgsClusters/orgsClusters.html',
     controller: 'orgsClustersCtrl'
   });
 }])
 .controller('orgsClustersCtrl',
-		[ '$scope', 'orgsClustersApi', '$location', 'orgsClustersSelectionSvc', '$timeout',
-			function($scope, orgsClustersApi, $location, orgsClustersSelectionSvc, $timeout) {
+		[ '$scope', 'orgsClustersApi', '$location', 'orgsClustersSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
+			function($scope, orgsClustersApi, $location, orgsClustersSelectionSvc, $timeout  , orgsSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.orgsClusters = orgsClustersApi.query();
+				
+				let id = orgsSelectionSvc.getorgs();
+				console.log(id);
+				$scope.orgsClusters = orgsClustersApi.query({ orgid: id.id });
+				
 				$scope.orgsClustersSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -55,7 +59,7 @@ angular.module('myApp.orgsClusters', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsClustersApi.save(newObject).$promise.then(function(data){
+    					orgsClustersApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
     						$scope.orgsClusters.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -76,6 +80,8 @@ angular.module('myApp.orgsClusters', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsClustersSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							orgsClustersSelectionSvc.setorgsClusters(row.entity);
 						}
         				},500);
 				}
@@ -189,7 +195,7 @@ angular.module('myApp.orgsClusters', ['ngRoute'])
 					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("site,org,name,failover,members,dcuplinks,url,bgp_graceful_restart,bgp_tep_community_type,bgp_tep_community,bgp_branch_community_type,bgp_branch_community,bgp_deployment_mode,bgp_subnet_splitting\n");
 					var dlAnchorElem = document.getElementById('download');
 					dlAnchorElem.setAttribute("href",     dataStr     );
-					dlAnchorElem.setAttribute("download", "org.csv");
+					dlAnchorElem.setAttribute("download", "clusters.csv");
 							
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;

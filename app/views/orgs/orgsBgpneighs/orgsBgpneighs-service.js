@@ -15,10 +15,10 @@ angular.module('myApp').factory('orgsBgpneighsApi', function($resource) {
 });
 
 angular.module('myApp').service('orgsBgpneighsSelectionSvc', function() {
-  this.orgsBgpneighs = { id: ''};
-  this.setorgsBgpneighs = function(id){ 
-  	console.log('setting current orgsBgpneighs to: ' + id);
-    this.orgsBgpneighs.id = id;
+  this.orgsBgpneighs = { };
+  this.setorgsBgpneighs = function(obj){ 
+  	console.log('setting current orgsBgpneighs to: ' + obj.id);
+    this.orgsBgpneighs = obj;
   }
   this.getorgsBgpneighs = function(){
     return this.orgsBgpneighs;

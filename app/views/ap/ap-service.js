@@ -15,10 +15,10 @@ angular.module('myApp').factory('apApi', function($resource) {
 });
 
 angular.module('myApp').service('apSelectionSvc', function() {
-  this.ap = { id: ''};
-  this.setap = function(id){ 
-  	console.log('setting current ap to: ' + id);
-    this.ap.id = id;
+  this.ap = { };
+  this.setap = function(obj){ 
+  	console.log('setting current ap to: ' + obj.id);
+    this.ap = obj;
   }
   this.getap = function(){
     return this.ap;

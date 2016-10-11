@@ -2,17 +2,19 @@
 angular.module('myApp.ap', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/ap', {
-    templateUrl: 'views/ap/ap.html',
+  	templateUrl: 'views/ap/ap.html',
     controller: 'apCtrl'
   });
 }])
 .controller('apCtrl',
-		[ '$scope', 'apApi', '$location', 'apSelectionSvc', '$timeout',
-			function($scope, apApi, $location, apSelectionSvc, $timeout) {
+		[ '$scope', 'apApi', '$location', 'apSelectionSvc', '$timeout', 
+			function($scope, apApi, $location, apSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.ap = apApi.query();
+				
 				$scope.apSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -80,6 +82,8 @@ angular.module('myApp.ap', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.apSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							apSelectionSvc.setap(row.entity);
 						}
         				},500);
 				}

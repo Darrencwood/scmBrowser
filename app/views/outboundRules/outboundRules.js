@@ -1,18 +1,20 @@
 'use strict';
 angular.module('myApp.outboundRules', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/outboundRules', {
-    templateUrl: 'views/outboundRules/outboundRules.html',
+  $routeProvider.when('/outbound_rules', {
+  	templateUrl: 'views/outbound_rules/outboundRules.html',
     controller: 'outboundRulesCtrl'
   });
 }])
 .controller('outboundRulesCtrl',
-		[ '$scope', 'outboundRulesApi', '$location', 'outboundRulesSelectionSvc', '$timeout',
-			function($scope, outboundRulesApi, $location, outboundRulesSelectionSvc, $timeout) {
+		[ '$scope', 'outboundRulesApi', '$location', 'outboundRulesSelectionSvc', '$timeout', 
+			function($scope, outboundRulesApi, $location, outboundRulesSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.outboundRules = outboundRulesApi.query();
+				
 				$scope.outboundRulesSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -75,6 +77,8 @@ angular.module('myApp.outboundRules', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.outboundRulesSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							outboundRulesSelectionSvc.setoutboundRules(row.entity);
 						}
         				},500);
 				}

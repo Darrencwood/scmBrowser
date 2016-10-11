@@ -2,17 +2,19 @@
 angular.module('myApp.users', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/users', {
-    templateUrl: 'views/users/users.html',
+  	templateUrl: 'views/users/users.html',
     controller: 'usersCtrl'
   });
 }])
 .controller('usersCtrl',
-		[ '$scope', 'usersApi', '$location', 'usersSelectionSvc', '$timeout',
-			function($scope, usersApi, $location, usersSelectionSvc, $timeout) {
+		[ '$scope', 'usersApi', '$location', 'usersSelectionSvc', '$timeout', 
+			function($scope, usersApi, $location, usersSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.users = usersApi.query();
+				
 				$scope.usersSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -73,6 +75,8 @@ angular.module('myApp.users', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.usersSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							usersSelectionSvc.setusers(row.entity);
 						}
         				},500);
 				}

@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.sitesClusters', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/sitesClusters', {
-    templateUrl: 'views/sitesClusters/sitesClusters.html',
+  $routeProvider.when('/sites/sitesClusters', {
+  	templateUrl: 'views/sites/sitesClusters/sitesClusters.html',
     controller: 'sitesClustersCtrl'
   });
 }])
 .controller('sitesClustersCtrl',
-		[ '$scope', 'sitesClustersApi', '$location', 'sitesClustersSelectionSvc', '$timeout',
-			function($scope, sitesClustersApi, $location, sitesClustersSelectionSvc, $timeout) {
+		[ '$scope', 'sitesClustersApi', '$location', 'sitesClustersSelectionSvc', '$timeout',  'sitesSelectionSvc' , 
+			function($scope, sitesClustersApi, $location, sitesClustersSelectionSvc, $timeout  , sitesSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.sitesClusters = sitesClustersApi.query();
+				
+				let id = sitesSelectionSvc.getsites();
+				console.log(id);
+				$scope.sitesClusters = sitesClustersApi.query({ siteid: id.id });
+				
 				$scope.sitesClustersSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -55,7 +59,7 @@ angular.module('myApp.sitesClusters', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					sitesClustersApi.save(newObject).$promise.then(function(data){
+    					sitesClustersApi.save({ siteid: id.id }, newObject).$promise.then(function(data){
     						$scope.sitesClusters.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -76,6 +80,8 @@ angular.module('myApp.sitesClusters', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.sitesClustersSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							sitesClustersSelectionSvc.setsitesClusters(row.entity);
 						}
         				},500);
 				}

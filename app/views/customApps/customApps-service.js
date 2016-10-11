@@ -15,10 +15,10 @@ angular.module('myApp').factory('customAppsApi', function($resource) {
 });
 
 angular.module('myApp').service('customAppsSelectionSvc', function() {
-  this.customApps = { id: ''};
-  this.setcustomApps = function(id){ 
-  	console.log('setting current customApps to: ' + id);
-    this.customApps.id = id;
+  this.customApps = { };
+  this.setcustomApps = function(obj){ 
+  	console.log('setting current customApps to: ' + obj.id);
+    this.customApps = obj;
   }
   this.getcustomApps = function(){
     return this.customApps;

@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.orgsDevices', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgsDevices', {
-    templateUrl: 'views/orgsDevices/orgsDevices.html',
+  $routeProvider.when('/orgs/orgsDevices', {
+  	templateUrl: 'views/orgs/orgsDevices/orgsDevices.html',
     controller: 'orgsDevicesCtrl'
   });
 }])
 .controller('orgsDevicesCtrl',
-		[ '$scope', 'orgsDevicesApi', '$location', 'orgsDevicesSelectionSvc', '$timeout',
-			function($scope, orgsDevicesApi, $location, orgsDevicesSelectionSvc, $timeout) {
+		[ '$scope', 'orgsDevicesApi', '$location', 'orgsDevicesSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
+			function($scope, orgsDevicesApi, $location, orgsDevicesSelectionSvc, $timeout  , orgsSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.orgsDevices = orgsDevicesApi.query();
+				
+				let id = orgsSelectionSvc.getorgs();
+				console.log(id);
+				$scope.orgsDevices = orgsDevicesApi.query({ orgid: id.id });
+				
 				$scope.orgsDevicesSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -52,7 +56,7 @@ angular.module('myApp.orgsDevices', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsDevicesApi.save(newObject).$promise.then(function(data){
+    					orgsDevicesApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
     						$scope.orgsDevices.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -73,6 +77,8 @@ angular.module('myApp.orgsDevices', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsDevicesSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							orgsDevicesSelectionSvc.setorgsDevices(row.entity);
 						}
         				},500);
 				}
@@ -171,7 +177,7 @@ angular.module('myApp.orgsDevices', ['ngRoute'])
 					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("user,mac,info,ipv4,ipv6,org,devgrps,tags,net,endpoint\n");
 					var dlAnchorElem = document.getElementById('download');
 					dlAnchorElem.setAttribute("href",     dataStr     );
-					dlAnchorElem.setAttribute("download", "org.csv");
+					dlAnchorElem.setAttribute("download", "devices.csv");
 							
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;

@@ -15,10 +15,10 @@ angular.module('myApp').factory('outboundRulesApi', function($resource) {
 });
 
 angular.module('myApp').service('outboundRulesSelectionSvc', function() {
-  this.outboundRules = { id: ''};
-  this.setoutboundRules = function(id){ 
-  	console.log('setting current outboundRules to: ' + id);
-    this.outboundRules.id = id;
+  this.outboundRules = { };
+  this.setoutboundRules = function(obj){ 
+  	console.log('setting current outboundRules to: ' + obj.id);
+    this.outboundRules = obj;
   }
   this.getoutboundRules = function(){
     return this.outboundRules;

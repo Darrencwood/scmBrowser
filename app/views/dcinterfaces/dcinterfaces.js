@@ -2,17 +2,19 @@
 angular.module('myApp.dcinterfaces', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/dcinterfaces', {
-    templateUrl: 'views/dcinterfaces/dcinterfaces.html',
+  	templateUrl: 'views/dcinterfaces/dcinterfaces.html',
     controller: 'dcinterfacesCtrl'
   });
 }])
 .controller('dcinterfacesCtrl',
-		[ '$scope', 'dcinterfacesApi', '$location', 'dcinterfacesSelectionSvc', '$timeout',
-			function($scope, dcinterfacesApi, $location, dcinterfacesSelectionSvc, $timeout) {
+		[ '$scope', 'dcinterfacesApi', '$location', 'dcinterfacesSelectionSvc', '$timeout', 
+			function($scope, dcinterfacesApi, $location, dcinterfacesSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.dcinterfaces = dcinterfacesApi.query();
+				
 				$scope.dcinterfacesSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -70,6 +72,8 @@ angular.module('myApp.dcinterfaces', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.dcinterfacesSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							dcinterfacesSelectionSvc.setdcinterfaces(row.entity);
 						}
         				},500);
 				}

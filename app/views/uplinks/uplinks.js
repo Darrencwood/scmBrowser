@@ -2,17 +2,19 @@
 angular.module('myApp.uplinks', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/uplinks', {
-    templateUrl: 'views/uplinks/uplinks.html',
+  	templateUrl: 'views/uplinks/uplinks.html',
     controller: 'uplinksCtrl'
   });
 }])
 .controller('uplinksCtrl',
-		[ '$scope', 'uplinksApi', '$location', 'uplinksSelectionSvc', '$timeout',
-			function($scope, uplinksApi, $location, uplinksSelectionSvc, $timeout) {
+		[ '$scope', 'uplinksApi', '$location', 'uplinksSelectionSvc', '$timeout', 
+			function($scope, uplinksApi, $location, uplinksSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.uplinks = uplinksApi.query();
+				
 				$scope.uplinksSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -80,6 +82,8 @@ angular.module('myApp.uplinks', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.uplinksSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							uplinksSelectionSvc.setuplinks(row.entity);
 						}
         				},500);
 				}

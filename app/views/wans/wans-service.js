@@ -15,10 +15,10 @@ angular.module('myApp').factory('wansApi', function($resource) {
 });
 
 angular.module('myApp').service('wansSelectionSvc', function() {
-  this.wans = { id: ''};
-  this.setwans = function(id){ 
-  	console.log('setting current wans to: ' + id);
-    this.wans.id = id;
+  this.wans = { };
+  this.setwans = function(obj){ 
+  	console.log('setting current wans to: ' + obj.id);
+    this.wans = obj;
   }
   this.getwans = function(){
     return this.wans;

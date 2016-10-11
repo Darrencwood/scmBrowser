@@ -2,17 +2,19 @@
 angular.module('myApp.clusters', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/clusters', {
-    templateUrl: 'views/clusters/clusters.html',
+  	templateUrl: 'views/clusters/clusters.html',
     controller: 'clustersCtrl'
   });
 }])
 .controller('clustersCtrl',
-		[ '$scope', 'clustersApi', '$location', 'clustersSelectionSvc', '$timeout',
-			function($scope, clustersApi, $location, clustersSelectionSvc, $timeout) {
+		[ '$scope', 'clustersApi', '$location', 'clustersSelectionSvc', '$timeout', 
+			function($scope, clustersApi, $location, clustersSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.clusters = clustersApi.query();
+				
 				$scope.clustersSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -76,6 +78,8 @@ angular.module('myApp.clusters', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.clustersSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							clustersSelectionSvc.setclusters(row.entity);
 						}
         				},500);
 				}

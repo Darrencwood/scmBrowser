@@ -1,18 +1,20 @@
 'use strict';
 angular.module('myApp.pathRules', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/pathRules', {
-    templateUrl: 'views/pathRules/pathRules.html',
+  $routeProvider.when('/path_rules', {
+  	templateUrl: 'views/path_rules/pathRules.html',
     controller: 'pathRulesCtrl'
   });
 }])
 .controller('pathRulesCtrl',
-		[ '$scope', 'pathRulesApi', '$location', 'pathRulesSelectionSvc', '$timeout',
-			function($scope, pathRulesApi, $location, pathRulesSelectionSvc, $timeout) {
+		[ '$scope', 'pathRulesApi', '$location', 'pathRulesSelectionSvc', '$timeout', 
+			function($scope, pathRulesApi, $location, pathRulesSelectionSvc, $timeout  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
 				$scope.pathRules = pathRulesApi.query();
+				
 				$scope.pathRulesSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -77,6 +79,8 @@ angular.module('myApp.pathRules', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.pathRulesSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							pathRulesSelectionSvc.setpathRules(row.entity);
 						}
         				},500);
 				}

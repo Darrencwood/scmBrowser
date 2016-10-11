@@ -15,10 +15,10 @@ angular.module('myApp').factory('sitesNodesApi', function($resource) {
 });
 
 angular.module('myApp').service('sitesNodesSelectionSvc', function() {
-  this.sitesNodes = { id: ''};
-  this.setsitesNodes = function(id){ 
-  	console.log('setting current sitesNodes to: ' + id);
-    this.sitesNodes.id = id;
+  this.sitesNodes = { };
+  this.setsitesNodes = function(obj){ 
+  	console.log('setting current sitesNodes to: ' + obj.id);
+    this.sitesNodes = obj;
   }
   this.getsitesNodes = function(){
     return this.sitesNodes;

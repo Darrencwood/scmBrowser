@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.orgsEndpoints', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgsEndpoints', {
-    templateUrl: 'views/orgsEndpoints/orgsEndpoints.html',
+  $routeProvider.when('/orgs/orgsEndpoints', {
+  	templateUrl: 'views/orgs/orgsEndpoints/orgsEndpoints.html',
     controller: 'orgsEndpointsCtrl'
   });
 }])
 .controller('orgsEndpointsCtrl',
-		[ '$scope', 'orgsEndpointsApi', '$location', 'orgsEndpointsSelectionSvc', '$timeout',
-			function($scope, orgsEndpointsApi, $location, orgsEndpointsSelectionSvc, $timeout) {
+		[ '$scope', 'orgsEndpointsApi', '$location', 'orgsEndpointsSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
+			function($scope, orgsEndpointsApi, $location, orgsEndpointsSelectionSvc, $timeout  , orgsSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.orgsEndpoints = orgsEndpointsApi.query();
+				
+				let id = orgsSelectionSvc.getorgs();
+				console.log(id);
+				$scope.orgsEndpoints = orgsEndpointsApi.query({ orgid: id.id });
+				
 				$scope.orgsEndpointsSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -47,7 +51,7 @@ angular.module('myApp.orgsEndpoints', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsEndpointsApi.save(newObject).$promise.then(function(data){
+    					orgsEndpointsApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
     						$scope.orgsEndpoints.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -68,6 +72,8 @@ angular.module('myApp.orgsEndpoints', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsEndpointsSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							orgsEndpointsSelectionSvc.setorgsEndpoints(row.entity);
 						}
         				},500);
 				}
@@ -141,7 +147,7 @@ angular.module('myApp.orgsEndpoints', ['ngRoute'])
 					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("zvmac,secret,devices,org,user,client_id\n");
 					var dlAnchorElem = document.getElementById('download');
 					dlAnchorElem.setAttribute("href",     dataStr     );
-					dlAnchorElem.setAttribute("download", "org.csv");
+					dlAnchorElem.setAttribute("download", "endpoints.csv");
 							
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;

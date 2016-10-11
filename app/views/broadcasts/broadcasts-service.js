@@ -15,10 +15,10 @@ angular.module('myApp').factory('broadcastsApi', function($resource) {
 });
 
 angular.module('myApp').service('broadcastsSelectionSvc', function() {
-  this.broadcasts = { id: ''};
-  this.setbroadcasts = function(id){ 
-  	console.log('setting current broadcasts to: ' + id);
-    this.broadcasts.id = id;
+  this.broadcasts = { };
+  this.setbroadcasts = function(obj){ 
+  	console.log('setting current broadcasts to: ' + obj.id);
+    this.broadcasts = obj;
   }
   this.getbroadcasts = function(){
     return this.broadcasts;

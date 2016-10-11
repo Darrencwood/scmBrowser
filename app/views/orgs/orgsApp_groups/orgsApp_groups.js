@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.orgsApp_groups', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgsApp_groups', {
-    templateUrl: 'views/orgsApp_groups/orgsApp_groups.html',
+  $routeProvider.when('/orgs/orgsApp_groups', {
+  	templateUrl: 'views/orgs/orgsApp_groups/orgsApp_groups.html',
     controller: 'orgsApp_groupsCtrl'
   });
 }])
 .controller('orgsApp_groupsCtrl',
-		[ '$scope', 'orgsApp_groupsApi', '$location', 'orgsApp_groupsSelectionSvc', '$timeout',
-			function($scope, orgsApp_groupsApi, $location, orgsApp_groupsSelectionSvc, $timeout) {
+		[ '$scope', 'orgsApp_groupsApi', '$location', 'orgsApp_groupsSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
+			function($scope, orgsApp_groupsApi, $location, orgsApp_groupsSelectionSvc, $timeout  , orgsSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.orgsApp_groups = orgsApp_groupsApi.query();
+				
+				let id = orgsSelectionSvc.getorgs();
+				console.log(id);
+				$scope.orgsApp_groups = orgsApp_groupsApi.query({ orgid: id.id });
+				
 				$scope.orgsApp_groupsSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -48,7 +52,7 @@ angular.module('myApp.orgsApp_groups', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsApp_groupsApi.save(newObject).$promise.then(function(data){
+    					orgsApp_groupsApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
     						$scope.orgsApp_groups.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -69,6 +73,8 @@ angular.module('myApp.orgsApp_groups', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsApp_groupsSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							orgsApp_groupsSelectionSvc.setorgsApp_groups(row.entity);
 						}
         				},500);
 				}
@@ -147,7 +153,7 @@ angular.module('myApp.orgsApp_groups', ['ngRoute'])
 					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("name,webcat,sapps,org,predefined,apps,id,desc\n");
 					var dlAnchorElem = document.getElementById('download');
 					dlAnchorElem.setAttribute("href",     dataStr     );
-					dlAnchorElem.setAttribute("download", "org.csv");
+					dlAnchorElem.setAttribute("download", "app_groups.csv");
 							
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;

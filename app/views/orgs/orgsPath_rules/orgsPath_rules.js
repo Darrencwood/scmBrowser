@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.orgsPath_rules', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgsPath_rules', {
-    templateUrl: 'views/orgsPath_rules/orgsPath_rules.html',
+  $routeProvider.when('/orgs/orgsPath_rules', {
+  	templateUrl: 'views/orgs/orgsPath_rules/orgsPath_rules.html',
     controller: 'orgsPath_rulesCtrl'
   });
 }])
 .controller('orgsPath_rulesCtrl',
-		[ '$scope', 'orgsPath_rulesApi', '$location', 'orgsPath_rulesSelectionSvc', '$timeout',
-			function($scope, orgsPath_rulesApi, $location, orgsPath_rulesSelectionSvc, $timeout) {
+		[ '$scope', 'orgsPath_rulesApi', '$location', 'orgsPath_rulesSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
+			function($scope, orgsPath_rulesApi, $location, orgsPath_rulesSelectionSvc, $timeout  , orgsSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.orgsPath_rules = orgsPath_rulesApi.query();
+				
+				let id = orgsSelectionSvc.getorgs();
+				console.log(id);
+				$scope.orgsPath_rules = orgsPath_rulesApi.query({ orgid: id.id });
+				
 				$scope.orgsPath_rulesSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -56,7 +60,7 @@ angular.module('myApp.orgsPath_rules', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsPath_rulesApi.save(newObject).$promise.then(function(data){
+    					orgsPath_rulesApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
     						$scope.orgsPath_rules.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -77,6 +81,8 @@ angular.module('myApp.orgsPath_rules', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsPath_rulesSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							orgsPath_rulesSelectionSvc.setorgsPath_rules(row.entity);
 						}
         				},500);
 				}
@@ -195,7 +201,7 @@ angular.module('myApp.orgsPath_rules', ['ngRoute'])
 					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("dsttype,qos,marking,zones,srctype,active,sites,path_preference,org,dscp,apps,devices,tags,users\n");
 					var dlAnchorElem = document.getElementById('download');
 					dlAnchorElem.setAttribute("href",     dataStr     );
-					dlAnchorElem.setAttribute("download", "org.csv");
+					dlAnchorElem.setAttribute("download", "path_rules.csv");
 							
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;

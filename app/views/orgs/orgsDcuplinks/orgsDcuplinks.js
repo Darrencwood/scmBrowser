@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.orgsDcuplinks', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgsDcuplinks', {
-    templateUrl: 'views/orgsDcuplinks/orgsDcuplinks.html',
+  $routeProvider.when('/orgs/orgsDcuplinks', {
+  	templateUrl: 'views/orgs/orgsDcuplinks/orgsDcuplinks.html',
     controller: 'orgsDcuplinksCtrl'
   });
 }])
 .controller('orgsDcuplinksCtrl',
-		[ '$scope', 'orgsDcuplinksApi', '$location', 'orgsDcuplinksSelectionSvc', '$timeout',
-			function($scope, orgsDcuplinksApi, $location, orgsDcuplinksSelectionSvc, $timeout) {
+		[ '$scope', 'orgsDcuplinksApi', '$location', 'orgsDcuplinksSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
+			function($scope, orgsDcuplinksApi, $location, orgsDcuplinksSelectionSvc, $timeout  , orgsSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.orgsDcuplinks = orgsDcuplinksApi.query();
+				
+				let id = orgsSelectionSvc.getorgs();
+				console.log(id);
+				$scope.orgsDcuplinks = orgsDcuplinksApi.query({ orgid: id.id });
+				
 				$scope.orgsDcuplinksSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -48,7 +52,7 @@ angular.module('myApp.orgsDcuplinks', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsDcuplinksApi.save(newObject).$promise.then(function(data){
+    					orgsDcuplinksApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
     						$scope.orgsDcuplinks.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -69,6 +73,8 @@ angular.module('myApp.orgsDcuplinks', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsDcuplinksSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							orgsDcuplinksSelectionSvc.setorgsDcuplinks(row.entity);
 						}
         				},500);
 				}
@@ -147,7 +153,7 @@ angular.module('myApp.orgsDcuplinks', ['ngRoute'])
 					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("org,net,public_ipv4,public_ipv6,nat_range_start,wan,cluster,tags\n");
 					var dlAnchorElem = document.getElementById('download');
 					dlAnchorElem.setAttribute("href",     dataStr     );
-					dlAnchorElem.setAttribute("download", "org.csv");
+					dlAnchorElem.setAttribute("download", "dcuplinks.csv");
 							
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;

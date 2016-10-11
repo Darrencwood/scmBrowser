@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.sitesBroadcasts', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/sitesBroadcasts', {
-    templateUrl: 'views/sitesBroadcasts/sitesBroadcasts.html',
+  $routeProvider.when('/sites/sitesBroadcasts', {
+  	templateUrl: 'views/sites/sitesBroadcasts/sitesBroadcasts.html',
     controller: 'sitesBroadcastsCtrl'
   });
 }])
 .controller('sitesBroadcastsCtrl',
-		[ '$scope', 'sitesBroadcastsApi', '$location', 'sitesBroadcastsSelectionSvc', '$timeout',
-			function($scope, sitesBroadcastsApi, $location, sitesBroadcastsSelectionSvc, $timeout) {
+		[ '$scope', 'sitesBroadcastsApi', '$location', 'sitesBroadcastsSelectionSvc', '$timeout',  'sitesSelectionSvc' , 
+			function($scope, sitesBroadcastsApi, $location, sitesBroadcastsSelectionSvc, $timeout  , sitesSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.sitesBroadcasts = sitesBroadcastsApi.query();
+				
+				let id = sitesSelectionSvc.getsites();
+				console.log(id);
+				$scope.sitesBroadcasts = sitesBroadcastsApi.query({ siteid: id.id });
+				
 				$scope.sitesBroadcastsSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -50,7 +54,7 @@ angular.module('myApp.sitesBroadcasts', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					sitesBroadcastsApi.save(newObject).$promise.then(function(data){
+    					sitesBroadcastsApi.save({ siteid: id.id }, newObject).$promise.then(function(data){
     						$scope.sitesBroadcasts.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -71,6 +75,8 @@ angular.module('myApp.sitesBroadcasts', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.sitesBroadcastsSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							sitesBroadcastsSelectionSvc.setsitesBroadcasts(row.entity);
 						}
         				},500);
 				}

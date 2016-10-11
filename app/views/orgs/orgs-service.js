@@ -15,10 +15,10 @@ angular.module('myApp').factory('orgsApi', function($resource) {
 });
 
 angular.module('myApp').service('orgsSelectionSvc', function() {
-  this.orgs = { id: ''};
-  this.setorgs = function(id){ 
-  	console.log('setting current orgs to: ' + id);
-    this.orgs.id = id;
+  this.orgs = { };
+  this.setorgs = function(obj){ 
+  	console.log('setting current orgs to: ' + obj.id);
+    this.orgs = obj;
   }
   this.getorgs = function(){
     return this.orgs;

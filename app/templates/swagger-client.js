@@ -105,8 +105,8 @@ const downloadSamples = {
 		sampleData:""
 	},
   site: { 
-		sampleHeaders: "name,org,longname,uplinks,networks,street_address,city,country,timezone,size",
-		sampleData:""
+		sampleHeaders: "name,longname,city",
+		sampleData:"TestSite1,This is test site #1, San Antonio"
 	},
   ssid: { 
 		sampleHeaders: "org,ssid,security,encryption,key,authentication,eapol_version,dtim_period,bcasts",
@@ -125,8 +125,8 @@ const downloadSamples = {
 		sampleData:""
 	},
   zone: {
-		sampleHeader: "org,name'site,mgmt,icmp,guest,tag,tags",
-		sampleData:""
+		sampleHeaders: "name,site",
+		sampleData:"TestZone1, "
 	}
 };
 
@@ -200,17 +200,21 @@ function findSubMenuItem(data, mmap) {
     if(uri.length == 4){
       let name = uri[3];
       let newMmap = _.find(mainMenuMappings, function(e) { return e.id == name; });
-      let path = '/' + mmap.id + '/' + uri[3];
+      let subMenuName = mmap.id + _.capitalize(newMmap.id);
+      let path = '/' + mmap.id + '/' + subMenuName;
       let back = '/' + mmap.id;
       _.each(v.ops, function(op, method) {
         op.values = {
           id: newMmap.id,
-          name:  mmap.id + _.capitalize(newMmap.id),
+          name:  subMenuName,
           title: _.titleize(_.humanize(newMmap.id)),
           definition: restructureDefinitions(data.definitions[newMmap.definition]),
           path: path,
           back: back,
-          selectedSubmenu: newMmap.selectedSubmenu
+          selectedSubmenu: newMmap.selectedSubmenu,
+          originalId: mmap.value.substr(1, mmap.value.length),
+          originalName: mmap.id,
+          isSubMenu: true
         }
         if (method == "post") {
           op.values.sampleHeaders = downloadSamples[newMmap.definition].sampleHeaders;

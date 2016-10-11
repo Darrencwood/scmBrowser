@@ -15,10 +15,10 @@ angular.module('myApp').factory('networksApi', function($resource) {
 });
 
 angular.module('myApp').service('networksSelectionSvc', function() {
-  this.networks = { id: ''};
-  this.setnetworks = function(id){ 
-  	console.log('setting current networks to: ' + id);
-    this.networks.id = id;
+  this.networks = { };
+  this.setnetworks = function(obj){ 
+  	console.log('setting current networks to: ' + obj.id);
+    this.networks = obj;
   }
   this.getnetworks = function(){
     return this.networks;

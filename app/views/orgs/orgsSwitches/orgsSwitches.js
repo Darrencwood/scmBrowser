@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.orgsSwitches', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgsSwitches', {
-    templateUrl: 'views/orgsSwitches/orgsSwitches.html',
+  $routeProvider.when('/orgs/orgsSwitches', {
+  	templateUrl: 'views/orgs/orgsSwitches/orgsSwitches.html',
     controller: 'orgsSwitchesCtrl'
   });
 }])
 .controller('orgsSwitchesCtrl',
-		[ '$scope', 'orgsSwitchesApi', '$location', 'orgsSwitchesSelectionSvc', '$timeout',
-			function($scope, orgsSwitchesApi, $location, orgsSwitchesSelectionSvc, $timeout) {
+		[ '$scope', 'orgsSwitchesApi', '$location', 'orgsSwitchesSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
+			function($scope, orgsSwitchesApi, $location, orgsSwitchesSelectionSvc, $timeout  , orgsSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.orgsSwitches = orgsSwitchesApi.query();
+				
+				let id = orgsSelectionSvc.getorgs();
+				console.log(id);
+				$scope.orgsSwitches = orgsSwitchesApi.query({ orgid: id.id });
+				
 				$scope.orgsSwitchesSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -59,7 +63,7 @@ angular.module('myApp.orgsSwitches', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsSwitchesApi.save(newObject).$promise.then(function(data){
+    					orgsSwitchesApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
     						$scope.orgsSwitches.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -80,6 +84,8 @@ angular.module('myApp.orgsSwitches', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsSwitchesSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							orgsSwitchesSelectionSvc.setorgsSwitches(row.entity);
 						}
         				},500);
 				}
@@ -213,7 +219,7 @@ angular.module('myApp.orgsSwitches', ['ngRoute'])
 					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("site,org,local_as,router_id,serial,zones,radios,realm,location,ports,uplinks,inventory_version_cc,disable_stp,license,model,sitelink\n");
 					var dlAnchorElem = document.getElementById('download');
 					dlAnchorElem.setAttribute("href",     dataStr     );
-					dlAnchorElem.setAttribute("download", "org.csv");
+					dlAnchorElem.setAttribute("download", "switches.csv");
 							
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;

@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.orgsNetworks', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgsNetworks', {
-    templateUrl: 'views/orgsNetworks/orgsNetworks.html',
+  $routeProvider.when('/orgs/orgsNetworks', {
+  	templateUrl: 'views/orgs/orgsNetworks/orgsNetworks.html',
     controller: 'orgsNetworksCtrl'
   });
 }])
 .controller('orgsNetworksCtrl',
-		[ '$scope', 'orgsNetworksApi', '$location', 'orgsNetworksSelectionSvc', '$timeout',
-			function($scope, orgsNetworksApi, $location, orgsNetworksSelectionSvc, $timeout) {
+		[ '$scope', 'orgsNetworksApi', '$location', 'orgsNetworksSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
+			function($scope, orgsNetworksApi, $location, orgsNetworksSelectionSvc, $timeout  , orgsSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.orgsNetworks = orgsNetworksApi.query();
+				
+				let id = orgsSelectionSvc.getorgs();
+				console.log(id);
+				$scope.orgsNetworks = orgsNetworksApi.query({ orgid: id.id });
+				
 				$scope.orgsNetworksSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -63,7 +67,7 @@ angular.module('myApp.orgsNetworks', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsNetworksApi.save(newObject).$promise.then(function(data){
+    					orgsNetworksApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
     						$scope.orgsNetworks.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -84,6 +88,8 @@ angular.module('myApp.orgsNetworks', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsNetworksSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							orgsNetworksSelectionSvc.setorgsNetworks(row.entity);
 						}
         				},500);
 				}
@@ -237,7 +243,7 @@ angular.module('myApp.orgsNetworks', ['ngRoute'])
 					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("nodenetcfgs,zone,name,dhcps_range_start,devices,dhcps_range_end,primary,site,netv6,netv4,org,gwv6,ra,wans,routes,gwv4,lnets,breakout_preference,breakout_sitelink_site,gw_noauto,dhcps_leasetime,dhcps_options\n");
 					var dlAnchorElem = document.getElementById('download');
 					dlAnchorElem.setAttribute("href",     dataStr     );
-					dlAnchorElem.setAttribute("download", "org.csv");
+					dlAnchorElem.setAttribute("download", "networks.csv");
 							
 				$scope.closeResults = function(){
 					$scope.showUploadResults = false;

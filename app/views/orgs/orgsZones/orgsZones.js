@@ -1,18 +1,22 @@
 'use strict';
 angular.module('myApp.orgsZones', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgsZones', {
-    templateUrl: 'views/orgsZones/orgsZones.html',
+  $routeProvider.when('/orgs/orgsZones', {
+  	templateUrl: 'views/orgs/orgsZones/orgsZones.html',
     controller: 'orgsZonesCtrl'
   });
 }])
 .controller('orgsZonesCtrl',
-		[ '$scope', 'orgsZonesApi', '$location', 'orgsZonesSelectionSvc', '$timeout',
-			function($scope, orgsZonesApi, $location, orgsZonesSelectionSvc, $timeout) {
+		[ '$scope', 'orgsZonesApi', '$location', 'orgsZonesSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
+			function($scope, orgsZonesApi, $location, orgsZonesSelectionSvc, $timeout  , orgsSelectionSvc  ) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
-				$scope.orgsZones = orgsZonesApi.query();
+				
+				let id = orgsSelectionSvc.getorgs();
+				console.log(id);
+				$scope.orgsZones = orgsZonesApi.query({ orgid: id.id });
+				
 				$scope.orgsZonesSelected = '';
 				$scope.clicked = false;
 				$scope.stopped = false;
@@ -53,7 +57,7 @@ angular.module('myApp.orgsZones', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsZonesApi.save(newObject).$promise.then(function(data){
+    					orgsZonesApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
     						$scope.orgsZones.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
@@ -74,6 +78,8 @@ angular.module('myApp.orgsZones', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsZonesSelected = row.entity;
 							$scope.showSelectedRecord = true;
+							console.log(row.entity);	
+							orgsZonesSelectionSvc.setorgsZones(row.entity);
 						}
         				},500);
 				}
@@ -153,4 +159,33 @@ angular.module('myApp.orgsZones', ['ngRoute'])
             					}
           				},
 				];
+				console.log();
+            		var uploadZone = document.getElementById('upload');
+
+					// Optional.   Show the copy icon when dragging over.  Seems to
+    				// only work for chrome.
+    				uploadZone.addEventListener('dragover', function(e) {
+    		    		e.stopPropagation();
+    		    		e.preventDefault();
+    		    		e.dataTransfer.dropEffect = 'copy';
+    				});
+            
+            		// Get file data on drop
+    				uploadZone.addEventListener('drop', function(e) {
+    		    		e.stopPropagation();
+    		    		e.preventDefault();
+    		    		var files = e.dataTransfer.files; // Array of all files
+    		    		$scope.updateResults =[];
+    		    		$scope.showUploadResults = true;
+    		    		$scope.gridApi.importer.importFile(files[0]);
+					});
+					
+					var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent("org,*name,*site,mgmt,icmp,guest,tag,tags\n");
+					var dlAnchorElem = document.getElementById('download');
+					dlAnchorElem.setAttribute("href",     dataStr     );
+					dlAnchorElem.setAttribute("download", "zones.csv");
+							
+				$scope.closeResults = function(){
+					$scope.showUploadResults = false;
+				};
 }]);

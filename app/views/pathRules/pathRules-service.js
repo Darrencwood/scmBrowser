@@ -15,10 +15,10 @@ angular.module('myApp').factory('pathRulesApi', function($resource) {
 });
 
 angular.module('myApp').service('pathRulesSelectionSvc', function() {
-  this.pathRules = { id: ''};
-  this.setpathRules = function(id){ 
-  	console.log('setting current pathRules to: ' + id);
-    this.pathRules.id = id;
+  this.pathRules = { };
+  this.setpathRules = function(obj){ 
+  	console.log('setting current pathRules to: ' + obj.id);
+    this.pathRules = obj;
   }
   this.getpathRules = function(){
     return this.pathRules;

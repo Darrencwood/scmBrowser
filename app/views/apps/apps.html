@@ -1,5 +1,6 @@
 <div id="wrapper">
-	<div ng-include="'/views/main/main_menu.html'"></div>
+	<div ng-include="'/views/main/main_menu.html'" ng-if="!showSelectedRecord"></div>
+	<div ng-include="'/views/apps/menu.html'" ng-if="showSelectedRecord"></div>
 	<!-- /#sidebar-wrapper -->
 			
 	<!-- Page Content -->
