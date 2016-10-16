@@ -39,6 +39,9 @@ angular.module('myApp.ports', ['ngRoute'])
 					exporterCsvFilename: ':portid.csv',
 					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
+					multiSelect: false,
+					modifierKeysToMultiSelect: false,
+					noUnselect: true,
 					columnDefs: [
 					{ name: 'delete',
 					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'

@@ -57,7 +57,7 @@ body h2 {
   text-align: center;
 }
 
-.ui-grid-row:last-child .ui-grid-cell, .ui-grid-row:nth-child(odd) .ui-grid-cell, .ui-grid-row:nth-child(even) .ui-grid-cell {
+.ui-grid-row:last-child .ui-grid-cell, .ui-grid-row:nth-child(odd) .ui-grid-cell, .ui-grid-row:nth-child(even) .ui-grid-cell, .ui-grid-row-selected {
   color: #dddddd;
   background-color: #2C2D2C;
   text-align: center;
