@@ -45,9 +45,13 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
+					enableSelectAll: true,
+					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					exporterCsvFilename: '{{id}}.csv',
+					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
 					columnDefs: [
 					{ name: 'delete',
@@ -83,7 +87,11 @@ angular.module('myApp.{{name}}', ['ngRoute'])
             				console.log(rowEntity);
             				let req = { };
 							req['{{putId}}'] = rowEntity.id;
-            				{{name}}Api.update(req, rowEntity);
+            				{{name}}Api.update(req, rowEntity).$promise.then(function(success){
+            					// Do nothing , we already updated the table.
+            				}, function(error){
+            					// TODO: Rollback change.
+            				});
           				});
     					}
 				};

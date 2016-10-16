@@ -7,6 +7,7 @@ angular.module('myApp', [
 	'ui.grid.resizeColumns', 
 	'ui.grid.autoResize',
 	'ui.grid.importer',
+	'ui.grid.exporter',
 	'formly', 
 	'formlyBootstrap',
   'myApp.proxyRegister',

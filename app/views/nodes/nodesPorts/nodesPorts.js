@@ -33,9 +33,13 @@ angular.module('myApp.nodesPorts', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
+					enableSelectAll: true,
+					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					exporterCsvFilename: 'ports.csv',
+					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
 					columnDefs: [
 					{ name: 'delete',
@@ -83,7 +87,11 @@ angular.module('myApp.nodesPorts', ['ngRoute'])
             				console.log(rowEntity);
             				let req = { };
 							req['portid'] = rowEntity.id;
-            				nodesPortsApi.update(req, rowEntity);
+            				nodesPortsApi.update(req, rowEntity).$promise.then(function(success){
+            					// Do nothing , we already updated the table.
+            				}, function(error){
+            					// TODO: Rollback change.
+            				});
           				});
     					}
 				};

@@ -31,9 +31,13 @@ angular.module('myApp.devices', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
+					enableSelectAll: true,
+					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					exporterCsvFilename: ':devid.csv',
+					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
 					columnDefs: [
 					{ name: 'delete',
@@ -73,7 +77,11 @@ angular.module('myApp.devices', ['ngRoute'])
             				console.log(rowEntity);
             				let req = { };
 							req['devid'] = rowEntity.id;
-            				devicesApi.update(req, rowEntity);
+            				devicesApi.update(req, rowEntity).$promise.then(function(success){
+            					// Do nothing , we already updated the table.
+            				}, function(error){
+            					// TODO: Rollback change.
+            				});
           				});
     					}
 				};

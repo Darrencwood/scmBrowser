@@ -31,9 +31,13 @@ angular.module('myApp.networks', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
+					enableSelectAll: true,
+					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					exporterCsvFilename: ':netid.csv',
+					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
 					columnDefs: [
 					{ name: 'delete',
@@ -84,7 +88,11 @@ angular.module('myApp.networks', ['ngRoute'])
             				console.log(rowEntity);
             				let req = { };
 							req['netid'] = rowEntity.id;
-            				networksApi.update(req, rowEntity);
+            				networksApi.update(req, rowEntity).$promise.then(function(success){
+            					// Do nothing , we already updated the table.
+            				}, function(error){
+            					// TODO: Rollback change.
+            				});
           				});
     					}
 				};

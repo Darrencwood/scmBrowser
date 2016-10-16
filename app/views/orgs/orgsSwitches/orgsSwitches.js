@@ -33,9 +33,13 @@ angular.module('myApp.orgsSwitches', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
+					enableSelectAll: true,
+					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					exporterCsvFilename: 'switches.csv',
+					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
 					columnDefs: [
 					{ name: 'delete',
@@ -82,7 +86,11 @@ angular.module('myApp.orgsSwitches', ['ngRoute'])
             				console.log(rowEntity);
             				let req = { };
 							req['switchid'] = rowEntity.id;
-            				orgsSwitchesApi.update(req, rowEntity);
+            				orgsSwitchesApi.update(req, rowEntity).$promise.then(function(success){
+            					// Do nothing , we already updated the table.
+            				}, function(error){
+            					// TODO: Rollback change.
+            				});
           				});
     					}
 				};

@@ -33,9 +33,13 @@ angular.module('myApp.orgsBroadcasts', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
+					enableSelectAll: true,
+					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					exporterCsvFilename: 'broadcasts.csv',
+					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
 					columnDefs: [
 					{ name: 'delete',
@@ -73,7 +77,11 @@ angular.module('myApp.orgsBroadcasts', ['ngRoute'])
             				console.log(rowEntity);
             				let req = { };
 							req['bcastid'] = rowEntity.id;
-            				orgsBroadcastsApi.update(req, rowEntity);
+            				orgsBroadcastsApi.update(req, rowEntity).$promise.then(function(success){
+            					// Do nothing , we already updated the table.
+            				}, function(error){
+            					// TODO: Rollback change.
+            				});
           				});
     					}
 				};

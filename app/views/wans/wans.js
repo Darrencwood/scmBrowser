@@ -31,9 +31,13 @@ angular.module('myApp.wans', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
+					enableSelectAll: true,
+					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					exporterCsvFilename: ':wanid.csv',
+					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
 					columnDefs: [
 					{ name: 'delete',
@@ -75,7 +79,11 @@ angular.module('myApp.wans', ['ngRoute'])
             				console.log(rowEntity);
             				let req = { };
 							req['wanid'] = rowEntity.id;
-            				wansApi.update(req, rowEntity);
+            				wansApi.update(req, rowEntity).$promise.then(function(success){
+            					// Do nothing , we already updated the table.
+            				}, function(error){
+            					// TODO: Rollback change.
+            				});
           				});
     					}
 				};

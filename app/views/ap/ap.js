@@ -31,9 +31,13 @@ angular.module('myApp.ap', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
+					enableSelectAll: true,
+					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					exporterCsvFilename: ':apid.csv',
+					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
 					columnDefs: [
 					{ name: 'delete',
@@ -80,7 +84,11 @@ angular.module('myApp.ap', ['ngRoute'])
             				console.log(rowEntity);
             				let req = { };
 							req['apid'] = rowEntity.id;
-            				apApi.update(req, rowEntity);
+            				apApi.update(req, rowEntity).$promise.then(function(success){
+            					// Do nothing , we already updated the table.
+            				}, function(error){
+            					// TODO: Rollback change.
+            				});
           				});
     					}
 				};

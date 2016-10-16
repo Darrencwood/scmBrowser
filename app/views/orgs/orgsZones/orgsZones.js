@@ -33,9 +33,13 @@ angular.module('myApp.orgsZones', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
+					enableSelectAll: true,
+					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					exporterCsvFilename: 'zones.csv',
+					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
 					columnDefs: [
 					{ name: 'delete',
@@ -76,7 +80,11 @@ angular.module('myApp.orgsZones', ['ngRoute'])
             				console.log(rowEntity);
             				let req = { };
 							req['zoneid'] = rowEntity.id;
-            				orgsZonesApi.update(req, rowEntity);
+            				orgsZonesApi.update(req, rowEntity).$promise.then(function(success){
+            					// Do nothing , we already updated the table.
+            				}, function(error){
+            					// TODO: Rollback change.
+            				});
           				});
     					}
 				};

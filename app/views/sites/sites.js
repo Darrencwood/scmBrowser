@@ -31,9 +31,13 @@ angular.module('myApp.sites', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
+					enableSelectAll: true,
+					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					exporterCsvFilename: ':siteid.csv',
+					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
 					columnDefs: [
 					{ name: 'delete',
@@ -73,7 +77,11 @@ angular.module('myApp.sites', ['ngRoute'])
             				console.log(rowEntity);
             				let req = { };
 							req['siteid'] = rowEntity.id;
-            				sitesApi.update(req, rowEntity);
+            				sitesApi.update(req, rowEntity).$promise.then(function(success){
+            					// Do nothing , we already updated the table.
+            				}, function(error){
+            					// TODO: Rollback change.
+            				});
           				});
     					}
 				};

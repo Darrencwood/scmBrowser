@@ -78,7 +78,7 @@
 						</div>
 						<div class='row' ng-if="!showSelectedRecord">
 							<div class='col-xs-12 col-sm-12 col-md-12'>
-								<div ui-grid='{{name}}GridOptions'ui-grid-edit ui-grid-importer ui-grid-resize-columns class='mainGrid'></div>
+								<div ui-grid='{{name}}GridOptions'ui-grid-edit ui-grid-importer ui-grid-resize-columns ui-grid-exporter ui-grid-selection class='mainGrid'></div>
 							</div>
 						</div>
 					</div>

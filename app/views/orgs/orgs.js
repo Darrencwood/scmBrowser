@@ -31,9 +31,13 @@ angular.module('myApp.orgs', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
+					enableSelectAll: true,
+					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					exporterCsvFilename: ':orgid.csv',
+					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
 					columnDefs: [
 					{ name: 'delete',
@@ -72,7 +76,11 @@ angular.module('myApp.orgs', ['ngRoute'])
             				console.log(rowEntity);
             				let req = { };
 							req['orgid'] = rowEntity.id;
-            				orgsApi.update(req, rowEntity);
+            				orgsApi.update(req, rowEntity).$promise.then(function(success){
+            					// Do nothing , we already updated the table.
+            				}, function(error){
+            					// TODO: Rollback change.
+            				});
           				});
     					}
 				};

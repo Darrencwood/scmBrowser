@@ -31,9 +31,13 @@ angular.module('myApp.pathRules', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
+					enableSelectAll: true,
+					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					exporterCsvFilename: ':pruleid.csv',
+					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
 					columnDefs: [
 					{ name: 'delete',
@@ -77,7 +81,11 @@ angular.module('myApp.pathRules', ['ngRoute'])
             				console.log(rowEntity);
             				let req = { };
 							req['pruleid'] = rowEntity.id;
-            				pathRulesApi.update(req, rowEntity);
+            				pathRulesApi.update(req, rowEntity).$promise.then(function(success){
+            					// Do nothing , we already updated the table.
+            				}, function(error){
+            					// TODO: Rollback change.
+            				});
           				});
     					}
 				};

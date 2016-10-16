@@ -31,9 +31,13 @@ angular.module('myApp.endpoints', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
+					enableSelectAll: true,
+					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					exporterCsvFilename: ':epid.csv',
+					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
 					columnDefs: [
 					{ name: 'delete',
@@ -68,7 +72,11 @@ angular.module('myApp.endpoints', ['ngRoute'])
             				console.log(rowEntity);
             				let req = { };
 							req['epid'] = rowEntity.id;
-            				endpointsApi.update(req, rowEntity);
+            				endpointsApi.update(req, rowEntity).$promise.then(function(success){
+            					// Do nothing , we already updated the table.
+            				}, function(error){
+            					// TODO: Rollback change.
+            				});
           				});
     					}
 				};

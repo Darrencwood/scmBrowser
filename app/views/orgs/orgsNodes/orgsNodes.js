@@ -33,9 +33,13 @@ angular.module('myApp.orgsNodes', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
+					enableSelectAll: true,
+					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					exporterCsvFilename: 'nodes.csv',
+					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
 					columnDefs: [
 					{ name: 'delete',
@@ -82,7 +86,11 @@ angular.module('myApp.orgsNodes', ['ngRoute'])
             				console.log(rowEntity);
             				let req = { };
 							req['nodeid'] = rowEntity.id;
-            				orgsNodesApi.update(req, rowEntity);
+            				orgsNodesApi.update(req, rowEntity).$promise.then(function(success){
+            					// Do nothing , we already updated the table.
+            				}, function(error){
+            					// TODO: Rollback change.
+            				});
           				});
     					}
 				};

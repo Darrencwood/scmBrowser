@@ -33,9 +33,13 @@ angular.module('myApp.sitesClusters', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
+					enableSelectAll: true,
+					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					exporterCsvFilename: 'clusters.csv',
+					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
 					columnDefs: [
 					{ name: 'delete',
@@ -78,7 +82,11 @@ angular.module('myApp.sitesClusters', ['ngRoute'])
             				console.log(rowEntity);
             				let req = { };
 							req['clusterid'] = rowEntity.id;
-            				sitesClustersApi.update(req, rowEntity);
+            				sitesClustersApi.update(req, rowEntity).$promise.then(function(success){
+            					// Do nothing , we already updated the table.
+            				}, function(error){
+            					// TODO: Rollback change.
+            				});
           				});
     					}
 				};

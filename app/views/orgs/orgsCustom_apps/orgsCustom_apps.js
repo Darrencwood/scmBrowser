@@ -33,9 +33,13 @@ angular.module('myApp.orgsCustom_apps', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
+					enableSelectAll: true,
+					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					exporterCsvFilename: 'custom_apps.csv',
+					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
 					columnDefs: [
 					{ name: 'delete',
@@ -80,7 +84,11 @@ angular.module('myApp.orgsCustom_apps', ['ngRoute'])
             				console.log(rowEntity);
             				let req = { };
 							req['appid'] = rowEntity.id;
-            				orgsCustom_appsApi.update(req, rowEntity);
+            				orgsCustom_appsApi.update(req, rowEntity).$promise.then(function(success){
+            					// Do nothing , we already updated the table.
+            				}, function(error){
+            					// TODO: Rollback change.
+            				});
           				});
     					}
 				};

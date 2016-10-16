@@ -31,9 +31,13 @@ angular.module('myApp.appGroups', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
+					enableSelectAll: true,
+					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					exporterCsvFilename: ':appgrpid.csv',
+					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
 					columnDefs: [
 					{ name: 'delete',
@@ -69,7 +73,11 @@ angular.module('myApp.appGroups', ['ngRoute'])
             				console.log(rowEntity);
             				let req = { };
 							req['appgrpid'] = rowEntity.id;
-            				appGroupsApi.update(req, rowEntity);
+            				appGroupsApi.update(req, rowEntity).$promise.then(function(success){
+            					// Do nothing , we already updated the table.
+            				}, function(error){
+            					// TODO: Rollback change.
+            				});
           				});
     					}
 				};

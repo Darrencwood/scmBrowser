@@ -31,9 +31,13 @@ angular.module('myApp.bgpneighs', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
+					enableSelectAll: true,
+					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
 					enableImporter: false,
+					exporterCsvFilename: ':bgpneighid.csv',
+					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
 					columnDefs: [
 					{ name: 'delete',
@@ -69,7 +73,11 @@ angular.module('myApp.bgpneighs', ['ngRoute'])
             				console.log(rowEntity);
             				let req = { };
 							req['bgpneighid'] = rowEntity.id;
-            				bgpneighsApi.update(req, rowEntity);
+            				bgpneighsApi.update(req, rowEntity).$promise.then(function(success){
+            					// Do nothing , we already updated the table.
+            				}, function(error){
+            					// TODO: Rollback change.
+            				});
           				});
     					}
 				};
