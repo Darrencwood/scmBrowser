@@ -1,7 +1,7 @@
 'use strict';
 angular.module('myApp.dcuplinks', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/dcuplinks', {
+	$routeProvider.when('/dcuplinks', {
   	templateUrl: 'views/dcuplinks/dcuplinks.html',
     controller: 'dcuplinksCtrl'
   });
@@ -36,17 +36,20 @@ angular.module('myApp.dcuplinks', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
-						{ name:'Org', field:'org'/*, visible: */},
-						{ name:'Net', field:'net'/*, visible: */},
-						{ name:'Public Ipv4', field:'public_ipv4'/*, visible: */},
-						{ name:'Public Ipv6', field:'public_ipv6'/*, visible: */},
-						{ name:'Nat Range Start', field:'nat_range_start'/*, visible: */},
-						{ name:'Wan', field:'wan'/*, visible: */},
-						{ name:'Cluster', field:'cluster'/*, visible: */},
-						{ name:'Tags', field:'tags'/*, visible: */},
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
+						{ name:'Org', field:'org'/*, visible: */, enableCellEdit: ('org'=='id' || 'org'=='uid' || 'org'=='gid')? false: true},
+						{ name:'Net', field:'net'/*, visible: */, enableCellEdit: ('net'=='id' || 'net'=='uid' || 'net'=='gid')? false: true},
+						{ name:'Public Ipv4', field:'public_ipv4'/*, visible: */, enableCellEdit: ('public_ipv4'=='id' || 'public_ipv4'=='uid' || 'public_ipv4'=='gid')? false: true},
+						{ name:'Public Ipv6', field:'public_ipv6'/*, visible: */, enableCellEdit: ('public_ipv6'=='id' || 'public_ipv6'=='uid' || 'public_ipv6'=='gid')? false: true},
+						{ name:'Nat Range Start', field:'nat_range_start'/*, visible: */, enableCellEdit: ('nat_range_start'=='id' || 'nat_range_start'=='uid' || 'nat_range_start'=='gid')? false: true},
+						{ name:'Wan', field:'wan'/*, visible: */, enableCellEdit: ('wan'=='id' || 'wan'=='uid' || 'wan'=='gid')? false: true},
+						{ name:'Cluster', field:'cluster'/*, visible: */, enableCellEdit: ('cluster'=='id' || 'cluster'=='uid' || 'cluster'=='gid')? false: true},
+						{ name:'Tags', field:'tags'/*, visible: */, enableCellEdit: ('tags'=='id' || 'tags'=='uid' || 'tags'=='gid')? false: true},
 					],
 					data: $scope.dcuplinks,
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -61,8 +64,13 @@ angular.module('myApp.dcuplinks', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['dcuplinkid'] = rowEntity.id;
+            				dcuplinksApi.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -71,7 +79,7 @@ angular.module('myApp.dcuplinks', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.dcuplinksSelected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							dcuplinksSelectionSvc.setdcuplinks(row.entity);
 						}
         				},500);
@@ -83,6 +91,25 @@ angular.module('myApp.dcuplinks', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.dcuplinksSelected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['dcuplinkid'] = row.entity.id;
+					dcuplinksApi.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.dcuplinks.length; i++){
+							if ($scope.dcuplinks[i].id == row.entity.id) {
+								$scope.dcuplinks.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+
 				}
 				
 				$scope.dcuplinksFields = [

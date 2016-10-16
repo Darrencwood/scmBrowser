@@ -9,8 +9,19 @@ angular.module('myApp').factory('nodesPortsApi', function($resource) {
     		transformResponse: function (data) {
      			var wrapped = angular.fromJson(data); 
      			return wrapped.items;
-    		} 
+    		}
+    	},
+    	'delete': {
+    		method: 'DELETE',
+    		url: '/api/scm.config/1.0/port/:portid',
+    		params: { portid: '@portid' } 
+    	},
+    	'update': {
+    		method: 'PUT',
+    		url: '/api/scm.config/1.0/port/:portid',
+    		params: { portid: '@portid' } 
     	}
+    	
     });
 });
 

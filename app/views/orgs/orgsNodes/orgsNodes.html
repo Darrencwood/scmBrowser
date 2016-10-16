@@ -13,17 +13,21 @@
 	            		</div>
 						<div class='row' ng-show="!showSelectedRecord">
 							<div  class='col-xs-1 col-sm-1 col-md-1'>
-								<a id="download">
-									<span class="glyphicon glyphicon-download "style="font-size:3em;"></span>
+								<a id="download" class="btn btn-primary" role="button">
+									<span class="glyphicon glyphicon-download"></span>
+									<span>download</span>
 								</a>
 							</div>
 							<div id="upload" class='col-xs-1 col-sm-1 col-md-1'>
-								<span  class="glyphicon glyphicon-upload "style="font-size:3em;"></span>
+								<a id="download" class="btn btn-primary" role="button">
+									<span class="glyphicon glyphicon-upload"></span>
+									<span>upload</span>
+								</a>
 							</div>
 						</div>
 						<div id='showRecord' ng-if="showSelectedRecord">
 							<div class="row" >
-								<div id='closeSelectedRecord' class='col-xs-1 col-sm-1 col-md-1' ng-click="closeSelected()">
+								<div id='closeSelectedRecord' class='col-xs-1 col-sm-1 col-md-1 ' ng-click="closeSelected()">
 									<span class="glyphicon glyphicon-remove "style="font-size:2em;"></span>
 								</div>
 							</div>	

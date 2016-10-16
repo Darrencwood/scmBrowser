@@ -57,6 +57,12 @@ body h2 {
   text-align: center;
 }
 
+.ui-grid-row:last-child .ui-grid-cell, .ui-grid-row:nth-child(odd) .ui-grid-cell, .ui-grid-row:nth-child(even) .ui-grid-cell {
+  color: #dddddd;
+  background-color: #2C2D2C;
+  text-align: center;
+}
+
 .ui-grid-menu-item {
 	color: #000000;
 }
@@ -81,6 +87,11 @@ body h2 {
 #download a, #upload {
   color: #dddddd;
   background-color: #2C2D2C;
+}
+
+.glyphicon p {
+	font-family:'Open Sans', sans-serif;
+	font-size: 12px;
 }
 
 /* Toggle Styles */

@@ -1,8 +1,8 @@
 'use strict';
 angular.module('myApp.outboundRules', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/outbound_rules', {
-  	templateUrl: 'views/outbound_rules/outboundRules.html',
+	$routeProvider.when('/outbound_rules', {
+  	templateUrl: 'views/outboundRules/outboundRules.html',
     controller: 'outboundRulesCtrl'
   });
 }])
@@ -36,23 +36,26 @@ angular.module('myApp.outboundRules', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
-						{ name:'Id', field:'id'/*, visible: */},
-						{ name:'Org', field:'org'/*, visible: */},
-						{ name:'Users', field:'users'/*, visible: */},
-						{ name:'Active', field:'active'/*, visible: */},
-						{ name:'Devices', field:'devices'/*, visible: */},
-						{ name:'Zones', field:'zones'/*, visible: */},
-						{ name:'Apps', field:'apps'/*, visible: */},
-						{ name:'Srctype', field:'srctype'/*, visible: */},
-						{ name:'Dsttype', field:'dsttype'/*, visible: */},
-						{ name:'Tags', field:'tags'/*, visible: */},
-						{ name:'Allow', field:'allow'/*, visible: */},
-						{ name:'Usergrps', field:'usergrps'/*, visible: */},
-						{ name:'Devgrps', field:'devgrps'/*, visible: */},
-						{ name:'Appgrps', field:'appgrps'/*, visible: */},
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
+						{ name:'Id', field:'id'/*, visible: */, enableCellEdit: ('id'=='id' || 'id'=='uid' || 'id'=='gid')? false: true},
+						{ name:'Org', field:'org'/*, visible: */, enableCellEdit: ('org'=='id' || 'org'=='uid' || 'org'=='gid')? false: true},
+						{ name:'Users', field:'users'/*, visible: */, enableCellEdit: ('users'=='id' || 'users'=='uid' || 'users'=='gid')? false: true},
+						{ name:'Active', field:'active'/*, visible: */, enableCellEdit: ('active'=='id' || 'active'=='uid' || 'active'=='gid')? false: true},
+						{ name:'Devices', field:'devices'/*, visible: */, enableCellEdit: ('devices'=='id' || 'devices'=='uid' || 'devices'=='gid')? false: true},
+						{ name:'Zones', field:'zones'/*, visible: */, enableCellEdit: ('zones'=='id' || 'zones'=='uid' || 'zones'=='gid')? false: true},
+						{ name:'Apps', field:'apps'/*, visible: */, enableCellEdit: ('apps'=='id' || 'apps'=='uid' || 'apps'=='gid')? false: true},
+						{ name:'Srctype', field:'srctype'/*, visible: */, enableCellEdit: ('srctype'=='id' || 'srctype'=='uid' || 'srctype'=='gid')? false: true},
+						{ name:'Dsttype', field:'dsttype'/*, visible: */, enableCellEdit: ('dsttype'=='id' || 'dsttype'=='uid' || 'dsttype'=='gid')? false: true},
+						{ name:'Tags', field:'tags'/*, visible: */, enableCellEdit: ('tags'=='id' || 'tags'=='uid' || 'tags'=='gid')? false: true},
+						{ name:'Allow', field:'allow'/*, visible: */, enableCellEdit: ('allow'=='id' || 'allow'=='uid' || 'allow'=='gid')? false: true},
+						{ name:'Usergrps', field:'usergrps'/*, visible: */, enableCellEdit: ('usergrps'=='id' || 'usergrps'=='uid' || 'usergrps'=='gid')? false: true},
+						{ name:'Devgrps', field:'devgrps'/*, visible: */, enableCellEdit: ('devgrps'=='id' || 'devgrps'=='uid' || 'devgrps'=='gid')? false: true},
+						{ name:'Appgrps', field:'appgrps'/*, visible: */, enableCellEdit: ('appgrps'=='id' || 'appgrps'=='uid' || 'appgrps'=='gid')? false: true},
 					],
 					data: $scope.outboundRules,
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -67,8 +70,13 @@ angular.module('myApp.outboundRules', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['ruleid'] = rowEntity.id;
+            				outboundRulesApi.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -77,7 +85,7 @@ angular.module('myApp.outboundRules', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.outboundRulesSelected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							outboundRulesSelectionSvc.setoutboundRules(row.entity);
 						}
         				},500);
@@ -89,6 +97,25 @@ angular.module('myApp.outboundRules', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.outboundRulesSelected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['ruleid'] = row.entity.id;
+					outboundRulesApi.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.outboundRules.length; i++){
+							if ($scope.outboundRules[i].id == row.entity.id) {
+								$scope.outboundRules.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+
 				}
 				
 				$scope.outboundRulesFields = [

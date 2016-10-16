@@ -1,8 +1,8 @@
 'use strict';
 angular.module('myApp.orgsWans', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgs/orgsWans', {
-  	templateUrl: 'views/orgs/orgsWans/orgsWans.html',
+	$routeProvider.when('/orgs/orgsWans', {
+  templateUrl: 'views/orgs/orgsWans/orgsWans.html',
     controller: 'orgsWansCtrl'
   });
 }])
@@ -38,23 +38,26 @@ angular.module('myApp.orgsWans', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
-						{ name:'Id', field:'id'/*, visible: */},
-						{ name:'Org', field:'org'/*, visible: */},
-						{ name:'Uplinks', field:'uplinks'/*, visible: */},
-						{ name:'Nets', field:'nets'/*, visible: */},
-						{ name:'Name', field:'name'/*, visible: */},
-						{ name:'Longname', field:'longname'/*, visible: */},
-						{ name:'Uid', field:'uid'/*, visible: */},
-						{ name:'Internet', field:'internet'/*, visible: */},
-						{ name:'Sitelink', field:'sitelink'/*, visible: */},
-						{ name:'Pingcheck Ips', field:'pingcheck_ips'/*, visible: */},
-						{ name:'Dcuplink', field:'dcuplink'/*, visible: */},
-						{ name:'Breakout', field:'breakout'/*, visible: */},
-						{ name:'Breakout Sites', field:'breakout_sites'/*, visible: */},
-						{ name:'Xfer Networks', field:'xfer_networks'/*, visible: */},
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
+						{ name:'Id', field:'id'/*, visible: */, enableCellEdit: ('id'=='id' || 'id'=='uid' || 'id'=='gid')? false: true},
+						{ name:'Org', field:'org'/*, visible: */, enableCellEdit: ('org'=='id' || 'org'=='uid' || 'org'=='gid')? false: true},
+						{ name:'Uplinks', field:'uplinks'/*, visible: */, enableCellEdit: ('uplinks'=='id' || 'uplinks'=='uid' || 'uplinks'=='gid')? false: true},
+						{ name:'Nets', field:'nets'/*, visible: */, enableCellEdit: ('nets'=='id' || 'nets'=='uid' || 'nets'=='gid')? false: true},
+						{ name:'Name', field:'name'/*, visible: */, enableCellEdit: ('name'=='id' || 'name'=='uid' || 'name'=='gid')? false: true},
+						{ name:'Longname', field:'longname'/*, visible: */, enableCellEdit: ('longname'=='id' || 'longname'=='uid' || 'longname'=='gid')? false: true},
+						{ name:'Uid', field:'uid'/*, visible: */, enableCellEdit: ('uid'=='id' || 'uid'=='uid' || 'uid'=='gid')? false: true},
+						{ name:'Internet', field:'internet'/*, visible: */, enableCellEdit: ('internet'=='id' || 'internet'=='uid' || 'internet'=='gid')? false: true},
+						{ name:'Sitelink', field:'sitelink'/*, visible: */, enableCellEdit: ('sitelink'=='id' || 'sitelink'=='uid' || 'sitelink'=='gid')? false: true},
+						{ name:'Pingcheck Ips', field:'pingcheck_ips'/*, visible: */, enableCellEdit: ('pingcheck_ips'=='id' || 'pingcheck_ips'=='uid' || 'pingcheck_ips'=='gid')? false: true},
+						{ name:'Dcuplink', field:'dcuplink'/*, visible: */, enableCellEdit: ('dcuplink'=='id' || 'dcuplink'=='uid' || 'dcuplink'=='gid')? false: true},
+						{ name:'Breakout', field:'breakout'/*, visible: */, enableCellEdit: ('breakout'=='id' || 'breakout'=='uid' || 'breakout'=='gid')? false: true},
+						{ name:'Breakout Sites', field:'breakout_sites'/*, visible: */, enableCellEdit: ('breakout_sites'=='id' || 'breakout_sites'=='uid' || 'breakout_sites'=='gid')? false: true},
+						{ name:'Xfer Networks', field:'xfer_networks'/*, visible: */, enableCellEdit: ('xfer_networks'=='id' || 'xfer_networks'=='uid' || 'xfer_networks'=='gid')? false: true},
 					],
 					data: $scope.orgsWans,
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -69,8 +72,13 @@ angular.module('myApp.orgsWans', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['wanid'] = rowEntity.id;
+            				orgsWansApi.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -79,7 +87,7 @@ angular.module('myApp.orgsWans', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsWansSelected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							orgsWansSelectionSvc.setorgsWans(row.entity);
 						}
         				},500);
@@ -91,6 +99,25 @@ angular.module('myApp.orgsWans', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.orgsWansSelected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['wanid'] = row.entity.id;
+					orgsWansApi.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.orgsWans.length; i++){
+							if ($scope.orgsWans[i].id == row.entity.id) {
+								$scope.orgsWans.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+
 				}
 				
 				$scope.orgsWansFields = [

@@ -1,7 +1,7 @@
 'use strict';
 angular.module('myApp.broadcasts', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/broadcasts', {
+	$routeProvider.when('/broadcasts', {
   	templateUrl: 'views/broadcasts/broadcasts.html',
     controller: 'broadcastsCtrl'
   });
@@ -36,19 +36,22 @@ angular.module('myApp.broadcasts', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
-						{ name:'Id', field:'id'/*, visible: */},
-						{ name:'Org', field:'org'/*, visible: */},
-						{ name:'Site', field:'site'/*, visible: */},
-						{ name:'Zone', field:'zone'/*, visible: */},
-						{ name:'Ssid', field:'ssid'/*, visible: */},
-						{ name:'Inactive', field:'inactive'/*, visible: */},
-						{ name:'Dynzone', field:'dynzone'/*, visible: */},
-						{ name:'Portal', field:'portal'/*, visible: */},
-						{ name:'Hide Ssid', field:'hide_ssid'/*, visible: */},
-						{ name:'Band', field:'band'/*, visible: */},
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
+						{ name:'Id', field:'id'/*, visible: */, enableCellEdit: ('id'=='id' || 'id'=='uid' || 'id'=='gid')? false: true},
+						{ name:'Org', field:'org'/*, visible: */, enableCellEdit: ('org'=='id' || 'org'=='uid' || 'org'=='gid')? false: true},
+						{ name:'Site', field:'site'/*, visible: */, enableCellEdit: ('site'=='id' || 'site'=='uid' || 'site'=='gid')? false: true},
+						{ name:'Zone', field:'zone'/*, visible: */, enableCellEdit: ('zone'=='id' || 'zone'=='uid' || 'zone'=='gid')? false: true},
+						{ name:'Ssid', field:'ssid'/*, visible: */, enableCellEdit: ('ssid'=='id' || 'ssid'=='uid' || 'ssid'=='gid')? false: true},
+						{ name:'Inactive', field:'inactive'/*, visible: */, enableCellEdit: ('inactive'=='id' || 'inactive'=='uid' || 'inactive'=='gid')? false: true},
+						{ name:'Dynzone', field:'dynzone'/*, visible: */, enableCellEdit: ('dynzone'=='id' || 'dynzone'=='uid' || 'dynzone'=='gid')? false: true},
+						{ name:'Portal', field:'portal'/*, visible: */, enableCellEdit: ('portal'=='id' || 'portal'=='uid' || 'portal'=='gid')? false: true},
+						{ name:'Hide Ssid', field:'hide_ssid'/*, visible: */, enableCellEdit: ('hide_ssid'=='id' || 'hide_ssid'=='uid' || 'hide_ssid'=='gid')? false: true},
+						{ name:'Band', field:'band'/*, visible: */, enableCellEdit: ('band'=='id' || 'band'=='uid' || 'band'=='gid')? false: true},
 					],
 					data: $scope.broadcasts,
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -63,8 +66,13 @@ angular.module('myApp.broadcasts', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['bcastid'] = rowEntity.id;
+            				broadcastsApi.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -73,7 +81,7 @@ angular.module('myApp.broadcasts', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.broadcastsSelected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							broadcastsSelectionSvc.setbroadcasts(row.entity);
 						}
         				},500);
@@ -85,6 +93,25 @@ angular.module('myApp.broadcasts', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.broadcastsSelected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['bcastid'] = row.entity.id;
+					broadcastsApi.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.broadcasts.length; i++){
+							if ($scope.broadcasts[i].id == row.entity.id) {
+								$scope.broadcasts.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+
 				}
 				
 				$scope.broadcastsFields = [

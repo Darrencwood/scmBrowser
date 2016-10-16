@@ -12,8 +12,19 @@ angular.module('myApp').factory('{{name}}Api', function($resource) {
     		transformResponse: function (data) {
      			var wrapped = angular.fromJson(data); 
      			return wrapped.items;
-    		} 
+    		}
+    	},
+    	'delete': {
+    		method: 'DELETE',
+    		url: '/api/scm.config/1.0{{& delete}}',
+    		params: { {{deleteId}}: '@{{deleteId}}' } 
+    	},
+    	'update': {
+    		method: 'PUT',
+    		url: '/api/scm.config/1.0{{& put}}',
+    		params: { {{putId}}: '@{{putId}}' } 
     	}
+    	
     });
 });
 

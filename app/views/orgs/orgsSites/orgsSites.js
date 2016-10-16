@@ -1,8 +1,8 @@
 'use strict';
 angular.module('myApp.orgsSites', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgs/orgsSites', {
-  	templateUrl: 'views/orgs/orgsSites/orgsSites.html',
+	$routeProvider.when('/orgs/orgsSites', {
+  templateUrl: 'views/orgs/orgsSites/orgsSites.html',
     controller: 'orgsSitesCtrl'
   });
 }])
@@ -38,21 +38,24 @@ angular.module('myApp.orgsSites', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
-						{ name:'Id', field:'id'/*, visible: */},
-						{ name:'Name', field:'name'/*, visible: */},
-						{ name:'Org', field:'org'/*, visible: */},
-						{ name:'Longname', field:'longname'/*, visible: */},
-						{ name:'Uplinks', field:'uplinks'/*, visible: */},
-						{ name:'Networks', field:'networks'/*, visible: */},
-						{ name:'Street Address', field:'street_address'/*, visible: */},
-						{ name:'City', field:'city'/*, visible: */},
-						{ name:'Country', field:'country'/*, visible: */},
-						{ name:'Timezone', field:'timezone'/*, visible: */},
-						{ name:'Size', field:'size'/*, visible: */},
-						{ name:'Uid', field:'uid'/*, visible: */},
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
+						{ name:'Id', field:'id'/*, visible: */, enableCellEdit: ('id'=='id' || 'id'=='uid' || 'id'=='gid')? false: true},
+						{ name:'Name', field:'name'/*, visible: */, enableCellEdit: ('name'=='id' || 'name'=='uid' || 'name'=='gid')? false: true},
+						{ name:'Org', field:'org'/*, visible: */, enableCellEdit: ('org'=='id' || 'org'=='uid' || 'org'=='gid')? false: true},
+						{ name:'Longname', field:'longname'/*, visible: */, enableCellEdit: ('longname'=='id' || 'longname'=='uid' || 'longname'=='gid')? false: true},
+						{ name:'Uplinks', field:'uplinks'/*, visible: */, enableCellEdit: ('uplinks'=='id' || 'uplinks'=='uid' || 'uplinks'=='gid')? false: true},
+						{ name:'Networks', field:'networks'/*, visible: */, enableCellEdit: ('networks'=='id' || 'networks'=='uid' || 'networks'=='gid')? false: true},
+						{ name:'Street Address', field:'street_address'/*, visible: */, enableCellEdit: ('street_address'=='id' || 'street_address'=='uid' || 'street_address'=='gid')? false: true},
+						{ name:'City', field:'city'/*, visible: */, enableCellEdit: ('city'=='id' || 'city'=='uid' || 'city'=='gid')? false: true},
+						{ name:'Country', field:'country'/*, visible: */, enableCellEdit: ('country'=='id' || 'country'=='uid' || 'country'=='gid')? false: true},
+						{ name:'Timezone', field:'timezone'/*, visible: */, enableCellEdit: ('timezone'=='id' || 'timezone'=='uid' || 'timezone'=='gid')? false: true},
+						{ name:'Size', field:'size'/*, visible: */, enableCellEdit: ('size'=='id' || 'size'=='uid' || 'size'=='gid')? false: true},
+						{ name:'Uid', field:'uid'/*, visible: */, enableCellEdit: ('uid'=='id' || 'uid'=='uid' || 'uid'=='gid')? false: true},
 					],
 					data: $scope.orgsSites,
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -67,8 +70,13 @@ angular.module('myApp.orgsSites', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['siteid'] = rowEntity.id;
+            				orgsSitesApi.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -77,7 +85,7 @@ angular.module('myApp.orgsSites', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsSitesSelected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							orgsSitesSelectionSvc.setorgsSites(row.entity);
 						}
         				},500);
@@ -89,6 +97,25 @@ angular.module('myApp.orgsSites', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.orgsSitesSelected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['siteid'] = row.entity.id;
+					orgsSitesApi.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.orgsSites.length; i++){
+							if ($scope.orgsSites[i].id == row.entity.id) {
+								$scope.orgsSites.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+
 				}
 				
 				$scope.orgsSitesFields = [

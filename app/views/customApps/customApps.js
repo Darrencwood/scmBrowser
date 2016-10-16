@@ -1,8 +1,8 @@
 'use strict';
 angular.module('myApp.customApps', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/custom_apps', {
-  	templateUrl: 'views/custom_apps/customApps.html',
+	$routeProvider.when('/custom_apps', {
+  	templateUrl: 'views/customApps/customApps.html',
     controller: 'customAppsCtrl'
   });
 }])
@@ -36,26 +36,29 @@ angular.module('myApp.customApps', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
-						{ name:'Id', field:'id'/*, visible: */},
-						{ name:'Appid', field:'appid'/*, visible: */},
-						{ name:'Desc', field:'desc'/*, visible: */},
-						{ name:'Name', field:'name'/*, visible: */},
-						{ name:'Appgrps', field:'appgrps'/*, visible: */},
-						{ name:'Devgrp', field:'devgrp'/*, visible: */},
-						{ name:'Org', field:'org'/*, visible: */},
-						{ name:'Dnats', field:'dnats'/*, visible: */},
-						{ name:'Device Proto', field:'device_proto'/*, visible: */},
-						{ name:'Type', field:'type'/*, visible: */},
-						{ name:'Internal', field:'internal'/*, visible: */},
-						{ name:'Ipport', field:'ipport'/*, visible: */},
-						{ name:'Httphost', field:'httphost'/*, visible: */},
-						{ name:'Device', field:'device'/*, visible: */},
-						{ name:'Segments', field:'segments'/*, visible: */},
-						{ name:'Device Ports', field:'device_ports'/*, visible: */},
-						{ name:'Uid', field:'uid'/*, visible: */},
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
+						{ name:'Id', field:'id'/*, visible: */, enableCellEdit: ('id'=='id' || 'id'=='uid' || 'id'=='gid')? false: true},
+						{ name:'Appid', field:'appid'/*, visible: */, enableCellEdit: ('appid'=='id' || 'appid'=='uid' || 'appid'=='gid')? false: true},
+						{ name:'Desc', field:'desc'/*, visible: */, enableCellEdit: ('desc'=='id' || 'desc'=='uid' || 'desc'=='gid')? false: true},
+						{ name:'Name', field:'name'/*, visible: */, enableCellEdit: ('name'=='id' || 'name'=='uid' || 'name'=='gid')? false: true},
+						{ name:'Appgrps', field:'appgrps'/*, visible: */, enableCellEdit: ('appgrps'=='id' || 'appgrps'=='uid' || 'appgrps'=='gid')? false: true},
+						{ name:'Devgrp', field:'devgrp'/*, visible: */, enableCellEdit: ('devgrp'=='id' || 'devgrp'=='uid' || 'devgrp'=='gid')? false: true},
+						{ name:'Org', field:'org'/*, visible: */, enableCellEdit: ('org'=='id' || 'org'=='uid' || 'org'=='gid')? false: true},
+						{ name:'Dnats', field:'dnats'/*, visible: */, enableCellEdit: ('dnats'=='id' || 'dnats'=='uid' || 'dnats'=='gid')? false: true},
+						{ name:'Device Proto', field:'device_proto'/*, visible: */, enableCellEdit: ('device_proto'=='id' || 'device_proto'=='uid' || 'device_proto'=='gid')? false: true},
+						{ name:'Type', field:'type'/*, visible: */, enableCellEdit: ('type'=='id' || 'type'=='uid' || 'type'=='gid')? false: true},
+						{ name:'Internal', field:'internal'/*, visible: */, enableCellEdit: ('internal'=='id' || 'internal'=='uid' || 'internal'=='gid')? false: true},
+						{ name:'Ipport', field:'ipport'/*, visible: */, enableCellEdit: ('ipport'=='id' || 'ipport'=='uid' || 'ipport'=='gid')? false: true},
+						{ name:'Httphost', field:'httphost'/*, visible: */, enableCellEdit: ('httphost'=='id' || 'httphost'=='uid' || 'httphost'=='gid')? false: true},
+						{ name:'Device', field:'device'/*, visible: */, enableCellEdit: ('device'=='id' || 'device'=='uid' || 'device'=='gid')? false: true},
+						{ name:'Segments', field:'segments'/*, visible: */, enableCellEdit: ('segments'=='id' || 'segments'=='uid' || 'segments'=='gid')? false: true},
+						{ name:'Device Ports', field:'device_ports'/*, visible: */, enableCellEdit: ('device_ports'=='id' || 'device_ports'=='uid' || 'device_ports'=='gid')? false: true},
+						{ name:'Uid', field:'uid'/*, visible: */, enableCellEdit: ('uid'=='id' || 'uid'=='uid' || 'uid'=='gid')? false: true},
 					],
 					data: $scope.customApps,
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -70,8 +73,13 @@ angular.module('myApp.customApps', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['appid'] = rowEntity.id;
+            				customAppsApi.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -80,7 +88,7 @@ angular.module('myApp.customApps', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.customAppsSelected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							customAppsSelectionSvc.setcustomApps(row.entity);
 						}
         				},500);
@@ -92,6 +100,25 @@ angular.module('myApp.customApps', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.customAppsSelected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['appid'] = row.entity.id;
+					customAppsApi.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.customApps.length; i++){
+							if ($scope.customApps[i].id == row.entity.id) {
+								$scope.customApps.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+
 				}
 				
 				$scope.customAppsFields = [

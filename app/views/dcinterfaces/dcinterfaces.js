@@ -1,7 +1,7 @@
 'use strict';
 angular.module('myApp.dcinterfaces', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/dcinterfaces', {
+	$routeProvider.when('/dcinterfaces', {
   	templateUrl: 'views/dcinterfaces/dcinterfaces.html',
     controller: 'dcinterfacesCtrl'
   });
@@ -36,18 +36,21 @@ angular.module('myApp.dcinterfaces', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
-						{ name:'Org', field:'org'/*, visible: */},
-						{ name:'Port', field:'port'/*, visible: */},
-						{ name:'Gateway Ipv4', field:'gateway_ipv4'/*, visible: */},
-						{ name:'Gateway Ipv6', field:'gateway_ipv6'/*, visible: */},
-						{ name:'Ipv4', field:'ipv4'/*, visible: */},
-						{ name:'Ipv6', field:'ipv6'/*, visible: */},
-						{ name:'Mtu', field:'mtu'/*, visible: */},
-						{ name:'Auto Negotiation', field:'auto_negotiation'/*, visible: */},
-						{ name:'Enabled', field:'enabled'/*, visible: */},
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
+						{ name:'Org', field:'org'/*, visible: */, enableCellEdit: ('org'=='id' || 'org'=='uid' || 'org'=='gid')? false: true},
+						{ name:'Port', field:'port'/*, visible: */, enableCellEdit: ('port'=='id' || 'port'=='uid' || 'port'=='gid')? false: true},
+						{ name:'Gateway Ipv4', field:'gateway_ipv4'/*, visible: */, enableCellEdit: ('gateway_ipv4'=='id' || 'gateway_ipv4'=='uid' || 'gateway_ipv4'=='gid')? false: true},
+						{ name:'Gateway Ipv6', field:'gateway_ipv6'/*, visible: */, enableCellEdit: ('gateway_ipv6'=='id' || 'gateway_ipv6'=='uid' || 'gateway_ipv6'=='gid')? false: true},
+						{ name:'Ipv4', field:'ipv4'/*, visible: */, enableCellEdit: ('ipv4'=='id' || 'ipv4'=='uid' || 'ipv4'=='gid')? false: true},
+						{ name:'Ipv6', field:'ipv6'/*, visible: */, enableCellEdit: ('ipv6'=='id' || 'ipv6'=='uid' || 'ipv6'=='gid')? false: true},
+						{ name:'Mtu', field:'mtu'/*, visible: */, enableCellEdit: ('mtu'=='id' || 'mtu'=='uid' || 'mtu'=='gid')? false: true},
+						{ name:'Auto Negotiation', field:'auto_negotiation'/*, visible: */, enableCellEdit: ('auto_negotiation'=='id' || 'auto_negotiation'=='uid' || 'auto_negotiation'=='gid')? false: true},
+						{ name:'Enabled', field:'enabled'/*, visible: */, enableCellEdit: ('enabled'=='id' || 'enabled'=='uid' || 'enabled'=='gid')? false: true},
 					],
 					data: $scope.dcinterfaces,
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -62,8 +65,13 @@ angular.module('myApp.dcinterfaces', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['dcinterfaceid'] = rowEntity.id;
+            				dcinterfacesApi.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -72,7 +80,7 @@ angular.module('myApp.dcinterfaces', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.dcinterfacesSelected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							dcinterfacesSelectionSvc.setdcinterfaces(row.entity);
 						}
         				},500);
@@ -84,6 +92,25 @@ angular.module('myApp.dcinterfaces', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.dcinterfacesSelected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['dcinterfaceid'] = row.entity.id;
+					dcinterfacesApi.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.dcinterfaces.length; i++){
+							if ($scope.dcinterfaces[i].id == row.entity.id) {
+								$scope.dcinterfaces.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+
 				}
 				
 				$scope.dcinterfacesFields = [

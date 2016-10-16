@@ -9,8 +9,19 @@ angular.module('myApp').factory('orgsPath_rulesApi', function($resource) {
     		transformResponse: function (data) {
      			var wrapped = angular.fromJson(data); 
      			return wrapped.items;
-    		} 
+    		}
+    	},
+    	'delete': {
+    		method: 'DELETE',
+    		url: '/api/scm.config/1.0/path_rule/:pruleid',
+    		params: { pruleid: '@pruleid' } 
+    	},
+    	'update': {
+    		method: 'PUT',
+    		url: '/api/scm.config/1.0/path_rule/:pruleid',
+    		params: { pruleid: '@pruleid' } 
     	}
+    	
     });
 });
 

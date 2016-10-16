@@ -3,8 +3,13 @@
 {{#get.values}}
 angular.module('myApp.{{name}}', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('{{&path}}', {
-  	templateUrl: 'views{{&path}}/{{name}}.html',
+	$routeProvider.when('{{& path}}', {
+{{#isSubMenu}}
+  templateUrl: 'views{{& path}}/{{name}}.html',
+{{/isSubMenu}}
+{{^isSubMenu}}
+  	templateUrl: 'views/{{name}}/{{name}}.html',
+{{/isSubMenu}}
     controller: '{{name}}Ctrl'
   });
 }])
@@ -45,12 +50,15 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
 					{{#definition}}
-						{ name:'{{title}}', field:'{{name}}'/*, visible:{{visible}} */},
+						{ name:'{{title}}', field:'{{name}}'/*, visible:{{visible}} */, enableCellEdit: ('{{name}}'=='id' || '{{name}}'=='uid' || '{{name}}'=='gid')? false: true},
 					{{/definition}}
 					],
 					data: $scope.{{name}},
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -70,8 +78,13 @@ angular.module('myApp.{{name}}', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['{{putId}}'] = rowEntity.id;
+            				{{name}}Api.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -80,7 +93,7 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.{{name}}Selected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							{{name}}SelectionSvc.set{{name}}(row.entity);
 						}
         				},500);
@@ -98,6 +111,27 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.{{name}}Selected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					{{#delete}}
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['{{deleteId}}'] = row.entity.id;
+					{{name}}Api.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.{{name}}.length; i++){
+							if ($scope.{{name}}[i].id == row.entity.id) {
+								$scope.{{name}}.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+					{{/delete}}
+
 				}
 				
 				$scope.{{name}}Fields = [

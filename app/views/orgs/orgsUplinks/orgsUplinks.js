@@ -1,8 +1,8 @@
 'use strict';
 angular.module('myApp.orgsUplinks', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgs/orgsUplinks', {
-  	templateUrl: 'views/orgs/orgsUplinks/orgsUplinks.html',
+	$routeProvider.when('/orgs/orgsUplinks', {
+  templateUrl: 'views/orgs/orgsUplinks/orgsUplinks.html',
     controller: 'orgsUplinksCtrl'
   });
 }])
@@ -38,28 +38,31 @@ angular.module('myApp.orgsUplinks', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
-						{ name:'Org', field:'org'/*, visible: */},
-						{ name:'Qos Bw Up', field:'qos_bw_up'/*, visible: */},
-						{ name:'Qos Up', field:'qos_up'/*, visible: */},
-						{ name:'Site', field:'site'/*, visible: */},
-						{ name:'Static Ip V6', field:'static_ip_v6'/*, visible: */},
-						{ name:'Uin', field:'uin'/*, visible: */},
-						{ name:'Uid', field:'uid'/*, visible: */},
-						{ name:'Node', field:'node'/*, visible: */},
-						{ name:'Name', field:'name'/*, visible: */},
-						{ name:'Static Gw V4', field:'static_gw_v4'/*, visible: */},
-						{ name:'Id', field:'id'/*, visible: */},
-						{ name:'Wan', field:'wan'/*, visible: */},
-						{ name:'Static Gw V6', field:'static_gw_v6'/*, visible: */},
-						{ name:'Qos Bw Down', field:'qos_bw_down'/*, visible: */},
-						{ name:'Qos Down', field:'qos_down'/*, visible: */},
-						{ name:'Static Ip V4', field:'static_ip_v4'/*, visible: */},
-						{ name:'Port', field:'port'/*, visible: */},
-						{ name:'Vlan', field:'vlan'/*, visible: */},
-						{ name:'Type', field:'type'/*, visible: */},
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
+						{ name:'Org', field:'org'/*, visible: */, enableCellEdit: ('org'=='id' || 'org'=='uid' || 'org'=='gid')? false: true},
+						{ name:'Qos Bw Up', field:'qos_bw_up'/*, visible: */, enableCellEdit: ('qos_bw_up'=='id' || 'qos_bw_up'=='uid' || 'qos_bw_up'=='gid')? false: true},
+						{ name:'Qos Up', field:'qos_up'/*, visible: */, enableCellEdit: ('qos_up'=='id' || 'qos_up'=='uid' || 'qos_up'=='gid')? false: true},
+						{ name:'Site', field:'site'/*, visible: */, enableCellEdit: ('site'=='id' || 'site'=='uid' || 'site'=='gid')? false: true},
+						{ name:'Static Ip V6', field:'static_ip_v6'/*, visible: */, enableCellEdit: ('static_ip_v6'=='id' || 'static_ip_v6'=='uid' || 'static_ip_v6'=='gid')? false: true},
+						{ name:'Uin', field:'uin'/*, visible: */, enableCellEdit: ('uin'=='id' || 'uin'=='uid' || 'uin'=='gid')? false: true},
+						{ name:'Uid', field:'uid'/*, visible: */, enableCellEdit: ('uid'=='id' || 'uid'=='uid' || 'uid'=='gid')? false: true},
+						{ name:'Node', field:'node'/*, visible: */, enableCellEdit: ('node'=='id' || 'node'=='uid' || 'node'=='gid')? false: true},
+						{ name:'Name', field:'name'/*, visible: */, enableCellEdit: ('name'=='id' || 'name'=='uid' || 'name'=='gid')? false: true},
+						{ name:'Static Gw V4', field:'static_gw_v4'/*, visible: */, enableCellEdit: ('static_gw_v4'=='id' || 'static_gw_v4'=='uid' || 'static_gw_v4'=='gid')? false: true},
+						{ name:'Id', field:'id'/*, visible: */, enableCellEdit: ('id'=='id' || 'id'=='uid' || 'id'=='gid')? false: true},
+						{ name:'Wan', field:'wan'/*, visible: */, enableCellEdit: ('wan'=='id' || 'wan'=='uid' || 'wan'=='gid')? false: true},
+						{ name:'Static Gw V6', field:'static_gw_v6'/*, visible: */, enableCellEdit: ('static_gw_v6'=='id' || 'static_gw_v6'=='uid' || 'static_gw_v6'=='gid')? false: true},
+						{ name:'Qos Bw Down', field:'qos_bw_down'/*, visible: */, enableCellEdit: ('qos_bw_down'=='id' || 'qos_bw_down'=='uid' || 'qos_bw_down'=='gid')? false: true},
+						{ name:'Qos Down', field:'qos_down'/*, visible: */, enableCellEdit: ('qos_down'=='id' || 'qos_down'=='uid' || 'qos_down'=='gid')? false: true},
+						{ name:'Static Ip V4', field:'static_ip_v4'/*, visible: */, enableCellEdit: ('static_ip_v4'=='id' || 'static_ip_v4'=='uid' || 'static_ip_v4'=='gid')? false: true},
+						{ name:'Port', field:'port'/*, visible: */, enableCellEdit: ('port'=='id' || 'port'=='uid' || 'port'=='gid')? false: true},
+						{ name:'Vlan', field:'vlan'/*, visible: */, enableCellEdit: ('vlan'=='id' || 'vlan'=='uid' || 'vlan'=='gid')? false: true},
+						{ name:'Type', field:'type'/*, visible: */, enableCellEdit: ('type'=='id' || 'type'=='uid' || 'type'=='gid')? false: true},
 					],
 					data: $scope.orgsUplinks,
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -74,8 +77,13 @@ angular.module('myApp.orgsUplinks', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['uplinkid'] = rowEntity.id;
+            				orgsUplinksApi.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -84,7 +92,7 @@ angular.module('myApp.orgsUplinks', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsUplinksSelected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							orgsUplinksSelectionSvc.setorgsUplinks(row.entity);
 						}
         				},500);
@@ -96,6 +104,25 @@ angular.module('myApp.orgsUplinks', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.orgsUplinksSelected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['uplinkid'] = row.entity.id;
+					orgsUplinksApi.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.orgsUplinks.length; i++){
+							if ($scope.orgsUplinks[i].id == row.entity.id) {
+								$scope.orgsUplinks.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+
 				}
 				
 				$scope.orgsUplinksFields = [

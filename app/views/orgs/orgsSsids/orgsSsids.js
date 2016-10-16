@@ -1,8 +1,8 @@
 'use strict';
 angular.module('myApp.orgsSsids', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgs/orgsSsids', {
-  	templateUrl: 'views/orgs/orgsSsids/orgsSsids.html',
+	$routeProvider.when('/orgs/orgsSsids', {
+  templateUrl: 'views/orgs/orgsSsids/orgsSsids.html',
     controller: 'orgsSsidsCtrl'
   });
 }])
@@ -38,19 +38,22 @@ angular.module('myApp.orgsSsids', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
-						{ name:'Id', field:'id'/*, visible: */},
-						{ name:'Org', field:'org'/*, visible: */},
-						{ name:'Ssid', field:'ssid'/*, visible: */},
-						{ name:'Security', field:'security'/*, visible: */},
-						{ name:'Encryption', field:'encryption'/*, visible: */},
-						{ name:'Key', field:'key'/*, visible: */},
-						{ name:'Authentication', field:'authentication'/*, visible: */},
-						{ name:'Eapol Version', field:'eapol_version'/*, visible: */},
-						{ name:'Dtim Period', field:'dtim_period'/*, visible: */},
-						{ name:'Bcasts', field:'bcasts'/*, visible: */},
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
+						{ name:'Id', field:'id'/*, visible: */, enableCellEdit: ('id'=='id' || 'id'=='uid' || 'id'=='gid')? false: true},
+						{ name:'Org', field:'org'/*, visible: */, enableCellEdit: ('org'=='id' || 'org'=='uid' || 'org'=='gid')? false: true},
+						{ name:'Ssid', field:'ssid'/*, visible: */, enableCellEdit: ('ssid'=='id' || 'ssid'=='uid' || 'ssid'=='gid')? false: true},
+						{ name:'Security', field:'security'/*, visible: */, enableCellEdit: ('security'=='id' || 'security'=='uid' || 'security'=='gid')? false: true},
+						{ name:'Encryption', field:'encryption'/*, visible: */, enableCellEdit: ('encryption'=='id' || 'encryption'=='uid' || 'encryption'=='gid')? false: true},
+						{ name:'Key', field:'key'/*, visible: */, enableCellEdit: ('key'=='id' || 'key'=='uid' || 'key'=='gid')? false: true},
+						{ name:'Authentication', field:'authentication'/*, visible: */, enableCellEdit: ('authentication'=='id' || 'authentication'=='uid' || 'authentication'=='gid')? false: true},
+						{ name:'Eapol Version', field:'eapol_version'/*, visible: */, enableCellEdit: ('eapol_version'=='id' || 'eapol_version'=='uid' || 'eapol_version'=='gid')? false: true},
+						{ name:'Dtim Period', field:'dtim_period'/*, visible: */, enableCellEdit: ('dtim_period'=='id' || 'dtim_period'=='uid' || 'dtim_period'=='gid')? false: true},
+						{ name:'Bcasts', field:'bcasts'/*, visible: */, enableCellEdit: ('bcasts'=='id' || 'bcasts'=='uid' || 'bcasts'=='gid')? false: true},
 					],
 					data: $scope.orgsSsids,
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -65,8 +68,13 @@ angular.module('myApp.orgsSsids', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['ssidid'] = rowEntity.id;
+            				orgsSsidsApi.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -75,7 +83,7 @@ angular.module('myApp.orgsSsids', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsSsidsSelected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							orgsSsidsSelectionSvc.setorgsSsids(row.entity);
 						}
         				},500);
@@ -87,6 +95,25 @@ angular.module('myApp.orgsSsids', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.orgsSsidsSelected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['ssidid'] = row.entity.id;
+					orgsSsidsApi.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.orgsSsids.length; i++){
+							if ($scope.orgsSsids[i].id == row.entity.id) {
+								$scope.orgsSsids.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+
 				}
 				
 				$scope.orgsSsidsFields = [

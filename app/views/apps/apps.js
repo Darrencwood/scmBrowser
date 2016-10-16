@@ -1,7 +1,7 @@
 'use strict';
 angular.module('myApp.apps', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/apps', {
+	$routeProvider.when('/apps', {
   	templateUrl: 'views/apps/apps.html',
     controller: 'appsCtrl'
   });
@@ -36,13 +36,16 @@ angular.module('myApp.apps', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
-						{ name:'Desc', field:'desc'/*, visible: */},
-						{ name:'Dgrp', field:'dgrp'/*, visible: */},
-						{ name:'Name', field:'name'/*, visible: */},
-						{ name:'Id', field:'id'/*, visible: */},
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
+						{ name:'Desc', field:'desc'/*, visible: */, enableCellEdit: ('desc'=='id' || 'desc'=='uid' || 'desc'=='gid')? false: true},
+						{ name:'Dgrp', field:'dgrp'/*, visible: */, enableCellEdit: ('dgrp'=='id' || 'dgrp'=='uid' || 'dgrp'=='gid')? false: true},
+						{ name:'Name', field:'name'/*, visible: */, enableCellEdit: ('name'=='id' || 'name'=='uid' || 'name'=='gid')? false: true},
+						{ name:'Id', field:'id'/*, visible: */, enableCellEdit: ('id'=='id' || 'id'=='uid' || 'id'=='gid')? false: true},
 					],
 					data: $scope.apps,
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -57,8 +60,13 @@ angular.module('myApp.apps', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['appid'] = rowEntity.id;
+            				appsApi.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -67,7 +75,7 @@ angular.module('myApp.apps', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.appsSelected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							appsSelectionSvc.setapps(row.entity);
 						}
         				},500);
@@ -79,6 +87,25 @@ angular.module('myApp.apps', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.appsSelected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['appid'] = row.entity.id;
+					appsApi.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.apps.length; i++){
+							if ($scope.apps[i].id == row.entity.id) {
+								$scope.apps.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+
 				}
 				
 				$scope.appsFields = [

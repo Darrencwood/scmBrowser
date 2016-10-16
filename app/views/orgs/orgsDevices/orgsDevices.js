@@ -1,8 +1,8 @@
 'use strict';
 angular.module('myApp.orgsDevices', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgs/orgsDevices', {
-  	templateUrl: 'views/orgs/orgsDevices/orgsDevices.html',
+	$routeProvider.when('/orgs/orgsDevices', {
+  templateUrl: 'views/orgs/orgsDevices/orgsDevices.html',
     controller: 'orgsDevicesCtrl'
   });
 }])
@@ -38,21 +38,24 @@ angular.module('myApp.orgsDevices', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
-						{ name:'Id', field:'id'/*, visible: */},
-						{ name:'Uid', field:'uid'/*, visible: */},
-						{ name:'User', field:'user'/*, visible: */},
-						{ name:'Mac', field:'mac'/*, visible: */},
-						{ name:'Info', field:'info'/*, visible: */},
-						{ name:'Ipv4', field:'ipv4'/*, visible: */},
-						{ name:'Ipv6', field:'ipv6'/*, visible: */},
-						{ name:'Org', field:'org'/*, visible: */},
-						{ name:'Devgrps', field:'devgrps'/*, visible: */},
-						{ name:'Tags', field:'tags'/*, visible: */},
-						{ name:'Net', field:'net'/*, visible: */},
-						{ name:'Endpoint', field:'endpoint'/*, visible: */},
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
+						{ name:'Id', field:'id'/*, visible: */, enableCellEdit: ('id'=='id' || 'id'=='uid' || 'id'=='gid')? false: true},
+						{ name:'Uid', field:'uid'/*, visible: */, enableCellEdit: ('uid'=='id' || 'uid'=='uid' || 'uid'=='gid')? false: true},
+						{ name:'User', field:'user'/*, visible: */, enableCellEdit: ('user'=='id' || 'user'=='uid' || 'user'=='gid')? false: true},
+						{ name:'Mac', field:'mac'/*, visible: */, enableCellEdit: ('mac'=='id' || 'mac'=='uid' || 'mac'=='gid')? false: true},
+						{ name:'Info', field:'info'/*, visible: */, enableCellEdit: ('info'=='id' || 'info'=='uid' || 'info'=='gid')? false: true},
+						{ name:'Ipv4', field:'ipv4'/*, visible: */, enableCellEdit: ('ipv4'=='id' || 'ipv4'=='uid' || 'ipv4'=='gid')? false: true},
+						{ name:'Ipv6', field:'ipv6'/*, visible: */, enableCellEdit: ('ipv6'=='id' || 'ipv6'=='uid' || 'ipv6'=='gid')? false: true},
+						{ name:'Org', field:'org'/*, visible: */, enableCellEdit: ('org'=='id' || 'org'=='uid' || 'org'=='gid')? false: true},
+						{ name:'Devgrps', field:'devgrps'/*, visible: */, enableCellEdit: ('devgrps'=='id' || 'devgrps'=='uid' || 'devgrps'=='gid')? false: true},
+						{ name:'Tags', field:'tags'/*, visible: */, enableCellEdit: ('tags'=='id' || 'tags'=='uid' || 'tags'=='gid')? false: true},
+						{ name:'Net', field:'net'/*, visible: */, enableCellEdit: ('net'=='id' || 'net'=='uid' || 'net'=='gid')? false: true},
+						{ name:'Endpoint', field:'endpoint'/*, visible: */, enableCellEdit: ('endpoint'=='id' || 'endpoint'=='uid' || 'endpoint'=='gid')? false: true},
 					],
 					data: $scope.orgsDevices,
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -67,8 +70,13 @@ angular.module('myApp.orgsDevices', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['devid'] = rowEntity.id;
+            				orgsDevicesApi.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -77,7 +85,7 @@ angular.module('myApp.orgsDevices', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsDevicesSelected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							orgsDevicesSelectionSvc.setorgsDevices(row.entity);
 						}
         				},500);
@@ -89,6 +97,25 @@ angular.module('myApp.orgsDevices', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.orgsDevicesSelected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['devid'] = row.entity.id;
+					orgsDevicesApi.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.orgsDevices.length; i++){
+							if ($scope.orgsDevices[i].id == row.entity.id) {
+								$scope.orgsDevices.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+
 				}
 				
 				$scope.orgsDevicesFields = [

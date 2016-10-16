@@ -1,8 +1,8 @@
 'use strict';
 angular.module('myApp.orgsBgpneighs', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgs/orgsBgpneighs', {
-  	templateUrl: 'views/orgs/orgsBgpneighs/orgsBgpneighs.html',
+	$routeProvider.when('/orgs/orgsBgpneighs', {
+  templateUrl: 'views/orgs/orgsBgpneighs/orgsBgpneighs.html',
     controller: 'orgsBgpneighsCtrl'
   });
 }])
@@ -38,17 +38,20 @@ angular.module('myApp.orgsBgpneighs', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
-						{ name:'Org', field:'org'/*, visible: */},
-						{ name:'Node', field:'node'/*, visible: */},
-						{ name:'Name', field:'name'/*, visible: */},
-						{ name:'Ipv4', field:'ipv4'/*, visible: */},
-						{ name:'Remote As', field:'remote_as'/*, visible: */},
-						{ name:'Password', field:'password'/*, visible: */},
-						{ name:'Keepalive Time', field:'keepalive_time'/*, visible: */},
-						{ name:'Hold Time', field:'hold_time'/*, visible: */},
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
+						{ name:'Org', field:'org'/*, visible: */, enableCellEdit: ('org'=='id' || 'org'=='uid' || 'org'=='gid')? false: true},
+						{ name:'Node', field:'node'/*, visible: */, enableCellEdit: ('node'=='id' || 'node'=='uid' || 'node'=='gid')? false: true},
+						{ name:'Name', field:'name'/*, visible: */, enableCellEdit: ('name'=='id' || 'name'=='uid' || 'name'=='gid')? false: true},
+						{ name:'Ipv4', field:'ipv4'/*, visible: */, enableCellEdit: ('ipv4'=='id' || 'ipv4'=='uid' || 'ipv4'=='gid')? false: true},
+						{ name:'Remote As', field:'remote_as'/*, visible: */, enableCellEdit: ('remote_as'=='id' || 'remote_as'=='uid' || 'remote_as'=='gid')? false: true},
+						{ name:'Password', field:'password'/*, visible: */, enableCellEdit: ('password'=='id' || 'password'=='uid' || 'password'=='gid')? false: true},
+						{ name:'Keepalive Time', field:'keepalive_time'/*, visible: */, enableCellEdit: ('keepalive_time'=='id' || 'keepalive_time'=='uid' || 'keepalive_time'=='gid')? false: true},
+						{ name:'Hold Time', field:'hold_time'/*, visible: */, enableCellEdit: ('hold_time'=='id' || 'hold_time'=='uid' || 'hold_time'=='gid')? false: true},
 					],
 					data: $scope.orgsBgpneighs,
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -63,8 +66,13 @@ angular.module('myApp.orgsBgpneighs', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['bgpneighid'] = rowEntity.id;
+            				orgsBgpneighsApi.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -73,7 +81,7 @@ angular.module('myApp.orgsBgpneighs', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsBgpneighsSelected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							orgsBgpneighsSelectionSvc.setorgsBgpneighs(row.entity);
 						}
         				},500);
@@ -85,6 +93,25 @@ angular.module('myApp.orgsBgpneighs', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.orgsBgpneighsSelected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['bgpneighid'] = row.entity.id;
+					orgsBgpneighsApi.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.orgsBgpneighs.length; i++){
+							if ($scope.orgsBgpneighs[i].id == row.entity.id) {
+								$scope.orgsBgpneighs.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+
 				}
 				
 				$scope.orgsBgpneighsFields = [

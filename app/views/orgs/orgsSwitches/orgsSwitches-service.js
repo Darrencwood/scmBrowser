@@ -9,8 +9,19 @@ angular.module('myApp').factory('orgsSwitchesApi', function($resource) {
     		transformResponse: function (data) {
      			var wrapped = angular.fromJson(data); 
      			return wrapped.items;
-    		} 
+    		}
+    	},
+    	'delete': {
+    		method: 'DELETE',
+    		url: '/api/scm.config/1.0/switch/:switchid',
+    		params: { switchid: '@switchid' } 
+    	},
+    	'update': {
+    		method: 'PUT',
+    		url: '/api/scm.config/1.0/switch/:switchid',
+    		params: { switchid: '@switchid' } 
     	}
+    	
     });
 });
 

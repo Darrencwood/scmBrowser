@@ -1,7 +1,7 @@
 'use strict';
 angular.module('myApp.clusters', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/clusters', {
+	$routeProvider.when('/clusters', {
   	templateUrl: 'views/clusters/clusters.html',
     controller: 'clustersCtrl'
   });
@@ -36,24 +36,27 @@ angular.module('myApp.clusters', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
-						{ name:'Site', field:'site'/*, visible: */},
-						{ name:'Org', field:'org'/*, visible: */},
-						{ name:'Name', field:'name'/*, visible: */},
-						{ name:'Failover', field:'failover'/*, visible: */},
-						{ name:'Members', field:'members'/*, visible: */},
-						{ name:'Id', field:'id'/*, visible: */},
-						{ name:'Dcuplinks', field:'dcuplinks'/*, visible: */},
-						{ name:'Url', field:'url'/*, visible: */},
-						{ name:'Bgp Graceful Restart', field:'bgp_graceful_restart'/*, visible: */},
-						{ name:'Bgp Tep Community Type', field:'bgp_tep_community_type'/*, visible: */},
-						{ name:'Bgp Tep Community', field:'bgp_tep_community'/*, visible: */},
-						{ name:'Bgp Branch Community Type', field:'bgp_branch_community_type'/*, visible: */},
-						{ name:'Bgp Branch Community', field:'bgp_branch_community'/*, visible: */},
-						{ name:'Bgp Deployment Mode', field:'bgp_deployment_mode'/*, visible: */},
-						{ name:'Bgp Subnet Splitting', field:'bgp_subnet_splitting'/*, visible: */},
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
+						{ name:'Site', field:'site'/*, visible: */, enableCellEdit: ('site'=='id' || 'site'=='uid' || 'site'=='gid')? false: true},
+						{ name:'Org', field:'org'/*, visible: */, enableCellEdit: ('org'=='id' || 'org'=='uid' || 'org'=='gid')? false: true},
+						{ name:'Name', field:'name'/*, visible: */, enableCellEdit: ('name'=='id' || 'name'=='uid' || 'name'=='gid')? false: true},
+						{ name:'Failover', field:'failover'/*, visible: */, enableCellEdit: ('failover'=='id' || 'failover'=='uid' || 'failover'=='gid')? false: true},
+						{ name:'Members', field:'members'/*, visible: */, enableCellEdit: ('members'=='id' || 'members'=='uid' || 'members'=='gid')? false: true},
+						{ name:'Id', field:'id'/*, visible: */, enableCellEdit: ('id'=='id' || 'id'=='uid' || 'id'=='gid')? false: true},
+						{ name:'Dcuplinks', field:'dcuplinks'/*, visible: */, enableCellEdit: ('dcuplinks'=='id' || 'dcuplinks'=='uid' || 'dcuplinks'=='gid')? false: true},
+						{ name:'Url', field:'url'/*, visible: */, enableCellEdit: ('url'=='id' || 'url'=='uid' || 'url'=='gid')? false: true},
+						{ name:'Bgp Graceful Restart', field:'bgp_graceful_restart'/*, visible: */, enableCellEdit: ('bgp_graceful_restart'=='id' || 'bgp_graceful_restart'=='uid' || 'bgp_graceful_restart'=='gid')? false: true},
+						{ name:'Bgp Tep Community Type', field:'bgp_tep_community_type'/*, visible: */, enableCellEdit: ('bgp_tep_community_type'=='id' || 'bgp_tep_community_type'=='uid' || 'bgp_tep_community_type'=='gid')? false: true},
+						{ name:'Bgp Tep Community', field:'bgp_tep_community'/*, visible: */, enableCellEdit: ('bgp_tep_community'=='id' || 'bgp_tep_community'=='uid' || 'bgp_tep_community'=='gid')? false: true},
+						{ name:'Bgp Branch Community Type', field:'bgp_branch_community_type'/*, visible: */, enableCellEdit: ('bgp_branch_community_type'=='id' || 'bgp_branch_community_type'=='uid' || 'bgp_branch_community_type'=='gid')? false: true},
+						{ name:'Bgp Branch Community', field:'bgp_branch_community'/*, visible: */, enableCellEdit: ('bgp_branch_community'=='id' || 'bgp_branch_community'=='uid' || 'bgp_branch_community'=='gid')? false: true},
+						{ name:'Bgp Deployment Mode', field:'bgp_deployment_mode'/*, visible: */, enableCellEdit: ('bgp_deployment_mode'=='id' || 'bgp_deployment_mode'=='uid' || 'bgp_deployment_mode'=='gid')? false: true},
+						{ name:'Bgp Subnet Splitting', field:'bgp_subnet_splitting'/*, visible: */, enableCellEdit: ('bgp_subnet_splitting'=='id' || 'bgp_subnet_splitting'=='uid' || 'bgp_subnet_splitting'=='gid')? false: true},
 					],
 					data: $scope.clusters,
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -68,8 +71,13 @@ angular.module('myApp.clusters', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['clusterid'] = rowEntity.id;
+            				clustersApi.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -78,7 +86,7 @@ angular.module('myApp.clusters', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.clustersSelected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							clustersSelectionSvc.setclusters(row.entity);
 						}
         				},500);
@@ -90,6 +98,25 @@ angular.module('myApp.clusters', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.clustersSelected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['clusterid'] = row.entity.id;
+					clustersApi.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.clusters.length; i++){
+							if ($scope.clusters[i].id == row.entity.id) {
+								$scope.clusters.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+
 				}
 				
 				$scope.clustersFields = [

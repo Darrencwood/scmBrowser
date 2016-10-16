@@ -1,8 +1,8 @@
 'use strict';
 angular.module('myApp.orgsUsers', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgs/orgsUsers', {
-  	templateUrl: 'views/orgs/orgsUsers/orgsUsers.html',
+	$routeProvider.when('/orgs/orgsUsers', {
+  templateUrl: 'views/orgs/orgsUsers/orgsUsers.html',
     controller: 'orgsUsersCtrl'
   });
 }])
@@ -38,21 +38,24 @@ angular.module('myApp.orgsUsers', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
-						{ name:'Id', field:'id'/*, visible: */},
-						{ name:'Uid', field:'uid'/*, visible: */},
-						{ name:'Devices', field:'devices'/*, visible: */},
-						{ name:'Tags', field:'tags'/*, visible: */},
-						{ name:'Org', field:'org'/*, visible: */},
-						{ name:'Usergrps', field:'usergrps'/*, visible: */},
-						{ name:'Home Site', field:'home_site'/*, visible: */},
-						{ name:'Name', field:'name'/*, visible: */},
-						{ name:'Username', field:'username'/*, visible: */},
-						{ name:'Email', field:'email'/*, visible: */},
-						{ name:'Mobile', field:'mobile'/*, visible: */},
-						{ name:'Endpoints', field:'endpoints'/*, visible: */},
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
+						{ name:'Id', field:'id'/*, visible: */, enableCellEdit: ('id'=='id' || 'id'=='uid' || 'id'=='gid')? false: true},
+						{ name:'Uid', field:'uid'/*, visible: */, enableCellEdit: ('uid'=='id' || 'uid'=='uid' || 'uid'=='gid')? false: true},
+						{ name:'Devices', field:'devices'/*, visible: */, enableCellEdit: ('devices'=='id' || 'devices'=='uid' || 'devices'=='gid')? false: true},
+						{ name:'Tags', field:'tags'/*, visible: */, enableCellEdit: ('tags'=='id' || 'tags'=='uid' || 'tags'=='gid')? false: true},
+						{ name:'Org', field:'org'/*, visible: */, enableCellEdit: ('org'=='id' || 'org'=='uid' || 'org'=='gid')? false: true},
+						{ name:'Usergrps', field:'usergrps'/*, visible: */, enableCellEdit: ('usergrps'=='id' || 'usergrps'=='uid' || 'usergrps'=='gid')? false: true},
+						{ name:'Home Site', field:'home_site'/*, visible: */, enableCellEdit: ('home_site'=='id' || 'home_site'=='uid' || 'home_site'=='gid')? false: true},
+						{ name:'Name', field:'name'/*, visible: */, enableCellEdit: ('name'=='id' || 'name'=='uid' || 'name'=='gid')? false: true},
+						{ name:'Username', field:'username'/*, visible: */, enableCellEdit: ('username'=='id' || 'username'=='uid' || 'username'=='gid')? false: true},
+						{ name:'Email', field:'email'/*, visible: */, enableCellEdit: ('email'=='id' || 'email'=='uid' || 'email'=='gid')? false: true},
+						{ name:'Mobile', field:'mobile'/*, visible: */, enableCellEdit: ('mobile'=='id' || 'mobile'=='uid' || 'mobile'=='gid')? false: true},
+						{ name:'Endpoints', field:'endpoints'/*, visible: */, enableCellEdit: ('endpoints'=='id' || 'endpoints'=='uid' || 'endpoints'=='gid')? false: true},
 					],
 					data: $scope.orgsUsers,
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -67,8 +70,13 @@ angular.module('myApp.orgsUsers', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['userid'] = rowEntity.id;
+            				orgsUsersApi.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -77,7 +85,7 @@ angular.module('myApp.orgsUsers', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsUsersSelected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							orgsUsersSelectionSvc.setorgsUsers(row.entity);
 						}
         				},500);
@@ -89,6 +97,25 @@ angular.module('myApp.orgsUsers', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.orgsUsersSelected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['userid'] = row.entity.id;
+					orgsUsersApi.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.orgsUsers.length; i++){
+							if ($scope.orgsUsers[i].id == row.entity.id) {
+								$scope.orgsUsers.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+
 				}
 				
 				$scope.orgsUsersFields = [

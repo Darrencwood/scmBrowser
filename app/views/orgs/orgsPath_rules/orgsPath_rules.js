@@ -1,8 +1,8 @@
 'use strict';
 angular.module('myApp.orgsPath_rules', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgs/orgsPath_rules', {
-  	templateUrl: 'views/orgs/orgsPath_rules/orgsPath_rules.html',
+	$routeProvider.when('/orgs/orgsPath_rules', {
+  templateUrl: 'views/orgs/orgsPath_rules/orgsPath_rules.html',
     controller: 'orgsPath_rulesCtrl'
   });
 }])
@@ -38,25 +38,28 @@ angular.module('myApp.orgsPath_rules', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
-						{ name:'Dsttype', field:'dsttype'/*, visible: */},
-						{ name:'Qos', field:'qos'/*, visible: */},
-						{ name:'Id', field:'id'/*, visible: */},
-						{ name:'Marking', field:'marking'/*, visible: */},
-						{ name:'Zones', field:'zones'/*, visible: */},
-						{ name:'Srctype', field:'srctype'/*, visible: */},
-						{ name:'Uid', field:'uid'/*, visible: */},
-						{ name:'Active', field:'active'/*, visible: */},
-						{ name:'Sites', field:'sites'/*, visible: */},
-						{ name:'Path Preference', field:'path_preference'/*, visible: */},
-						{ name:'Org', field:'org'/*, visible: */},
-						{ name:'Dscp', field:'dscp'/*, visible: */},
-						{ name:'Apps', field:'apps'/*, visible: */},
-						{ name:'Devices', field:'devices'/*, visible: */},
-						{ name:'Tags', field:'tags'/*, visible: */},
-						{ name:'Users', field:'users'/*, visible: */},
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
+						{ name:'Dsttype', field:'dsttype'/*, visible: */, enableCellEdit: ('dsttype'=='id' || 'dsttype'=='uid' || 'dsttype'=='gid')? false: true},
+						{ name:'Qos', field:'qos'/*, visible: */, enableCellEdit: ('qos'=='id' || 'qos'=='uid' || 'qos'=='gid')? false: true},
+						{ name:'Id', field:'id'/*, visible: */, enableCellEdit: ('id'=='id' || 'id'=='uid' || 'id'=='gid')? false: true},
+						{ name:'Marking', field:'marking'/*, visible: */, enableCellEdit: ('marking'=='id' || 'marking'=='uid' || 'marking'=='gid')? false: true},
+						{ name:'Zones', field:'zones'/*, visible: */, enableCellEdit: ('zones'=='id' || 'zones'=='uid' || 'zones'=='gid')? false: true},
+						{ name:'Srctype', field:'srctype'/*, visible: */, enableCellEdit: ('srctype'=='id' || 'srctype'=='uid' || 'srctype'=='gid')? false: true},
+						{ name:'Uid', field:'uid'/*, visible: */, enableCellEdit: ('uid'=='id' || 'uid'=='uid' || 'uid'=='gid')? false: true},
+						{ name:'Active', field:'active'/*, visible: */, enableCellEdit: ('active'=='id' || 'active'=='uid' || 'active'=='gid')? false: true},
+						{ name:'Sites', field:'sites'/*, visible: */, enableCellEdit: ('sites'=='id' || 'sites'=='uid' || 'sites'=='gid')? false: true},
+						{ name:'Path Preference', field:'path_preference'/*, visible: */, enableCellEdit: ('path_preference'=='id' || 'path_preference'=='uid' || 'path_preference'=='gid')? false: true},
+						{ name:'Org', field:'org'/*, visible: */, enableCellEdit: ('org'=='id' || 'org'=='uid' || 'org'=='gid')? false: true},
+						{ name:'Dscp', field:'dscp'/*, visible: */, enableCellEdit: ('dscp'=='id' || 'dscp'=='uid' || 'dscp'=='gid')? false: true},
+						{ name:'Apps', field:'apps'/*, visible: */, enableCellEdit: ('apps'=='id' || 'apps'=='uid' || 'apps'=='gid')? false: true},
+						{ name:'Devices', field:'devices'/*, visible: */, enableCellEdit: ('devices'=='id' || 'devices'=='uid' || 'devices'=='gid')? false: true},
+						{ name:'Tags', field:'tags'/*, visible: */, enableCellEdit: ('tags'=='id' || 'tags'=='uid' || 'tags'=='gid')? false: true},
+						{ name:'Users', field:'users'/*, visible: */, enableCellEdit: ('users'=='id' || 'users'=='uid' || 'users'=='gid')? false: true},
 					],
 					data: $scope.orgsPath_rules,
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -71,8 +74,13 @@ angular.module('myApp.orgsPath_rules', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['pruleid'] = rowEntity.id;
+            				orgsPath_rulesApi.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -81,7 +89,7 @@ angular.module('myApp.orgsPath_rules', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsPath_rulesSelected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							orgsPath_rulesSelectionSvc.setorgsPath_rules(row.entity);
 						}
         				},500);
@@ -93,6 +101,25 @@ angular.module('myApp.orgsPath_rules', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.orgsPath_rulesSelected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['pruleid'] = row.entity.id;
+					orgsPath_rulesApi.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.orgsPath_rules.length; i++){
+							if ($scope.orgsPath_rules[i].id == row.entity.id) {
+								$scope.orgsPath_rules.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+
 				}
 				
 				$scope.orgsPath_rulesFields = [

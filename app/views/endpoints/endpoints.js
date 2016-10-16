@@ -1,7 +1,7 @@
 'use strict';
 angular.module('myApp.endpoints', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/endpoints', {
+	$routeProvider.when('/endpoints', {
   	templateUrl: 'views/endpoints/endpoints.html',
     controller: 'endpointsCtrl'
   });
@@ -36,16 +36,19 @@ angular.module('myApp.endpoints', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
-						{ name:'Vmac', field:'vmac'/*, visible: */},
-						{ name:'Secret', field:'secret'/*, visible: */},
-						{ name:'Id', field:'id'/*, visible: */},
-						{ name:'Devices', field:'devices'/*, visible: */},
-						{ name:'Org', field:'org'/*, visible: */},
-						{ name:'User', field:'user'/*, visible: */},
-						{ name:'Client', field:'client_id'/*, visible: */},
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
+						{ name:'Vmac', field:'vmac'/*, visible: */, enableCellEdit: ('vmac'=='id' || 'vmac'=='uid' || 'vmac'=='gid')? false: true},
+						{ name:'Secret', field:'secret'/*, visible: */, enableCellEdit: ('secret'=='id' || 'secret'=='uid' || 'secret'=='gid')? false: true},
+						{ name:'Id', field:'id'/*, visible: */, enableCellEdit: ('id'=='id' || 'id'=='uid' || 'id'=='gid')? false: true},
+						{ name:'Devices', field:'devices'/*, visible: */, enableCellEdit: ('devices'=='id' || 'devices'=='uid' || 'devices'=='gid')? false: true},
+						{ name:'Org', field:'org'/*, visible: */, enableCellEdit: ('org'=='id' || 'org'=='uid' || 'org'=='gid')? false: true},
+						{ name:'User', field:'user'/*, visible: */, enableCellEdit: ('user'=='id' || 'user'=='uid' || 'user'=='gid')? false: true},
+						{ name:'Client', field:'client_id'/*, visible: */, enableCellEdit: ('client_id'=='id' || 'client_id'=='uid' || 'client_id'=='gid')? false: true},
 					],
 					data: $scope.endpoints,
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -60,8 +63,13 @@ angular.module('myApp.endpoints', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['epid'] = rowEntity.id;
+            				endpointsApi.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -70,7 +78,7 @@ angular.module('myApp.endpoints', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.endpointsSelected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							endpointsSelectionSvc.setendpoints(row.entity);
 						}
         				},500);
@@ -82,6 +90,25 @@ angular.module('myApp.endpoints', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.endpointsSelected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['epid'] = row.entity.id;
+					endpointsApi.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.endpoints.length; i++){
+							if ($scope.endpoints[i].id == row.entity.id) {
+								$scope.endpoints.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+
 				}
 				
 				$scope.endpointsFields = [

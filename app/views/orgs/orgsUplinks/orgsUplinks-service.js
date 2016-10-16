@@ -9,8 +9,19 @@ angular.module('myApp').factory('orgsUplinksApi', function($resource) {
     		transformResponse: function (data) {
      			var wrapped = angular.fromJson(data); 
      			return wrapped.items;
-    		} 
+    		}
+    	},
+    	'delete': {
+    		method: 'DELETE',
+    		url: '/api/scm.config/1.0/uplink/:uplinkid',
+    		params: { uplinkid: '@uplinkid' } 
+    	},
+    	'update': {
+    		method: 'PUT',
+    		url: '/api/scm.config/1.0/uplink/:uplinkid',
+    		params: { uplinkid: '@uplinkid' } 
     	}
+    	
     });
 });
 

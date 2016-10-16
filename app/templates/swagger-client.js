@@ -9,21 +9,21 @@ _.mixin(_s.exports());
 
 const mainMenuMappings = [
   { id: 'ap', value: ':apid' , definition: 'node', selectedSubmenu: "id"},
-  { id: 'apps', value: ':appid' , definition: 'app', selectedSubmenu: "id"},
+  { id: 'apps', value: ':appid' , definition: 'app', selectedSubmenu: "id", delPutOp: "app"},
   { id: 'app_groups', value: ':appgrpid' , definition: 'appgrp', selectedSubmenu: "id"},
   { id: 'bgpneighs', value: ':bgpneighid' , definition: 'bgpneigh', selectedSubmenu: "id"},
   { id: 'broadcasts', value: ':bcastid' , definition: 'broadcast', selectedSubmenu: "id"},
   { id: 'clusters', value: ':clusterid' , definition: 'cluster', selectedSubmenu: "id"},
-  { id: 'custom_apps', value: ':appid', definition: 'custom_app' , selectedSubmenu: "id"},
+  { id: 'custom_apps', value: ':appid', definition: 'custom_app' , selectedSubmenu: "id", delPutOp: "custom_app"},
   { id: 'dcinterfaces', value: ':dcinterfaceid' , definition: 'dcinterface', selectedSubmenu: "id"},
   { id: 'dcuplinks', value: ':dcuplinkid' , definition: 'dcuplink', selectedSubmenu: "id"},
   { id: 'devices', value: ':devid' , definition: 'device', selectedSubmenu: "id"},
   { id: 'endpoints', value: ':epid' , definition: 'endpoint', selectedSubmenu: "id"},
-  { id: 'inbound_rules', value: ':ruleid' , definition: 'inboundrule', selectedSubmenu: "id"},
+  { id: 'inbound_rules', value: ':ruleid' , definition: 'inboundrule', selectedSubmenu: "id", delPutOp: "inbound_rule"},
   { id: 'networks', value: ':netid' , definition: 'network', selectedSubmenu: "id"},
   { id: 'nodes', value: ':nodeid' , definition: 'node', selectedSubmenu: "id"},
   { id: 'orgs', value: ':orgid' , definition: 'organization', selectedSubmenu: "id"},
-  { id: 'outbound_rules', value: ':ruleid' , definition: 'outboundrule', selectedSubmenu: "id"},
+  { id: 'outbound_rules', value: ':ruleid' , definition: 'outboundrule', selectedSubmenu: "id", delPutOp: "outbound_rule"},
   { id: 'path_rules', value: ':pruleid' , definition: 'pathrule', selectedSubmenu: "id"},
   { id: 'ports', value: ':portid', definition: 'port' , selectedSubmenu: "id"},
   { id: 'sites', value: ':siteid' , definition: 'site', selectedSubmenu: "id"},
@@ -203,6 +203,7 @@ function findSubMenuItem(data, mmap) {
       let subMenuName = mmap.id + _.capitalize(newMmap.id);
       let path = '/' + mmap.id + '/' + subMenuName;
       let back = '/' + mmap.id;
+      delOp = find_delete(data, newMmap);
       _.each(v.ops, function(op, method) {
         op.values = {
           id: newMmap.id,
@@ -214,7 +215,11 @@ function findSubMenuItem(data, mmap) {
           selectedSubmenu: newMmap.selectedSubmenu,
           originalId: mmap.value.substr(1, mmap.value.length),
           originalName: mmap.id,
-          isSubMenu: true
+          isSubMenu: true,
+          'delete': delOp[0].path,
+          'deleteId': delOp[0].id,
+          'put': delOp[0].path,
+          'putId': delOp[0].id,
         }
         if (method == "post") {
           op.values.sampleHeaders = downloadSamples[newMmap.definition].sampleHeaders;
@@ -225,6 +230,38 @@ function findSubMenuItem(data, mmap) {
     }
   })
   .value();
+}
+
+function find_delete(data, mmap) {
+  let elements = _.chain(data.paths)
+  .map(function(value, key) {
+    return { path:key, ops: value };
+  })
+  .filter(function(d) {
+    let s = d.path.split('/');   
+    if (s.length == 3) {
+      let str = s[2];
+      str = str.substr(1, str.length);
+      d.id = str; 
+    }
+    return (s.length == 3 && s[s.length - 1] == mmap.value);
+  })
+  .value();
+  // If more than one element, search the one that matched the mmap id to the second 
+  // parameter.
+  if (elements.length > 1 ) {
+    for (var i=0; i < elements.length; i++) {
+      let e = elements[i];
+      let s = e.path.split('/');
+      let map = _.find(mainMenuMappings, function(d) { 
+        return (d.id == mmap.id); }
+      );
+      if (map.delPutOp == s[1]) {
+        return [e];
+      }
+    }
+  }
+  return elements;
 }
 
 function getMainElements(data) {
@@ -243,6 +280,7 @@ function getMainElements(data) {
         console.log('Not found ' + name);
         process.exit(1);
       }
+      let delOp = find_delete(data, mmap);
       _.each(v.ops, function(op, method) {
         let path = '/' + mmap.id;
         op.values = {
@@ -251,13 +289,18 @@ function getMainElements(data) {
           title: _.titleize(_.humanize(mmap.id)),
           definition: restructureDefinitions(data.definitions[mmap.definition]),
           path: path,
-          selectedSubmenu: mmap.selectedSubmenu
+          selectedSubmenu: mmap.selectedSubmenu,
+          'delete': delOp[0].path,
+          'deleteId': delOp[0].id,
+          'put': delOp[0].path,
+          'putId': delOp[0].id,
         }
         if (method == "post"){
           op.values.sampleHeaders = downloadSamples[mmap.definition].sampleHeaders;
           op.values.sampleData = downloadSamples[mmap.definition].sampleData;
         }
         v.mmap = mmap;
+        
       });
     })
     .each(function(v) { // Find submenus }

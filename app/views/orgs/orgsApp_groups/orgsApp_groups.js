@@ -1,8 +1,8 @@
 'use strict';
 angular.module('myApp.orgsApp_groups', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgs/orgsApp_groups', {
-  	templateUrl: 'views/orgs/orgsApp_groups/orgsApp_groups.html',
+	$routeProvider.when('/orgs/orgsApp_groups', {
+  templateUrl: 'views/orgs/orgsApp_groups/orgsApp_groups.html',
     controller: 'orgsApp_groupsCtrl'
   });
 }])
@@ -38,17 +38,20 @@ angular.module('myApp.orgsApp_groups', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
-						{ name:'Name', field:'name'/*, visible: */},
-						{ name:'Webcat', field:'webcat'/*, visible: */},
-						{ name:'Sapps', field:'sapps'/*, visible: */},
-						{ name:'Org', field:'org'/*, visible: */},
-						{ name:'Predefined', field:'predefined'/*, visible: */},
-						{ name:'Apps', field:'apps'/*, visible: */},
-						{ name:'Id', field:'id'/*, visible: */},
-						{ name:'Desc', field:'desc'/*, visible: */},
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
+						{ name:'Name', field:'name'/*, visible: */, enableCellEdit: ('name'=='id' || 'name'=='uid' || 'name'=='gid')? false: true},
+						{ name:'Webcat', field:'webcat'/*, visible: */, enableCellEdit: ('webcat'=='id' || 'webcat'=='uid' || 'webcat'=='gid')? false: true},
+						{ name:'Sapps', field:'sapps'/*, visible: */, enableCellEdit: ('sapps'=='id' || 'sapps'=='uid' || 'sapps'=='gid')? false: true},
+						{ name:'Org', field:'org'/*, visible: */, enableCellEdit: ('org'=='id' || 'org'=='uid' || 'org'=='gid')? false: true},
+						{ name:'Predefined', field:'predefined'/*, visible: */, enableCellEdit: ('predefined'=='id' || 'predefined'=='uid' || 'predefined'=='gid')? false: true},
+						{ name:'Apps', field:'apps'/*, visible: */, enableCellEdit: ('apps'=='id' || 'apps'=='uid' || 'apps'=='gid')? false: true},
+						{ name:'Id', field:'id'/*, visible: */, enableCellEdit: ('id'=='id' || 'id'=='uid' || 'id'=='gid')? false: true},
+						{ name:'Desc', field:'desc'/*, visible: */, enableCellEdit: ('desc'=='id' || 'desc'=='uid' || 'desc'=='gid')? false: true},
 					],
 					data: $scope.orgsApp_groups,
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -63,8 +66,13 @@ angular.module('myApp.orgsApp_groups', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['appgrpid'] = rowEntity.id;
+            				orgsApp_groupsApi.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -73,7 +81,7 @@ angular.module('myApp.orgsApp_groups', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsApp_groupsSelected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							orgsApp_groupsSelectionSvc.setorgsApp_groups(row.entity);
 						}
         				},500);
@@ -85,6 +93,25 @@ angular.module('myApp.orgsApp_groups', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.orgsApp_groupsSelected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['appgrpid'] = row.entity.id;
+					orgsApp_groupsApi.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.orgsApp_groups.length; i++){
+							if ($scope.orgsApp_groups[i].id == row.entity.id) {
+								$scope.orgsApp_groups.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+
 				}
 				
 				$scope.orgsApp_groupsFields = [

@@ -1,7 +1,7 @@
 'use strict';
 angular.module('myApp.zones', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/zones', {
+	$routeProvider.when('/zones', {
   	templateUrl: 'views/zones/zones.html',
     controller: 'zonesCtrl'
   });
@@ -36,22 +36,25 @@ angular.module('myApp.zones', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
-						{ name:'Id', field:'id'/*, visible: */},
-						{ name:'Org', field:'org'/*, visible: */},
-						{ name:'Name', field:'name'/*, visible: */},
-						{ name:'Site', field:'site'/*, visible: */},
-						{ name:'Networks', field:'networks'/*, visible: */},
-						{ name:'Mgmt', field:'mgmt'/*, visible: */},
-						{ name:'Icmp', field:'icmp'/*, visible: */},
-						{ name:'Guest', field:'guest'/*, visible: */},
-						{ name:'Breakout Preference', field:'breakout_preference'/*, visible: */},
-						{ name:'Routes', field:'routes'/*, visible: */},
-						{ name:'Bcasts', field:'bcasts'/*, visible: */},
-						{ name:'Tag', field:'tag'/*, visible: */},
-						{ name:'Tags', field:'tags'/*, visible: */},
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
+						{ name:'Id', field:'id'/*, visible: */, enableCellEdit: ('id'=='id' || 'id'=='uid' || 'id'=='gid')? false: true},
+						{ name:'Org', field:'org'/*, visible: */, enableCellEdit: ('org'=='id' || 'org'=='uid' || 'org'=='gid')? false: true},
+						{ name:'Name', field:'name'/*, visible: */, enableCellEdit: ('name'=='id' || 'name'=='uid' || 'name'=='gid')? false: true},
+						{ name:'Site', field:'site'/*, visible: */, enableCellEdit: ('site'=='id' || 'site'=='uid' || 'site'=='gid')? false: true},
+						{ name:'Networks', field:'networks'/*, visible: */, enableCellEdit: ('networks'=='id' || 'networks'=='uid' || 'networks'=='gid')? false: true},
+						{ name:'Mgmt', field:'mgmt'/*, visible: */, enableCellEdit: ('mgmt'=='id' || 'mgmt'=='uid' || 'mgmt'=='gid')? false: true},
+						{ name:'Icmp', field:'icmp'/*, visible: */, enableCellEdit: ('icmp'=='id' || 'icmp'=='uid' || 'icmp'=='gid')? false: true},
+						{ name:'Guest', field:'guest'/*, visible: */, enableCellEdit: ('guest'=='id' || 'guest'=='uid' || 'guest'=='gid')? false: true},
+						{ name:'Breakout Preference', field:'breakout_preference'/*, visible: */, enableCellEdit: ('breakout_preference'=='id' || 'breakout_preference'=='uid' || 'breakout_preference'=='gid')? false: true},
+						{ name:'Routes', field:'routes'/*, visible: */, enableCellEdit: ('routes'=='id' || 'routes'=='uid' || 'routes'=='gid')? false: true},
+						{ name:'Bcasts', field:'bcasts'/*, visible: */, enableCellEdit: ('bcasts'=='id' || 'bcasts'=='uid' || 'bcasts'=='gid')? false: true},
+						{ name:'Tag', field:'tag'/*, visible: */, enableCellEdit: ('tag'=='id' || 'tag'=='uid' || 'tag'=='gid')? false: true},
+						{ name:'Tags', field:'tags'/*, visible: */, enableCellEdit: ('tags'=='id' || 'tags'=='uid' || 'tags'=='gid')? false: true},
 					],
 					data: $scope.zones,
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -66,8 +69,13 @@ angular.module('myApp.zones', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['zoneid'] = rowEntity.id;
+            				zonesApi.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -76,7 +84,7 @@ angular.module('myApp.zones', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.zonesSelected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							zonesSelectionSvc.setzones(row.entity);
 						}
         				},500);
@@ -88,6 +96,25 @@ angular.module('myApp.zones', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.zonesSelected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['zoneid'] = row.entity.id;
+					zonesApi.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.zones.length; i++){
+							if ($scope.zones[i].id == row.entity.id) {
+								$scope.zones.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+
 				}
 				
 				$scope.zonesFields = [

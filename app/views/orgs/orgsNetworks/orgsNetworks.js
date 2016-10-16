@@ -1,8 +1,8 @@
 'use strict';
 angular.module('myApp.orgsNetworks', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/orgs/orgsNetworks', {
-  	templateUrl: 'views/orgs/orgsNetworks/orgsNetworks.html',
+	$routeProvider.when('/orgs/orgsNetworks', {
+  templateUrl: 'views/orgs/orgsNetworks/orgsNetworks.html',
     controller: 'orgsNetworksCtrl'
   });
 }])
@@ -38,32 +38,35 @@ angular.module('myApp.orgsNetworks', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
-						{ name:'Nodenetcfgs', field:'nodenetcfgs'/*, visible: */},
-						{ name:'Zone', field:'zone'/*, visible: */},
-						{ name:'Name', field:'name'/*, visible: */},
-						{ name:'Dhcps Range Start', field:'dhcps_range_start'/*, visible: */},
-						{ name:'Devices', field:'devices'/*, visible: */},
-						{ name:'Dhcps Range End', field:'dhcps_range_end'/*, visible: */},
-						{ name:'Primary', field:'primary'/*, visible: */},
-						{ name:'Site', field:'site'/*, visible: */},
-						{ name:'Netv6', field:'netv6'/*, visible: */},
-						{ name:'Netv4', field:'netv4'/*, visible: */},
-						{ name:'Org', field:'org'/*, visible: */},
-						{ name:'Gwv6', field:'gwv6'/*, visible: */},
-						{ name:'Ra', field:'ra'/*, visible: */},
-						{ name:'Wans', field:'wans'/*, visible: */},
-						{ name:'Routes', field:'routes'/*, visible: */},
-						{ name:'Id', field:'id'/*, visible: */},
-						{ name:'Gwv4', field:'gwv4'/*, visible: */},
-						{ name:'Lnets', field:'lnets'/*, visible: */},
-						{ name:'Breakout Preference', field:'breakout_preference'/*, visible: */},
-						{ name:'Breakout Sitelink Site', field:'breakout_sitelink_site'/*, visible: */},
-						{ name:'Gw Noauto', field:'gw_noauto'/*, visible: */},
-						{ name:'Dhcps Leasetime', field:'dhcps_leasetime'/*, visible: */},
-						{ name:'Dhcps Options', field:'dhcps_options'/*, visible: */},
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
+						{ name:'Nodenetcfgs', field:'nodenetcfgs'/*, visible: */, enableCellEdit: ('nodenetcfgs'=='id' || 'nodenetcfgs'=='uid' || 'nodenetcfgs'=='gid')? false: true},
+						{ name:'Zone', field:'zone'/*, visible: */, enableCellEdit: ('zone'=='id' || 'zone'=='uid' || 'zone'=='gid')? false: true},
+						{ name:'Name', field:'name'/*, visible: */, enableCellEdit: ('name'=='id' || 'name'=='uid' || 'name'=='gid')? false: true},
+						{ name:'Dhcps Range Start', field:'dhcps_range_start'/*, visible: */, enableCellEdit: ('dhcps_range_start'=='id' || 'dhcps_range_start'=='uid' || 'dhcps_range_start'=='gid')? false: true},
+						{ name:'Devices', field:'devices'/*, visible: */, enableCellEdit: ('devices'=='id' || 'devices'=='uid' || 'devices'=='gid')? false: true},
+						{ name:'Dhcps Range End', field:'dhcps_range_end'/*, visible: */, enableCellEdit: ('dhcps_range_end'=='id' || 'dhcps_range_end'=='uid' || 'dhcps_range_end'=='gid')? false: true},
+						{ name:'Primary', field:'primary'/*, visible: */, enableCellEdit: ('primary'=='id' || 'primary'=='uid' || 'primary'=='gid')? false: true},
+						{ name:'Site', field:'site'/*, visible: */, enableCellEdit: ('site'=='id' || 'site'=='uid' || 'site'=='gid')? false: true},
+						{ name:'Netv6', field:'netv6'/*, visible: */, enableCellEdit: ('netv6'=='id' || 'netv6'=='uid' || 'netv6'=='gid')? false: true},
+						{ name:'Netv4', field:'netv4'/*, visible: */, enableCellEdit: ('netv4'=='id' || 'netv4'=='uid' || 'netv4'=='gid')? false: true},
+						{ name:'Org', field:'org'/*, visible: */, enableCellEdit: ('org'=='id' || 'org'=='uid' || 'org'=='gid')? false: true},
+						{ name:'Gwv6', field:'gwv6'/*, visible: */, enableCellEdit: ('gwv6'=='id' || 'gwv6'=='uid' || 'gwv6'=='gid')? false: true},
+						{ name:'Ra', field:'ra'/*, visible: */, enableCellEdit: ('ra'=='id' || 'ra'=='uid' || 'ra'=='gid')? false: true},
+						{ name:'Wans', field:'wans'/*, visible: */, enableCellEdit: ('wans'=='id' || 'wans'=='uid' || 'wans'=='gid')? false: true},
+						{ name:'Routes', field:'routes'/*, visible: */, enableCellEdit: ('routes'=='id' || 'routes'=='uid' || 'routes'=='gid')? false: true},
+						{ name:'Id', field:'id'/*, visible: */, enableCellEdit: ('id'=='id' || 'id'=='uid' || 'id'=='gid')? false: true},
+						{ name:'Gwv4', field:'gwv4'/*, visible: */, enableCellEdit: ('gwv4'=='id' || 'gwv4'=='uid' || 'gwv4'=='gid')? false: true},
+						{ name:'Lnets', field:'lnets'/*, visible: */, enableCellEdit: ('lnets'=='id' || 'lnets'=='uid' || 'lnets'=='gid')? false: true},
+						{ name:'Breakout Preference', field:'breakout_preference'/*, visible: */, enableCellEdit: ('breakout_preference'=='id' || 'breakout_preference'=='uid' || 'breakout_preference'=='gid')? false: true},
+						{ name:'Breakout Sitelink Site', field:'breakout_sitelink_site'/*, visible: */, enableCellEdit: ('breakout_sitelink_site'=='id' || 'breakout_sitelink_site'=='uid' || 'breakout_sitelink_site'=='gid')? false: true},
+						{ name:'Gw Noauto', field:'gw_noauto'/*, visible: */, enableCellEdit: ('gw_noauto'=='id' || 'gw_noauto'=='uid' || 'gw_noauto'=='gid')? false: true},
+						{ name:'Dhcps Leasetime', field:'dhcps_leasetime'/*, visible: */, enableCellEdit: ('dhcps_leasetime'=='id' || 'dhcps_leasetime'=='uid' || 'dhcps_leasetime'=='gid')? false: true},
+						{ name:'Dhcps Options', field:'dhcps_options'/*, visible: */, enableCellEdit: ('dhcps_options'=='id' || 'dhcps_options'=='uid' || 'dhcps_options'=='gid')? false: true},
 					],
 					data: $scope.orgsNetworks,
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -78,8 +81,13 @@ angular.module('myApp.orgsNetworks', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['netid'] = rowEntity.id;
+            				orgsNetworksApi.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -88,7 +96,7 @@ angular.module('myApp.orgsNetworks', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.orgsNetworksSelected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							orgsNetworksSelectionSvc.setorgsNetworks(row.entity);
 						}
         				},500);
@@ -100,6 +108,25 @@ angular.module('myApp.orgsNetworks', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.orgsNetworksSelected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['netid'] = row.entity.id;
+					orgsNetworksApi.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.orgsNetworks.length; i++){
+							if ($scope.orgsNetworks[i].id == row.entity.id) {
+								$scope.orgsNetworks.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+
 				}
 				
 				$scope.orgsNetworksFields = [

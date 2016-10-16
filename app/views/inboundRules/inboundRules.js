@@ -1,8 +1,8 @@
 'use strict';
 angular.module('myApp.inboundRules', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/inbound_rules', {
-  	templateUrl: 'views/inbound_rules/inboundRules.html',
+	$routeProvider.when('/inbound_rules', {
+  	templateUrl: 'views/inboundRules/inboundRules.html',
     controller: 'inboundRulesCtrl'
   });
 }])
@@ -36,19 +36,22 @@ angular.module('myApp.inboundRules', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
-						{ name:'Nat Port Offset', field:'nat_port_offset'/*, visible: */},
-						{ name:'App', field:'app'/*, visible: */},
-						{ name:'No Reflection', field:'no_reflection'/*, visible: */},
-						{ name:'Uplinks', field:'uplinks'/*, visible: */},
-						{ name:'Mode', field:'mode'/*, visible: */},
-						{ name:'Id', field:'id'/*, visible: */},
-						{ name:'Inactive', field:'inactive'/*, visible: */},
-						{ name:'Custom Ip', field:'custom_ip'/*, visible: */},
-						{ name:'Hostlist', field:'hostlist'/*, visible: */},
-						{ name:'Use Hostlist', field:'use_hostlist'/*, visible: */},
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
+						{ name:'Nat Port Offset', field:'nat_port_offset'/*, visible: */, enableCellEdit: ('nat_port_offset'=='id' || 'nat_port_offset'=='uid' || 'nat_port_offset'=='gid')? false: true},
+						{ name:'App', field:'app'/*, visible: */, enableCellEdit: ('app'=='id' || 'app'=='uid' || 'app'=='gid')? false: true},
+						{ name:'No Reflection', field:'no_reflection'/*, visible: */, enableCellEdit: ('no_reflection'=='id' || 'no_reflection'=='uid' || 'no_reflection'=='gid')? false: true},
+						{ name:'Uplinks', field:'uplinks'/*, visible: */, enableCellEdit: ('uplinks'=='id' || 'uplinks'=='uid' || 'uplinks'=='gid')? false: true},
+						{ name:'Mode', field:'mode'/*, visible: */, enableCellEdit: ('mode'=='id' || 'mode'=='uid' || 'mode'=='gid')? false: true},
+						{ name:'Id', field:'id'/*, visible: */, enableCellEdit: ('id'=='id' || 'id'=='uid' || 'id'=='gid')? false: true},
+						{ name:'Inactive', field:'inactive'/*, visible: */, enableCellEdit: ('inactive'=='id' || 'inactive'=='uid' || 'inactive'=='gid')? false: true},
+						{ name:'Custom Ip', field:'custom_ip'/*, visible: */, enableCellEdit: ('custom_ip'=='id' || 'custom_ip'=='uid' || 'custom_ip'=='gid')? false: true},
+						{ name:'Hostlist', field:'hostlist'/*, visible: */, enableCellEdit: ('hostlist'=='id' || 'hostlist'=='uid' || 'hostlist'=='gid')? false: true},
+						{ name:'Use Hostlist', field:'use_hostlist'/*, visible: */, enableCellEdit: ('use_hostlist'=='id' || 'use_hostlist'=='uid' || 'use_hostlist'=='gid')? false: true},
 					],
 					data: $scope.inboundRules,
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -63,8 +66,13 @@ angular.module('myApp.inboundRules', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['ruleid'] = rowEntity.id;
+            				inboundRulesApi.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -73,7 +81,7 @@ angular.module('myApp.inboundRules', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.inboundRulesSelected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							inboundRulesSelectionSvc.setinboundRules(row.entity);
 						}
         				},500);
@@ -85,6 +93,25 @@ angular.module('myApp.inboundRules', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.inboundRulesSelected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['ruleid'] = row.entity.id;
+					inboundRulesApi.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.inboundRules.length; i++){
+							if ($scope.inboundRules[i].id == row.entity.id) {
+								$scope.inboundRules.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+
 				}
 				
 				$scope.inboundRulesFields = [

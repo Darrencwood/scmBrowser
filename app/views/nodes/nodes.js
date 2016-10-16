@@ -1,7 +1,7 @@
 'use strict';
 angular.module('myApp.nodes', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/nodes', {
+	$routeProvider.when('/nodes', {
   	templateUrl: 'views/nodes/nodes.html',
     controller: 'nodesCtrl'
   });
@@ -36,28 +36,31 @@ angular.module('myApp.nodes', ['ngRoute'])
 					enableImporter: false,
 					rowHeight: 40,
 					columnDefs: [
-						{ name:'Site', field:'site'/*, visible: */},
-						{ name:'Org', field:'org'/*, visible: */},
-						{ name:'Local As', field:'local_as'/*, visible: */},
-						{ name:'Router', field:'router_id'/*, visible: */},
-						{ name:'Serial', field:'serial'/*, visible: */},
-						{ name:'Id', field:'id'/*, visible: */},
-						{ name:'Uid', field:'uid'/*, visible: */},
-						{ name:'Zones', field:'zones'/*, visible: */},
-						{ name:'Radios', field:'radios'/*, visible: */},
-						{ name:'Realm', field:'realm'/*, visible: */},
-						{ name:'Location', field:'location'/*, visible: */},
-						{ name:'Ports', field:'ports'/*, visible: */},
-						{ name:'Uplinks', field:'uplinks'/*, visible: */},
-						{ name:'Inventory Version Cc', field:'inventory_version_cc'/*, visible: */},
-						{ name:'Disable Stp', field:'disable_stp'/*, visible: */},
-						{ name:'License', field:'license'/*, visible: */},
-						{ name:'Model', field:'model'/*, visible: */},
-						{ name:'Sitelink', field:'sitelink'/*, visible: */},
-						{ name:'Simulated', field:'simulated'/*, visible: */},
+					{ name: 'delete',
+					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
+					},
+						{ name:'Site', field:'site'/*, visible: */, enableCellEdit: ('site'=='id' || 'site'=='uid' || 'site'=='gid')? false: true},
+						{ name:'Org', field:'org'/*, visible: */, enableCellEdit: ('org'=='id' || 'org'=='uid' || 'org'=='gid')? false: true},
+						{ name:'Local As', field:'local_as'/*, visible: */, enableCellEdit: ('local_as'=='id' || 'local_as'=='uid' || 'local_as'=='gid')? false: true},
+						{ name:'Router', field:'router_id'/*, visible: */, enableCellEdit: ('router_id'=='id' || 'router_id'=='uid' || 'router_id'=='gid')? false: true},
+						{ name:'Serial', field:'serial'/*, visible: */, enableCellEdit: ('serial'=='id' || 'serial'=='uid' || 'serial'=='gid')? false: true},
+						{ name:'Id', field:'id'/*, visible: */, enableCellEdit: ('id'=='id' || 'id'=='uid' || 'id'=='gid')? false: true},
+						{ name:'Uid', field:'uid'/*, visible: */, enableCellEdit: ('uid'=='id' || 'uid'=='uid' || 'uid'=='gid')? false: true},
+						{ name:'Zones', field:'zones'/*, visible: */, enableCellEdit: ('zones'=='id' || 'zones'=='uid' || 'zones'=='gid')? false: true},
+						{ name:'Radios', field:'radios'/*, visible: */, enableCellEdit: ('radios'=='id' || 'radios'=='uid' || 'radios'=='gid')? false: true},
+						{ name:'Realm', field:'realm'/*, visible: */, enableCellEdit: ('realm'=='id' || 'realm'=='uid' || 'realm'=='gid')? false: true},
+						{ name:'Location', field:'location'/*, visible: */, enableCellEdit: ('location'=='id' || 'location'=='uid' || 'location'=='gid')? false: true},
+						{ name:'Ports', field:'ports'/*, visible: */, enableCellEdit: ('ports'=='id' || 'ports'=='uid' || 'ports'=='gid')? false: true},
+						{ name:'Uplinks', field:'uplinks'/*, visible: */, enableCellEdit: ('uplinks'=='id' || 'uplinks'=='uid' || 'uplinks'=='gid')? false: true},
+						{ name:'Inventory Version Cc', field:'inventory_version_cc'/*, visible: */, enableCellEdit: ('inventory_version_cc'=='id' || 'inventory_version_cc'=='uid' || 'inventory_version_cc'=='gid')? false: true},
+						{ name:'Disable Stp', field:'disable_stp'/*, visible: */, enableCellEdit: ('disable_stp'=='id' || 'disable_stp'=='uid' || 'disable_stp'=='gid')? false: true},
+						{ name:'License', field:'license'/*, visible: */, enableCellEdit: ('license'=='id' || 'license'=='uid' || 'license'=='gid')? false: true},
+						{ name:'Model', field:'model'/*, visible: */, enableCellEdit: ('model'=='id' || 'model'=='uid' || 'model'=='gid')? false: true},
+						{ name:'Sitelink', field:'sitelink'/*, visible: */, enableCellEdit: ('sitelink'=='id' || 'sitelink'=='uid' || 'sitelink'=='gid')? false: true},
+						{ name:'Simulated', field:'simulated'/*, visible: */, enableCellEdit: ('simulated'=='id' || 'simulated'=='uid' || 'simulated'=='gid')? false: true},
 					],
 					data: $scope.nodes,
-					rowTemplate: '<div ng-click="grid.appScope.click(row)" ng-dblclick="grid.appScope.dblclick(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+						rowTemplate: '<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
@@ -72,8 +75,13 @@ angular.module('myApp.nodes', ['ngRoute'])
     				},
     				onRegisterApi: function(gridApi){ 
       					$scope.gridApi = gridApi;
-      						//$scope.gridApi.rowEdit.on.saveRow($scope,
-      						//$scope.saveRow);
+      					gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+            				console.log('edited row id:' + rowEntity.id + ' Column:' + colDef.name + ' newValue:' + newValue + ' oldValue:' + oldValue);
+            				console.log(rowEntity);
+            				let req = { };
+							req['nodeid'] = rowEntity.id;
+            				nodesApi.update(req, rowEntity);
+          				});
     					}
 				};
   			     
@@ -82,7 +90,7 @@ angular.module('myApp.nodes', ['ngRoute'])
 						if ($scope.stopped == false){
                 					$scope.nodesSelected = row.entity;
 							$scope.showSelectedRecord = true;
-							console.log(row.entity);	
+							//console.log(row.entity);	
 							nodesSelectionSvc.setnodes(row.entity);
 						}
         				},500);
@@ -98,6 +106,25 @@ angular.module('myApp.nodes', ['ngRoute'])
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.nodesSelected = undefined;
+				}
+				
+				$scope.deleteRow = function(row) {
+					$scope.stopped = $timeout.cancel($scope.clicked);
+					console.log('Deleting ' + row.entity.id);	
+					let req = { };
+					req['nodeid'] = row.entity.id;
+					nodesApi.delete(req).$promise.then(function(success){
+						for (let i=0; i<$scope.nodes.length; i++){
+							if ($scope.nodes[i].id == row.entity.id) {
+								$scope.nodes.splice(i, 1);
+								refresh();
+								break;
+							}
+						}
+					}, function(error){
+						console.log(error);
+					});
+
 				}
 				
 				$scope.nodesFields = [
