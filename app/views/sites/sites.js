@@ -14,8 +14,9 @@ angular.module('myApp.sites', ['ngRoute'])
 				$scope.updateResults =[];
 				
 				$scope.sites = sitesApi.query();
-				
 				$scope.sitesSelected = '';
+				
+				
 				$scope.clicked = false;
 				$scope.stopped = false;
 				
@@ -32,6 +33,9 @@ angular.module('myApp.sites', ['ngRoute'])
 					enableColumnResize: true,
 					enableCellEdit: false,
 					enableSelectAll: true,
+					multiSelect: false,
+					modifierKeysToMultiSelect: false,
+					noUnselect: true,
 					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
@@ -39,9 +43,6 @@ angular.module('myApp.sites', ['ngRoute'])
 					exporterCsvFilename: ':siteid.csv',
 					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
-					multiSelect: false,
-					modifierKeysToMultiSelect: false,
-					noUnselect: true,
 					columnDefs: [
 					{ name: 'delete',
 					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
@@ -86,27 +87,14 @@ angular.module('myApp.sites', ['ngRoute'])
             					// TODO: Rollback change.
             				});
           				});
+          				gridApi.selection.on.rowSelectionChanged($scope,function(row){
+        					console.log('row selected ' + row.entity.id);
+        					sitesSelectionSvc.setsites(row.entity);
+        					$scope.sitesSelected = row.entity;
+							$scope.showSelectedRecord = true;
+      					});
     					}
 				};
-  			     
-				$scope.click = function(row){ 
-					$scope.clicked = $timeout(function(){
-						if ($scope.stopped == false){
-                					$scope.sitesSelected = row.entity;
-							$scope.showSelectedRecord = true;
-							//console.log(row.entity);	
-							sitesSelectionSvc.setsites(row.entity);
-						}
-        				},500);
-				}
-				
-				$scope.dblclick = function(row){
-					$scope.stopped = $timeout.cancel($scope.clicked);
-					console.log(row.entity);	
-					sitesSelectionSvc.setsites(row.entity.id);
-					$location.path('/org');
-				}
-				
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.sitesSelected = undefined;

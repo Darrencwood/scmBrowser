@@ -13,11 +13,10 @@ angular.module('myApp.orgsSsids', ['ngRoute'])
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
 				
-				let id = orgsSelectionSvc.getorgs();
-				console.log(id);
-				$scope.orgsSsids = orgsSsidsApi.query({ orgid: id.id });
+				$scope.orgsSsidsSelected = orgsSelectionSvc.getorgs();
+				$scope.orgsSsids = orgsSsidsApi.query({ orgid: $scope.orgsSsidsSelected.id });
 				
-				$scope.orgsSsidsSelected = '';
+				
 				$scope.clicked = false;
 				$scope.stopped = false;
 				
@@ -33,7 +32,6 @@ angular.module('myApp.orgsSsids', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
-					enableSelectAll: true,
 					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
@@ -41,9 +39,6 @@ angular.module('myApp.orgsSsids', ['ngRoute'])
 					exporterCsvFilename: 'ssids.csv',
 					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
-					multiSelect: false,
-					modifierKeysToMultiSelect: false,
-					noUnselect: true,
 					columnDefs: [
 					{ name: 'delete',
 					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
@@ -88,21 +83,10 @@ angular.module('myApp.orgsSsids', ['ngRoute'])
           				});
     					}
 				};
-  			     
-				$scope.click = function(row){ 
-					$scope.clicked = $timeout(function(){
-						if ($scope.stopped == false){
-                					$scope.orgsSsidsSelected = row.entity;
-							$scope.showSelectedRecord = true;
-							//console.log(row.entity);	
-							orgsSsidsSelectionSvc.setorgsSsids(row.entity);
-						}
-        				},500);
+				$scope.deselect = function(){ 
+					orgsSsidsSelectionSvc.setorgsSsids();
+					$location.path('/orgs');
 				}
-				
-				$scope.dblclick = function(row){
-				}
-				
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.orgsSsidsSelected = undefined;

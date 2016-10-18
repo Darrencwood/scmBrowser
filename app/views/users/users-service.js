@@ -28,7 +28,6 @@ angular.module('myApp').factory('usersApi', function($resource) {
 angular.module('myApp').service('usersSelectionSvc', function() {
   this.users = { };
   this.setusers = function(obj){ 
-  	console.log('setting current users to: ' + obj.id);
     this.users = obj;
   }
   this.getusers = function(){

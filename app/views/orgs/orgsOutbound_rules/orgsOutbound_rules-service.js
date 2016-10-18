@@ -28,7 +28,6 @@ angular.module('myApp').factory('orgsOutbound_rulesApi', function($resource) {
 angular.module('myApp').service('orgsOutbound_rulesSelectionSvc', function() {
   this.orgsOutbound_rules = { };
   this.setorgsOutbound_rules = function(obj){ 
-  	console.log('setting current orgsOutbound_rules to: ' + obj.id);
     this.orgsOutbound_rules = obj;
   }
   this.getorgsOutbound_rules = function(){

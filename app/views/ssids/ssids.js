@@ -14,8 +14,9 @@ angular.module('myApp.ssids', ['ngRoute'])
 				$scope.updateResults =[];
 				
 				$scope.ssids = ssidsApi.query();
-				
 				$scope.ssidsSelected = '';
+				
+				
 				$scope.clicked = false;
 				$scope.stopped = false;
 				
@@ -32,6 +33,9 @@ angular.module('myApp.ssids', ['ngRoute'])
 					enableColumnResize: true,
 					enableCellEdit: false,
 					enableSelectAll: true,
+					multiSelect: false,
+					modifierKeysToMultiSelect: false,
+					noUnselect: true,
 					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
@@ -39,9 +43,6 @@ angular.module('myApp.ssids', ['ngRoute'])
 					exporterCsvFilename: ':ssidid.csv',
 					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
-					multiSelect: false,
-					modifierKeysToMultiSelect: false,
-					noUnselect: true,
 					columnDefs: [
 					{ name: 'delete',
 					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
@@ -84,23 +85,14 @@ angular.module('myApp.ssids', ['ngRoute'])
             					// TODO: Rollback change.
             				});
           				});
+          				gridApi.selection.on.rowSelectionChanged($scope,function(row){
+        					console.log('row selected ' + row.entity.id);
+        					ssidsSelectionSvc.setssids(row.entity);
+        					$scope.ssidsSelected = row.entity;
+							$scope.showSelectedRecord = true;
+      					});
     					}
 				};
-  			     
-				$scope.click = function(row){ 
-					$scope.clicked = $timeout(function(){
-						if ($scope.stopped == false){
-                					$scope.ssidsSelected = row.entity;
-							$scope.showSelectedRecord = true;
-							//console.log(row.entity);	
-							ssidsSelectionSvc.setssids(row.entity);
-						}
-        				},500);
-				}
-				
-				$scope.dblclick = function(row){
-				}
-				
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.ssidsSelected = undefined;

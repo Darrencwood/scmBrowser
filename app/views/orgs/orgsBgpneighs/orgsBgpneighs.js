@@ -13,11 +13,10 @@ angular.module('myApp.orgsBgpneighs', ['ngRoute'])
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
 				
-				let id = orgsSelectionSvc.getorgs();
-				console.log(id);
-				$scope.orgsBgpneighs = orgsBgpneighsApi.query({ orgid: id.id });
+				$scope.orgsBgpneighsSelected = orgsSelectionSvc.getorgs();
+				$scope.orgsBgpneighs = orgsBgpneighsApi.query({ orgid: $scope.orgsBgpneighsSelected.id });
 				
-				$scope.orgsBgpneighsSelected = '';
+				
 				$scope.clicked = false;
 				$scope.stopped = false;
 				
@@ -33,7 +32,6 @@ angular.module('myApp.orgsBgpneighs', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
-					enableSelectAll: true,
 					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
@@ -41,9 +39,6 @@ angular.module('myApp.orgsBgpneighs', ['ngRoute'])
 					exporterCsvFilename: 'bgpneighs.csv',
 					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
-					multiSelect: false,
-					modifierKeysToMultiSelect: false,
-					noUnselect: true,
 					columnDefs: [
 					{ name: 'delete',
 					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
@@ -86,21 +81,10 @@ angular.module('myApp.orgsBgpneighs', ['ngRoute'])
           				});
     					}
 				};
-  			     
-				$scope.click = function(row){ 
-					$scope.clicked = $timeout(function(){
-						if ($scope.stopped == false){
-                					$scope.orgsBgpneighsSelected = row.entity;
-							$scope.showSelectedRecord = true;
-							//console.log(row.entity);	
-							orgsBgpneighsSelectionSvc.setorgsBgpneighs(row.entity);
-						}
-        				},500);
+				$scope.deselect = function(){ 
+					orgsBgpneighsSelectionSvc.setorgsBgpneighs();
+					$location.path('/orgs');
 				}
-				
-				$scope.dblclick = function(row){
-				}
-				
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.orgsBgpneighsSelected = undefined;

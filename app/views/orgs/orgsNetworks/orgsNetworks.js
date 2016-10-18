@@ -13,11 +13,10 @@ angular.module('myApp.orgsNetworks', ['ngRoute'])
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
 				
-				let id = orgsSelectionSvc.getorgs();
-				console.log(id);
-				$scope.orgsNetworks = orgsNetworksApi.query({ orgid: id.id });
+				$scope.orgsNetworksSelected = orgsSelectionSvc.getorgs();
+				$scope.orgsNetworks = orgsNetworksApi.query({ orgid: $scope.orgsNetworksSelected.id });
 				
-				$scope.orgsNetworksSelected = '';
+				
 				$scope.clicked = false;
 				$scope.stopped = false;
 				
@@ -33,7 +32,6 @@ angular.module('myApp.orgsNetworks', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
-					enableSelectAll: true,
 					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
@@ -41,9 +39,6 @@ angular.module('myApp.orgsNetworks', ['ngRoute'])
 					exporterCsvFilename: 'networks.csv',
 					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
-					multiSelect: false,
-					modifierKeysToMultiSelect: false,
-					noUnselect: true,
 					columnDefs: [
 					{ name: 'delete',
 					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
@@ -101,21 +96,10 @@ angular.module('myApp.orgsNetworks', ['ngRoute'])
           				});
     					}
 				};
-  			     
-				$scope.click = function(row){ 
-					$scope.clicked = $timeout(function(){
-						if ($scope.stopped == false){
-                					$scope.orgsNetworksSelected = row.entity;
-							$scope.showSelectedRecord = true;
-							//console.log(row.entity);	
-							orgsNetworksSelectionSvc.setorgsNetworks(row.entity);
-						}
-        				},500);
+				$scope.deselect = function(){ 
+					orgsNetworksSelectionSvc.setorgsNetworks();
+					$location.path('/orgs');
 				}
-				
-				$scope.dblclick = function(row){
-				}
-				
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.orgsNetworksSelected = undefined;

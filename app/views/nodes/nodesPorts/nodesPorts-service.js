@@ -28,7 +28,6 @@ angular.module('myApp').factory('nodesPortsApi', function($resource) {
 angular.module('myApp').service('nodesPortsSelectionSvc', function() {
   this.nodesPorts = { };
   this.setnodesPorts = function(obj){ 
-  	console.log('setting current nodesPorts to: ' + obj.id);
     this.nodesPorts = obj;
   }
   this.getnodesPorts = function(){

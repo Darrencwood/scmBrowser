@@ -31,7 +31,6 @@ angular.module('myApp').factory('{{name}}Api', function($resource) {
 angular.module('myApp').service('{{name}}SelectionSvc', function() {
   this.{{name}} = { };
   this.set{{name}} = function(obj){ 
-  	console.log('setting current {{name}} to: ' + obj.{{selectedSubmenu}});
     this.{{name}} = obj;
   }
   this.get{{name}} = function(){

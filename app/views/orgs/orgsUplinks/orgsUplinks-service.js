@@ -28,7 +28,6 @@ angular.module('myApp').factory('orgsUplinksApi', function($resource) {
 angular.module('myApp').service('orgsUplinksSelectionSvc', function() {
   this.orgsUplinks = { };
   this.setorgsUplinks = function(obj){ 
-  	console.log('setting current orgsUplinks to: ' + obj.id);
     this.orgsUplinks = obj;
   }
   this.getorgsUplinks = function(){

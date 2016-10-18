@@ -28,7 +28,6 @@ angular.module('myApp').factory('orgsPath_rulesApi', function($resource) {
 angular.module('myApp').service('orgsPath_rulesSelectionSvc', function() {
   this.orgsPath_rules = { };
   this.setorgsPath_rules = function(obj){ 
-  	console.log('setting current orgsPath_rules to: ' + obj.id);
     this.orgsPath_rules = obj;
   }
   this.getorgsPath_rules = function(){

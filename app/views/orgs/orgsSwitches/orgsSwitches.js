@@ -13,11 +13,10 @@ angular.module('myApp.orgsSwitches', ['ngRoute'])
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
 				
-				let id = orgsSelectionSvc.getorgs();
-				console.log(id);
-				$scope.orgsSwitches = orgsSwitchesApi.query({ orgid: id.id });
+				$scope.orgsSwitchesSelected = orgsSelectionSvc.getorgs();
+				$scope.orgsSwitches = orgsSwitchesApi.query({ orgid: $scope.orgsSwitchesSelected.id });
 				
-				$scope.orgsSwitchesSelected = '';
+				
 				$scope.clicked = false;
 				$scope.stopped = false;
 				
@@ -33,7 +32,6 @@ angular.module('myApp.orgsSwitches', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
-					enableSelectAll: true,
 					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
@@ -41,9 +39,6 @@ angular.module('myApp.orgsSwitches', ['ngRoute'])
 					exporterCsvFilename: 'switches.csv',
 					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
-					multiSelect: false,
-					modifierKeysToMultiSelect: false,
-					noUnselect: true,
 					columnDefs: [
 					{ name: 'delete',
 					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
@@ -97,21 +92,10 @@ angular.module('myApp.orgsSwitches', ['ngRoute'])
           				});
     					}
 				};
-  			     
-				$scope.click = function(row){ 
-					$scope.clicked = $timeout(function(){
-						if ($scope.stopped == false){
-                					$scope.orgsSwitchesSelected = row.entity;
-							$scope.showSelectedRecord = true;
-							//console.log(row.entity);	
-							orgsSwitchesSelectionSvc.setorgsSwitches(row.entity);
-						}
-        				},500);
+				$scope.deselect = function(){ 
+					orgsSwitchesSelectionSvc.setorgsSwitches();
+					$location.path('/orgs');
 				}
-				
-				$scope.dblclick = function(row){
-				}
-				
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.orgsSwitchesSelected = undefined;

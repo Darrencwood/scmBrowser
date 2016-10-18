@@ -13,11 +13,10 @@ angular.module('myApp.orgsDcuplinks', ['ngRoute'])
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
 				
-				let id = orgsSelectionSvc.getorgs();
-				console.log(id);
-				$scope.orgsDcuplinks = orgsDcuplinksApi.query({ orgid: id.id });
+				$scope.orgsDcuplinksSelected = orgsSelectionSvc.getorgs();
+				$scope.orgsDcuplinks = orgsDcuplinksApi.query({ orgid: $scope.orgsDcuplinksSelected.id });
 				
-				$scope.orgsDcuplinksSelected = '';
+				
 				$scope.clicked = false;
 				$scope.stopped = false;
 				
@@ -33,7 +32,6 @@ angular.module('myApp.orgsDcuplinks', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
-					enableSelectAll: true,
 					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
@@ -41,9 +39,6 @@ angular.module('myApp.orgsDcuplinks', ['ngRoute'])
 					exporterCsvFilename: 'dcuplinks.csv',
 					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
-					multiSelect: false,
-					modifierKeysToMultiSelect: false,
-					noUnselect: true,
 					columnDefs: [
 					{ name: 'delete',
 					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
@@ -86,21 +81,10 @@ angular.module('myApp.orgsDcuplinks', ['ngRoute'])
           				});
     					}
 				};
-  			     
-				$scope.click = function(row){ 
-					$scope.clicked = $timeout(function(){
-						if ($scope.stopped == false){
-                					$scope.orgsDcuplinksSelected = row.entity;
-							$scope.showSelectedRecord = true;
-							//console.log(row.entity);	
-							orgsDcuplinksSelectionSvc.setorgsDcuplinks(row.entity);
-						}
-        				},500);
+				$scope.deselect = function(){ 
+					orgsDcuplinksSelectionSvc.setorgsDcuplinks();
+					$location.path('/orgs');
 				}
-				
-				$scope.dblclick = function(row){
-				}
-				
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.orgsDcuplinksSelected = undefined;

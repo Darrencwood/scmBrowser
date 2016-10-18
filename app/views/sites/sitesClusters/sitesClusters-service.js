@@ -28,7 +28,6 @@ angular.module('myApp').factory('sitesClustersApi', function($resource) {
 angular.module('myApp').service('sitesClustersSelectionSvc', function() {
   this.sitesClusters = { };
   this.setsitesClusters = function(obj){ 
-  	console.log('setting current sitesClusters to: ' + obj.id);
     this.sitesClusters = obj;
   }
   this.getsitesClusters = function(){

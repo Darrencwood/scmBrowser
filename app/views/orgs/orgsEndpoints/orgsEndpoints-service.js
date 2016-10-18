@@ -28,7 +28,6 @@ angular.module('myApp').factory('orgsEndpointsApi', function($resource) {
 angular.module('myApp').service('orgsEndpointsSelectionSvc', function() {
   this.orgsEndpoints = { };
   this.setorgsEndpoints = function(obj){ 
-  	console.log('setting current orgsEndpoints to: ' + obj.id);
     this.orgsEndpoints = obj;
   }
   this.getorgsEndpoints = function(){

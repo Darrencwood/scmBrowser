@@ -13,11 +13,10 @@ angular.module('myApp.orgsOutbound_rules', ['ngRoute'])
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
 				
-				let id = orgsSelectionSvc.getorgs();
-				console.log(id);
-				$scope.orgsOutbound_rules = orgsOutbound_rulesApi.query({ orgid: id.id });
+				$scope.orgsOutbound_rulesSelected = orgsSelectionSvc.getorgs();
+				$scope.orgsOutbound_rules = orgsOutbound_rulesApi.query({ orgid: $scope.orgsOutbound_rulesSelected.id });
 				
-				$scope.orgsOutbound_rulesSelected = '';
+				
 				$scope.clicked = false;
 				$scope.stopped = false;
 				
@@ -33,7 +32,6 @@ angular.module('myApp.orgsOutbound_rules', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
-					enableSelectAll: true,
 					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
@@ -41,9 +39,6 @@ angular.module('myApp.orgsOutbound_rules', ['ngRoute'])
 					exporterCsvFilename: 'outbound_rules.csv',
 					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
-					multiSelect: false,
-					modifierKeysToMultiSelect: false,
-					noUnselect: true,
 					columnDefs: [
 					{ name: 'delete',
 					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
@@ -92,21 +87,10 @@ angular.module('myApp.orgsOutbound_rules', ['ngRoute'])
           				});
     					}
 				};
-  			     
-				$scope.click = function(row){ 
-					$scope.clicked = $timeout(function(){
-						if ($scope.stopped == false){
-                					$scope.orgsOutbound_rulesSelected = row.entity;
-							$scope.showSelectedRecord = true;
-							//console.log(row.entity);	
-							orgsOutbound_rulesSelectionSvc.setorgsOutbound_rules(row.entity);
-						}
-        				},500);
+				$scope.deselect = function(){ 
+					orgsOutbound_rulesSelectionSvc.setorgsOutbound_rules();
+					$location.path('/orgs');
 				}
-				
-				$scope.dblclick = function(row){
-				}
-				
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.orgsOutbound_rulesSelected = undefined;

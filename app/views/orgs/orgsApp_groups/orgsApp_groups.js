@@ -13,11 +13,10 @@ angular.module('myApp.orgsApp_groups', ['ngRoute'])
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
 				
-				let id = orgsSelectionSvc.getorgs();
-				console.log(id);
-				$scope.orgsApp_groups = orgsApp_groupsApi.query({ orgid: id.id });
+				$scope.orgsApp_groupsSelected = orgsSelectionSvc.getorgs();
+				$scope.orgsApp_groups = orgsApp_groupsApi.query({ orgid: $scope.orgsApp_groupsSelected.id });
 				
-				$scope.orgsApp_groupsSelected = '';
+				
 				$scope.clicked = false;
 				$scope.stopped = false;
 				
@@ -33,7 +32,6 @@ angular.module('myApp.orgsApp_groups', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
-					enableSelectAll: true,
 					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
@@ -41,9 +39,6 @@ angular.module('myApp.orgsApp_groups', ['ngRoute'])
 					exporterCsvFilename: 'app_groups.csv',
 					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
-					multiSelect: false,
-					modifierKeysToMultiSelect: false,
-					noUnselect: true,
 					columnDefs: [
 					{ name: 'delete',
 					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
@@ -86,21 +81,10 @@ angular.module('myApp.orgsApp_groups', ['ngRoute'])
           				});
     					}
 				};
-  			     
-				$scope.click = function(row){ 
-					$scope.clicked = $timeout(function(){
-						if ($scope.stopped == false){
-                					$scope.orgsApp_groupsSelected = row.entity;
-							$scope.showSelectedRecord = true;
-							//console.log(row.entity);	
-							orgsApp_groupsSelectionSvc.setorgsApp_groups(row.entity);
-						}
-        				},500);
+				$scope.deselect = function(){ 
+					orgsApp_groupsSelectionSvc.setorgsApp_groups();
+					$location.path('/orgs');
 				}
-				
-				$scope.dblclick = function(row){
-				}
-				
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.orgsApp_groupsSelected = undefined;

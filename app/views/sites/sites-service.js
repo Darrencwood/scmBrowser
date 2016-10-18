@@ -28,7 +28,6 @@ angular.module('myApp').factory('sitesApi', function($resource) {
 angular.module('myApp').service('sitesSelectionSvc', function() {
   this.sites = { };
   this.setsites = function(obj){ 
-  	console.log('setting current sites to: ' + obj.id);
     this.sites = obj;
   }
   this.getsites = function(){

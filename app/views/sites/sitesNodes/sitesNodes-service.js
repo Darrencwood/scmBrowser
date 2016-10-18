@@ -28,7 +28,6 @@ angular.module('myApp').factory('sitesNodesApi', function($resource) {
 angular.module('myApp').service('sitesNodesSelectionSvc', function() {
   this.sitesNodes = { };
   this.setsitesNodes = function(obj){ 
-  	console.log('setting current sitesNodes to: ' + obj.id);
     this.sitesNodes = obj;
   }
   this.getsitesNodes = function(){

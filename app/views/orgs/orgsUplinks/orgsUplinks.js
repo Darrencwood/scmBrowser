@@ -13,11 +13,10 @@ angular.module('myApp.orgsUplinks', ['ngRoute'])
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
 				
-				let id = orgsSelectionSvc.getorgs();
-				console.log(id);
-				$scope.orgsUplinks = orgsUplinksApi.query({ orgid: id.id });
+				$scope.orgsUplinksSelected = orgsSelectionSvc.getorgs();
+				$scope.orgsUplinks = orgsUplinksApi.query({ orgid: $scope.orgsUplinksSelected.id });
 				
-				$scope.orgsUplinksSelected = '';
+				
 				$scope.clicked = false;
 				$scope.stopped = false;
 				
@@ -33,7 +32,6 @@ angular.module('myApp.orgsUplinks', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
-					enableSelectAll: true,
 					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
@@ -41,9 +39,6 @@ angular.module('myApp.orgsUplinks', ['ngRoute'])
 					exporterCsvFilename: 'uplinks.csv',
 					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
-					multiSelect: false,
-					modifierKeysToMultiSelect: false,
-					noUnselect: true,
 					columnDefs: [
 					{ name: 'delete',
 					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
@@ -97,21 +92,10 @@ angular.module('myApp.orgsUplinks', ['ngRoute'])
           				});
     					}
 				};
-  			     
-				$scope.click = function(row){ 
-					$scope.clicked = $timeout(function(){
-						if ($scope.stopped == false){
-                					$scope.orgsUplinksSelected = row.entity;
-							$scope.showSelectedRecord = true;
-							//console.log(row.entity);	
-							orgsUplinksSelectionSvc.setorgsUplinks(row.entity);
-						}
-        				},500);
+				$scope.deselect = function(){ 
+					orgsUplinksSelectionSvc.setorgsUplinks();
+					$location.path('/orgs');
 				}
-				
-				$scope.dblclick = function(row){
-				}
-				
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.orgsUplinksSelected = undefined;

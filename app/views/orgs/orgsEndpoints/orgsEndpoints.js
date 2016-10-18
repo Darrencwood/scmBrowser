@@ -13,11 +13,10 @@ angular.module('myApp.orgsEndpoints', ['ngRoute'])
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
 				
-				let id = orgsSelectionSvc.getorgs();
-				console.log(id);
-				$scope.orgsEndpoints = orgsEndpointsApi.query({ orgid: id.id });
+				$scope.orgsEndpointsSelected = orgsSelectionSvc.getorgs();
+				$scope.orgsEndpoints = orgsEndpointsApi.query({ orgid: $scope.orgsEndpointsSelected.id });
 				
-				$scope.orgsEndpointsSelected = '';
+				
 				$scope.clicked = false;
 				$scope.stopped = false;
 				
@@ -33,7 +32,6 @@ angular.module('myApp.orgsEndpoints', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
-					enableSelectAll: true,
 					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
@@ -41,9 +39,6 @@ angular.module('myApp.orgsEndpoints', ['ngRoute'])
 					exporterCsvFilename: 'endpoints.csv',
 					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
-					multiSelect: false,
-					modifierKeysToMultiSelect: false,
-					noUnselect: true,
 					columnDefs: [
 					{ name: 'delete',
 					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
@@ -85,21 +80,10 @@ angular.module('myApp.orgsEndpoints', ['ngRoute'])
           				});
     					}
 				};
-  			     
-				$scope.click = function(row){ 
-					$scope.clicked = $timeout(function(){
-						if ($scope.stopped == false){
-                					$scope.orgsEndpointsSelected = row.entity;
-							$scope.showSelectedRecord = true;
-							//console.log(row.entity);	
-							orgsEndpointsSelectionSvc.setorgsEndpoints(row.entity);
-						}
-        				},500);
+				$scope.deselect = function(){ 
+					orgsEndpointsSelectionSvc.setorgsEndpoints();
+					$location.path('/orgs');
 				}
-				
-				$scope.dblclick = function(row){
-				}
-				
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.orgsEndpointsSelected = undefined;

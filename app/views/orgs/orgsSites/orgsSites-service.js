@@ -28,7 +28,6 @@ angular.module('myApp').factory('orgsSitesApi', function($resource) {
 angular.module('myApp').service('orgsSitesSelectionSvc', function() {
   this.orgsSites = { };
   this.setorgsSites = function(obj){ 
-  	console.log('setting current orgsSites to: ' + obj.id);
     this.orgsSites = obj;
   }
   this.getorgsSites = function(){

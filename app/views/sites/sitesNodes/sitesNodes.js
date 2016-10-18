@@ -13,11 +13,10 @@ angular.module('myApp.sitesNodes', ['ngRoute'])
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
 				
-				let id = sitesSelectionSvc.getsites();
-				console.log(id);
-				$scope.sitesNodes = sitesNodesApi.query({ siteid: id.id });
+				$scope.sitesNodesSelected = sitesSelectionSvc.getsites();
+				$scope.sitesNodes = sitesNodesApi.query({ siteid: $scope.sitesNodesSelected.id });
 				
-				$scope.sitesNodesSelected = '';
+				
 				$scope.clicked = false;
 				$scope.stopped = false;
 				
@@ -33,7 +32,6 @@ angular.module('myApp.sitesNodes', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
-					enableSelectAll: true,
 					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
@@ -41,9 +39,6 @@ angular.module('myApp.sitesNodes', ['ngRoute'])
 					exporterCsvFilename: 'nodes.csv',
 					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
-					multiSelect: false,
-					modifierKeysToMultiSelect: false,
-					noUnselect: true,
 					columnDefs: [
 					{ name: 'delete',
 					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
@@ -97,21 +92,10 @@ angular.module('myApp.sitesNodes', ['ngRoute'])
           				});
     					}
 				};
-  			     
-				$scope.click = function(row){ 
-					$scope.clicked = $timeout(function(){
-						if ($scope.stopped == false){
-                					$scope.sitesNodesSelected = row.entity;
-							$scope.showSelectedRecord = true;
-							//console.log(row.entity);	
-							sitesNodesSelectionSvc.setsitesNodes(row.entity);
-						}
-        				},500);
+				$scope.deselect = function(){ 
+					sitesNodesSelectionSvc.setsitesNodes();
+					$location.path('/sites');
 				}
-				
-				$scope.dblclick = function(row){
-				}
-				
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.sitesNodesSelected = undefined;

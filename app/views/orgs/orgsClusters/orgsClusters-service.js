@@ -28,7 +28,6 @@ angular.module('myApp').factory('orgsClustersApi', function($resource) {
 angular.module('myApp').service('orgsClustersSelectionSvc', function() {
   this.orgsClusters = { };
   this.setorgsClusters = function(obj){ 
-  	console.log('setting current orgsClusters to: ' + obj.id);
     this.orgsClusters = obj;
   }
   this.getorgsClusters = function(){

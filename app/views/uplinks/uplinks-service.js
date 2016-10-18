@@ -28,7 +28,6 @@ angular.module('myApp').factory('uplinksApi', function($resource) {
 angular.module('myApp').service('uplinksSelectionSvc', function() {
   this.uplinks = { };
   this.setuplinks = function(obj){ 
-  	console.log('setting current uplinks to: ' + obj.id);
     this.uplinks = obj;
   }
   this.getuplinks = function(){

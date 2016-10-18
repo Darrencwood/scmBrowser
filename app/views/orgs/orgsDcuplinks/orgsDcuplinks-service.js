@@ -28,7 +28,6 @@ angular.module('myApp').factory('orgsDcuplinksApi', function($resource) {
 angular.module('myApp').service('orgsDcuplinksSelectionSvc', function() {
   this.orgsDcuplinks = { };
   this.setorgsDcuplinks = function(obj){ 
-  	console.log('setting current orgsDcuplinks to: ' + obj.id);
     this.orgsDcuplinks = obj;
   }
   this.getorgsDcuplinks = function(){

@@ -28,7 +28,6 @@ angular.module('myApp').factory('endpointsApi', function($resource) {
 angular.module('myApp').service('endpointsSelectionSvc', function() {
   this.endpoints = { };
   this.setendpoints = function(obj){ 
-  	console.log('setting current endpoints to: ' + obj.id);
     this.endpoints = obj;
   }
   this.getendpoints = function(){

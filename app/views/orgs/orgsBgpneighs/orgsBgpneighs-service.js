@@ -28,7 +28,6 @@ angular.module('myApp').factory('orgsBgpneighsApi', function($resource) {
 angular.module('myApp').service('orgsBgpneighsSelectionSvc', function() {
   this.orgsBgpneighs = { };
   this.setorgsBgpneighs = function(obj){ 
-  	console.log('setting current orgsBgpneighs to: ' + obj.id);
     this.orgsBgpneighs = obj;
   }
   this.getorgsBgpneighs = function(){

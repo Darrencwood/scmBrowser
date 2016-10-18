@@ -28,7 +28,6 @@ angular.module('myApp').factory('orgsSwitchesApi', function($resource) {
 angular.module('myApp').service('orgsSwitchesSelectionSvc', function() {
   this.orgsSwitches = { };
   this.setorgsSwitches = function(obj){ 
-  	console.log('setting current orgsSwitches to: ' + obj.id);
     this.orgsSwitches = obj;
   }
   this.getorgsSwitches = function(){

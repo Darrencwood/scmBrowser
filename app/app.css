@@ -57,7 +57,7 @@ body h2 {
   text-align: center;
 }
 
-.ui-grid-row:last-child .ui-grid-cell, .ui-grid-row:nth-child(odd) .ui-grid-cell, .ui-grid-row:nth-child(even) .ui-grid-cell, .ui-grid-row-selected {
+.ui-grid-row:last-child .ui-grid-cell, .ui-grid-row:nth-child(odd) .ui-grid-cell, .ui-grid-row:nth-child(even) .ui-grid-cell {
   color: #dddddd;
   background-color: #2C2D2C;
   text-align: center;
@@ -77,6 +77,8 @@ body h2 {
 {
     border-right: 0px;
     text-align: center;
+    color: #dddddd;
+  	background-color: #2C2D2C;
 }
 
 #closeSelectedRecord {
@@ -84,7 +86,12 @@ body h2 {
   background-color: #2C2D2C;
 }
 
-#download a, #upload {
+a#download, a#upload{
+  color: #dddddd;
+  font-size: 12px;
+}
+
+.ui-grid-row.ui-grid-row-selected > [ui-grid-row] > .ui-grid-cell {
   color: #dddddd;
   background-color: #2C2D2C;
 }

@@ -28,7 +28,6 @@ angular.module('myApp').factory('orgsDevicesApi', function($resource) {
 angular.module('myApp').service('orgsDevicesSelectionSvc', function() {
   this.orgsDevices = { };
   this.setorgsDevices = function(obj){ 
-  	console.log('setting current orgsDevices to: ' + obj.id);
     this.orgsDevices = obj;
   }
   this.getorgsDevices = function(){

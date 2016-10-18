@@ -18,26 +18,40 @@
 	            		<div class='row'>
 	            			<h2>{{title}}</h2>
 	            		</div>
-						<div class='row' ng-show="!showSelectedRecord">
-							<div  class='col-xs-1 col-sm-1 col-md-1'>
+						<div class='row' >
+							<div  class='col-xs-1 col-sm-1 col-md-1' ng-show="!showSelectedRecord">
 								<a id="download" class="btn btn-primary" role="button">
 									<span class="glyphicon glyphicon-download"></span>
 									<span>download</span>
 								</a>
 							</div>
-							<div id="upload" class='col-xs-1 col-sm-1 col-md-1'>
-								<a id="download" class="btn btn-primary" role="button">
+							<div class='col-xs-1 col-sm-1 col-md-1' ng-show="!showSelectedRecord">
+								<a id="upload" class="btn btn-primary" role="button">
 									<span class="glyphicon glyphicon-upload"></span>
 									<span>upload</span>
 								</a>
 							</div>
+							{{#isSubMenu}}
+								<div id="selectedButton" class='col-xs-1 col-sm-1 col-md-1'  ng-click="deselect()" >
+								<a id="selectedButton" class="btn btn-primary" role="button" >
+									<span>{{=<% %>=}}
+									{{<%name%>Selected.name}}
+									<%={{ }}=%></span>
+								</a>
+								</div>
+							{{/isSubMenu}}
+							{{^isSubMenu}}
+								<div id="selectedButton" class='col-xs-1 col-sm-1 col-md-1' ng-show="showSelectedRecord" ng-click="closeSelected()">
+								<a id="selectedButton" class="btn btn-primary" role="button" >
+									<span>{{=<% %>=}}
+									{{<%name%>Selected.name}}
+									<%={{ }}=%></span>
+								</a>
+								</div>
+							{{/isSubMenu}}
+							
 						</div>
 						<div id='showRecord' ng-if="showSelectedRecord">
-							<div class="row" >
-								<div id='closeSelectedRecord' class='col-xs-1 col-sm-1 col-md-1 ' ng-click="closeSelected()">
-									<span class="glyphicon glyphicon-remove "style="font-size:2em;"></span>
-								</div>
-							</div>	
 							<div class="row">
 								<div class="col-lg-12">
 									<form novalidate>
@@ -78,7 +92,7 @@
 						</div>
 						<div class='row' ng-if="!showSelectedRecord">
 							<div class='col-xs-12 col-sm-12 col-md-12'>
-								<div ui-grid='{{name}}GridOptions'ui-grid-edit ui-grid-importer ui-grid-selection ui-grid-resize-columns ui-grid-exporter ui-grid-selection class='mainGrid'></div>
+								<div ui-grid='{{name}}GridOptions'ui-grid-edit ui-grid-importer {{^isSubMenu}} ui-grid-selection{{/isSubMenu}} ui-grid-resize-columns ui-grid-exporter class='mainGrid'></div>
 							</div>
 						</div>
 					</div>

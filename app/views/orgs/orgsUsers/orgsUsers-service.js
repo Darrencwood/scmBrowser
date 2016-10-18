@@ -28,7 +28,6 @@ angular.module('myApp').factory('orgsUsersApi', function($resource) {
 angular.module('myApp').service('orgsUsersSelectionSvc', function() {
   this.orgsUsers = { };
   this.setorgsUsers = function(obj){ 
-  	console.log('setting current orgsUsers to: ' + obj.id);
     this.orgsUsers = obj;
   }
   this.getorgsUsers = function(){

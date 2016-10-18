@@ -28,7 +28,6 @@ angular.module('myApp').factory('orgsApp_groupsApi', function($resource) {
 angular.module('myApp').service('orgsApp_groupsSelectionSvc', function() {
   this.orgsApp_groups = { };
   this.setorgsApp_groups = function(obj){ 
-  	console.log('setting current orgsApp_groups to: ' + obj.id);
     this.orgsApp_groups = obj;
   }
   this.getorgsApp_groups = function(){

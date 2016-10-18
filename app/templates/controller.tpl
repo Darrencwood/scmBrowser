@@ -21,15 +21,15 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 				$scope.updateResults =[];
 				
 				{{#isSubMenu}}
-				let id = {{originalName}}SelectionSvc.get{{originalName}}();
-				console.log(id);
-				$scope.{{name}} = {{name}}Api.query({ {{originalId}}: id.{{selectedSubmenu}} });
+				$scope.{{name}}Selected = {{originalName}}SelectionSvc.get{{originalName}}();
+				$scope.{{name}} = {{name}}Api.query({ {{originalId}}: $scope.{{name}}Selected.{{selectedSubmenu}} });
 				{{/isSubMenu}}
 				{{^isSubMenu}}
 				$scope.{{name}} = {{name}}Api.query();
+				$scope.{{name}}Selected = '';
 				{{/isSubMenu}}
 				
-				$scope.{{name}}Selected = '';
+				
 				$scope.clicked = false;
 				$scope.stopped = false;
 				
@@ -45,7 +45,12 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
+					{{^isSubMenu}}
 					enableSelectAll: true,
+					multiSelect: false,
+					modifierKeysToMultiSelect: false,
+					noUnselect: true,
+					{{/isSubMenu}}
 					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
@@ -53,9 +58,6 @@ angular.module('myApp.{{name}}', ['ngRoute'])
 					exporterCsvFilename: '{{id}}.csv',
 					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
-					multiSelect: false,
-					modifierKeysToMultiSelect: false,
-					noUnselect: true,
 					columnDefs: [
 					{ name: 'delete',
 					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
@@ -96,29 +98,22 @@ angular.module('myApp.{{name}}', ['ngRoute'])
             					// TODO: Rollback change.
             				});
           				});
+          				{{^isSubMenu}}
+          				gridApi.selection.on.rowSelectionChanged($scope,function(row){
+        					console.log('row selected ' + row.entity.id);
+        					{{name}}SelectionSvc.set{{name}}(row.entity);
+        					$scope.{{name}}Selected = row.entity;
+							$scope.showSelectedRecord = true;
+      					});
+      					{{/isSubMenu}}
     					}
 				};
-  			     
-				$scope.click = function(row){ 
-					$scope.clicked = $timeout(function(){
-						if ($scope.stopped == false){
-                					$scope.{{name}}Selected = row.entity;
-							$scope.showSelectedRecord = true;
-							//console.log(row.entity);	
-							{{name}}SelectionSvc.set{{name}}(row.entity);
-						}
-        				},500);
+  			  	{{#isSubMenu}}
+				$scope.deselect = function(){ 
+					{{name}}SelectionSvc.set{{name}}();
+					$location.path('{{& back}}');
 				}
-				
-				$scope.dblclick = function(row){
-					{{#submenus}}
-					$scope.stopped = $timeout.cancel($scope.clicked);
-					console.log(row.entity);	
-					{{name}}SelectionSvc.set{{name}}(row.entity.{{selectedSubmenu}});
-					$location.path('/org');
-					{{/submenus}}
-				}
-				
+				{{/isSubMenu}}
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.{{name}}Selected = undefined;

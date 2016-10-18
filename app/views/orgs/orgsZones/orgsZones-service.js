@@ -28,7 +28,6 @@ angular.module('myApp').factory('orgsZonesApi', function($resource) {
 angular.module('myApp').service('orgsZonesSelectionSvc', function() {
   this.orgsZones = { };
   this.setorgsZones = function(obj){ 
-  	console.log('setting current orgsZones to: ' + obj.id);
     this.orgsZones = obj;
   }
   this.getorgsZones = function(){

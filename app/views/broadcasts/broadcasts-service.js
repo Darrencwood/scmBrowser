@@ -28,7 +28,6 @@ angular.module('myApp').factory('broadcastsApi', function($resource) {
 angular.module('myApp').service('broadcastsSelectionSvc', function() {
   this.broadcasts = { };
   this.setbroadcasts = function(obj){ 
-  	console.log('setting current broadcasts to: ' + obj.id);
     this.broadcasts = obj;
   }
   this.getbroadcasts = function(){

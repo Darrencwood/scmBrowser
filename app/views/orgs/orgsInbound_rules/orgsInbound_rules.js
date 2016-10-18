@@ -13,11 +13,10 @@ angular.module('myApp.orgsInbound_rules', ['ngRoute'])
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
 				
-				let id = orgsSelectionSvc.getorgs();
-				console.log(id);
-				$scope.orgsInbound_rules = orgsInbound_rulesApi.query({ orgid: id.id });
+				$scope.orgsInbound_rulesSelected = orgsSelectionSvc.getorgs();
+				$scope.orgsInbound_rules = orgsInbound_rulesApi.query({ orgid: $scope.orgsInbound_rulesSelected.id });
 				
-				$scope.orgsInbound_rulesSelected = '';
+				
 				$scope.clicked = false;
 				$scope.stopped = false;
 				
@@ -33,7 +32,6 @@ angular.module('myApp.orgsInbound_rules', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
-					enableSelectAll: true,
 					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
@@ -41,9 +39,6 @@ angular.module('myApp.orgsInbound_rules', ['ngRoute'])
 					exporterCsvFilename: 'inbound_rules.csv',
 					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
-					multiSelect: false,
-					modifierKeysToMultiSelect: false,
-					noUnselect: true,
 					columnDefs: [
 					{ name: 'delete',
 					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
@@ -88,21 +83,10 @@ angular.module('myApp.orgsInbound_rules', ['ngRoute'])
           				});
     					}
 				};
-  			     
-				$scope.click = function(row){ 
-					$scope.clicked = $timeout(function(){
-						if ($scope.stopped == false){
-                					$scope.orgsInbound_rulesSelected = row.entity;
-							$scope.showSelectedRecord = true;
-							//console.log(row.entity);	
-							orgsInbound_rulesSelectionSvc.setorgsInbound_rules(row.entity);
-						}
-        				},500);
+				$scope.deselect = function(){ 
+					orgsInbound_rulesSelectionSvc.setorgsInbound_rules();
+					$location.path('/orgs');
 				}
-				
-				$scope.dblclick = function(row){
-				}
-				
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.orgsInbound_rulesSelected = undefined;

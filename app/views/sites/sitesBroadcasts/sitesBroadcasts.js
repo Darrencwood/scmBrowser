@@ -13,11 +13,10 @@ angular.module('myApp.sitesBroadcasts', ['ngRoute'])
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
 				
-				let id = sitesSelectionSvc.getsites();
-				console.log(id);
-				$scope.sitesBroadcasts = sitesBroadcastsApi.query({ siteid: id.id });
+				$scope.sitesBroadcastsSelected = sitesSelectionSvc.getsites();
+				$scope.sitesBroadcasts = sitesBroadcastsApi.query({ siteid: $scope.sitesBroadcastsSelected.id });
 				
-				$scope.sitesBroadcastsSelected = '';
+				
 				$scope.clicked = false;
 				$scope.stopped = false;
 				
@@ -33,7 +32,6 @@ angular.module('myApp.sitesBroadcasts', ['ngRoute'])
 					enableSorting: true,
 					enableColumnResize: true,
 					enableCellEdit: false,
-					enableSelectAll: true,
 					exporterMenuPdf: false,
 					showFilter : true,
 					enableGridMenu: true,
@@ -41,9 +39,6 @@ angular.module('myApp.sitesBroadcasts', ['ngRoute'])
 					exporterCsvFilename: 'broadcasts.csv',
 					exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
 					rowHeight: 40,
-					multiSelect: false,
-					modifierKeysToMultiSelect: false,
-					noUnselect: true,
 					columnDefs: [
 					{ name: 'delete',
 					  cellTemplate: '<a id="delete" class="btn btn-danger" role="button" ng-click="grid.appScope.deleteRow(row)"> <span class="glyphicon glyphicon-trash"></span></a>'
@@ -88,21 +83,10 @@ angular.module('myApp.sitesBroadcasts', ['ngRoute'])
           				});
     					}
 				};
-  			     
-				$scope.click = function(row){ 
-					$scope.clicked = $timeout(function(){
-						if ($scope.stopped == false){
-                					$scope.sitesBroadcastsSelected = row.entity;
-							$scope.showSelectedRecord = true;
-							//console.log(row.entity);	
-							sitesBroadcastsSelectionSvc.setsitesBroadcasts(row.entity);
-						}
-        				},500);
+				$scope.deselect = function(){ 
+					sitesBroadcastsSelectionSvc.setsitesBroadcasts();
+					$location.path('/sites');
 				}
-				
-				$scope.dblclick = function(row){
-				}
-				
 				$scope.closeSelected = function() {
 					$scope.showSelectedRecord = false;
 					$scope.sitesBroadcastsSelected = undefined;

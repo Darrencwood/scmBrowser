@@ -28,7 +28,6 @@ angular.module('myApp').factory('sitesBroadcastsApi', function($resource) {
 angular.module('myApp').service('sitesBroadcastsSelectionSvc', function() {
   this.sitesBroadcasts = { };
   this.setsitesBroadcasts = function(obj){ 
-  	console.log('setting current sitesBroadcasts to: ' + obj.id);
     this.sitesBroadcasts = obj;
   }
   this.getsitesBroadcasts = function(){

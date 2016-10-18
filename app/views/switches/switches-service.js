@@ -28,7 +28,6 @@ angular.module('myApp').factory('switchesApi', function($resource) {
 angular.module('myApp').service('switchesSelectionSvc', function() {
   this.switches = { };
   this.setswitches = function(obj){ 
-  	console.log('setting current switches to: ' + obj.id);
     this.switches = obj;
   }
   this.getswitches = function(){
