@@ -57,7 +57,7 @@ angular.module('myApp.orgsBgpneighs', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsBgpneighsApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
+    					orgsBgpneighsApi.save({ orgid: $scope.orgsBgpneighsSelected.id }, newObject).$promise.then(function(data){
     						$scope.orgsBgpneighs.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();

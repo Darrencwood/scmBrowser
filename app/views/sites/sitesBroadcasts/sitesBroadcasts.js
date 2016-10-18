@@ -59,7 +59,7 @@ angular.module('myApp.sitesBroadcasts', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					sitesBroadcastsApi.save({ siteid: id.id }, newObject).$promise.then(function(data){
+    					sitesBroadcastsApi.save({ siteid: $scope.sitesBroadcastsSelected.id }, newObject).$promise.then(function(data){
     						$scope.sitesBroadcasts.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();

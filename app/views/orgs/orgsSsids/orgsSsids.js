@@ -59,7 +59,7 @@ angular.module('myApp.orgsSsids', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsSsidsApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
+    					orgsSsidsApi.save({ orgid: $scope.orgsSsidsSelected.id }, newObject).$promise.then(function(data){
     						$scope.orgsSsids.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();

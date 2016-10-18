@@ -58,7 +58,7 @@ angular.module('myApp.orgsDcinterfaces', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsDcinterfacesApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
+    					orgsDcinterfacesApi.save({ orgid: $scope.orgsDcinterfacesSelected.id }, newObject).$promise.then(function(data){
     						$scope.orgsDcinterfaces.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();

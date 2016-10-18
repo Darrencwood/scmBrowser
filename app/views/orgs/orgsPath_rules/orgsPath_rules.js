@@ -65,7 +65,7 @@ angular.module('myApp.orgsPath_rules', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsPath_rulesApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
+    					orgsPath_rulesApi.save({ orgid: $scope.orgsPath_rulesSelected.id }, newObject).$promise.then(function(data){
     						$scope.orgsPath_rules.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();

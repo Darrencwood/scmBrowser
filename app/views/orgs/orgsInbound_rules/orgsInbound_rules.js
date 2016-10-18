@@ -59,7 +59,7 @@ angular.module('myApp.orgsInbound_rules', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsInbound_rulesApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
+    					orgsInbound_rulesApi.save({ orgid: $scope.orgsInbound_rulesSelected.id }, newObject).$promise.then(function(data){
     						$scope.orgsInbound_rules.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();

@@ -61,7 +61,7 @@ angular.module('myApp.orgsUsers', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsUsersApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
+    					orgsUsersApi.save({ orgid: $scope.orgsUsersSelected.id }, newObject).$promise.then(function(data){
     						$scope.orgsUsers.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();

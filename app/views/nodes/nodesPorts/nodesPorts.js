@@ -69,7 +69,7 @@ angular.module('myApp.nodesPorts', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					nodesPortsApi.save({ nodeid: id.id }, newObject).$promise.then(function(data){
+    					nodesPortsApi.save({ nodeid: $scope.nodesPortsSelected.id }, newObject).$promise.then(function(data){
     						$scope.nodesPorts.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();

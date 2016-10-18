@@ -72,7 +72,7 @@ angular.module('myApp.{{name}}', ['ngRoute'])
       				},
     				importerObjectCallback: function ( grid, newObject ) {
     				{{#isSubMenu}}
-    					{{name}}Api.save({ {{originalId}}: id.{{selectedSubmenu}} }, newObject).$promise.then(function(data){
+    					{{name}}Api.save({ {{originalId}}: $scope.{{name}}Selected.{{selectedSubmenu}} }, newObject).$promise.then(function(data){
     				{{/isSubMenu}}
     				{{^isSubMenu}}
     					{{name}}Api.save(newObject).$promise.then(function(data){

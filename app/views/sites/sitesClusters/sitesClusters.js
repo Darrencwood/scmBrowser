@@ -64,7 +64,7 @@ angular.module('myApp.sitesClusters', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					sitesClustersApi.save({ siteid: id.id }, newObject).$promise.then(function(data){
+    					sitesClustersApi.save({ siteid: $scope.sitesClustersSelected.id }, newObject).$promise.then(function(data){
     						$scope.sitesClusters.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();

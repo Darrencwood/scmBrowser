@@ -86,7 +86,7 @@ body h2 {
   background-color: #2C2D2C;
 }
 
-a#download, a#upload{
+a#download, a#upload, div#closeButton{
   color: #dddddd;
   font-size: 12px;
 }

@@ -68,7 +68,7 @@ angular.module('myApp.sitesUplinks', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					sitesUplinksApi.save({ siteid: id.id }, newObject).$promise.then(function(data){
+    					sitesUplinksApi.save({ siteid: $scope.sitesUplinksSelected.id }, newObject).$promise.then(function(data){
     						$scope.sitesUplinks.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();

@@ -57,7 +57,7 @@ angular.module('myApp.orgsDcuplinks', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					orgsDcuplinksApi.save({ orgid: id.id }, newObject).$promise.then(function(data){
+    					orgsDcuplinksApi.save({ orgid: $scope.orgsDcuplinksSelected.id }, newObject).$promise.then(function(data){
     						$scope.orgsDcuplinks.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();

@@ -62,7 +62,7 @@ angular.module('myApp.sitesZones', ['ngRoute'])
 					importerDataAddCallback: function( grid,newObjects ) {
       				},
     				importerObjectCallback: function ( grid, newObject ) {
-    					sitesZonesApi.save({ siteid: id.id }, newObject).$promise.then(function(data){
+    					sitesZonesApi.save({ siteid: $scope.sitesZonesSelected.id }, newObject).$promise.then(function(data){
     						$scope.sitesZones.push(data);
     						$scope.updateResults.push({status: "ok", message: 'created.'});
     						refresh();
