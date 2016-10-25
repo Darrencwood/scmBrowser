@@ -7,11 +7,15 @@ angular.module('myApp.dcinterfaces', ['ngRoute'])
   });
 }])
 .controller('dcinterfacesCtrl',
-		[ '$scope', 'dcinterfacesApi', '$location', 'dcinterfacesSelectionSvc', '$timeout', 
-			function($scope, dcinterfacesApi, $location, dcinterfacesSelectionSvc, $timeout  ) {
+		[ '$scope', 'dcinterfacesApi', '$location', 'dcinterfacesSelectionSvc', '$timeout'   , 'proxyRegisterSvc', 
+			function($scope, dcinterfacesApi, $location, dcinterfacesSelectionSvc, $timeout  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.dcinterfaces = dcinterfacesApi.query();
 				$scope.dcinterfacesSelected = '';

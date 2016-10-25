@@ -7,11 +7,15 @@ angular.module('myApp.ap', ['ngRoute'])
   });
 }])
 .controller('apCtrl',
-		[ '$scope', 'apApi', '$location', 'apSelectionSvc', '$timeout', 
-			function($scope, apApi, $location, apSelectionSvc, $timeout  ) {
+		[ '$scope', 'apApi', '$location', 'apSelectionSvc', '$timeout'   , 'proxyRegisterSvc', 
+			function($scope, apApi, $location, apSelectionSvc, $timeout  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.ap = apApi.query();
 				$scope.apSelected = '';

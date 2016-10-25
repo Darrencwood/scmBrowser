@@ -7,11 +7,15 @@ angular.module('myApp.orgsSwitches', ['ngRoute'])
   });
 }])
 .controller('orgsSwitchesCtrl',
-		[ '$scope', 'orgsSwitchesApi', '$location', 'orgsSwitchesSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
-			function($scope, orgsSwitchesApi, $location, orgsSwitchesSelectionSvc, $timeout  , orgsSelectionSvc  ) {
+		[ '$scope', 'orgsSwitchesApi', '$location', 'orgsSwitchesSelectionSvc', '$timeout' , 'orgsSelectionSvc'   , 'proxyRegisterSvc', 
+			function($scope, orgsSwitchesApi, $location, orgsSwitchesSelectionSvc, $timeout  , orgsSelectionSvc  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.orgsSwitchesSelected = orgsSelectionSvc.getorgs();
 				$scope.orgsSwitches = orgsSwitchesApi.query({ orgid: $scope.orgsSwitchesSelected.id });

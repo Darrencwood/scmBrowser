@@ -7,11 +7,15 @@ angular.module('myApp.devices', ['ngRoute'])
   });
 }])
 .controller('devicesCtrl',
-		[ '$scope', 'devicesApi', '$location', 'devicesSelectionSvc', '$timeout', 
-			function($scope, devicesApi, $location, devicesSelectionSvc, $timeout  ) {
+		[ '$scope', 'devicesApi', '$location', 'devicesSelectionSvc', '$timeout'   , 'proxyRegisterSvc', 
+			function($scope, devicesApi, $location, devicesSelectionSvc, $timeout  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.devices = devicesApi.query();
 				$scope.devicesSelected = '';

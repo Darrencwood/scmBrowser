@@ -7,11 +7,15 @@ angular.module('myApp.orgsCustom_apps', ['ngRoute'])
   });
 }])
 .controller('orgsCustom_appsCtrl',
-		[ '$scope', 'orgsCustom_appsApi', '$location', 'orgsCustom_appsSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
-			function($scope, orgsCustom_appsApi, $location, orgsCustom_appsSelectionSvc, $timeout  , orgsSelectionSvc  ) {
+		[ '$scope', 'orgsCustom_appsApi', '$location', 'orgsCustom_appsSelectionSvc', '$timeout' , 'orgsSelectionSvc'   , 'proxyRegisterSvc', 
+			function($scope, orgsCustom_appsApi, $location, orgsCustom_appsSelectionSvc, $timeout  , orgsSelectionSvc  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.orgsCustom_appsSelected = orgsSelectionSvc.getorgs();
 				$scope.orgsCustom_apps = orgsCustom_appsApi.query({ orgid: $scope.orgsCustom_appsSelected.id });

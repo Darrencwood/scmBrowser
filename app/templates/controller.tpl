@@ -14,11 +14,15 @@ angular.module('myApp.{{name}}', ['ngRoute'])
   });
 }])
 .controller('{{name}}Ctrl',
-		[ '$scope', '{{name}}Api', '$location', '{{name}}SelectionSvc', '$timeout', {{#isSubMenu}} '{{originalName}}SelectionSvc' , {{/isSubMenu}}
-			function($scope, {{name}}Api, $location, {{name}}SelectionSvc, $timeout {{#isSubMenu}} , {{originalName}}SelectionSvc {{/isSubMenu}} ) {
+		[ '$scope', '{{name}}Api', '$location', '{{name}}SelectionSvc', '$timeout' {{#isSubMenu}}, '{{originalName}}SelectionSvc' {{/isSubMenu}}  , 'proxyRegisterSvc', 
+			function($scope, {{name}}Api, $location, {{name}}SelectionSvc, $timeout {{#isSubMenu}} , {{originalName}}SelectionSvc {{/isSubMenu}} , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				{{#isSubMenu}}
 				$scope.{{name}}Selected = {{originalName}}SelectionSvc.get{{originalName}}();

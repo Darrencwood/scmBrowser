@@ -7,11 +7,15 @@ angular.module('myApp.nodesPorts', ['ngRoute'])
   });
 }])
 .controller('nodesPortsCtrl',
-		[ '$scope', 'nodesPortsApi', '$location', 'nodesPortsSelectionSvc', '$timeout',  'nodesSelectionSvc' , 
-			function($scope, nodesPortsApi, $location, nodesPortsSelectionSvc, $timeout  , nodesSelectionSvc  ) {
+		[ '$scope', 'nodesPortsApi', '$location', 'nodesPortsSelectionSvc', '$timeout' , 'nodesSelectionSvc'   , 'proxyRegisterSvc', 
+			function($scope, nodesPortsApi, $location, nodesPortsSelectionSvc, $timeout  , nodesSelectionSvc  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.nodesPortsSelected = nodesSelectionSvc.getnodes();
 				$scope.nodesPorts = nodesPortsApi.query({ nodeid: $scope.nodesPortsSelected.id });

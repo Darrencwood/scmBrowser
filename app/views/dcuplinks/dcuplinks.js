@@ -7,11 +7,15 @@ angular.module('myApp.dcuplinks', ['ngRoute'])
   });
 }])
 .controller('dcuplinksCtrl',
-		[ '$scope', 'dcuplinksApi', '$location', 'dcuplinksSelectionSvc', '$timeout', 
-			function($scope, dcuplinksApi, $location, dcuplinksSelectionSvc, $timeout  ) {
+		[ '$scope', 'dcuplinksApi', '$location', 'dcuplinksSelectionSvc', '$timeout'   , 'proxyRegisterSvc', 
+			function($scope, dcuplinksApi, $location, dcuplinksSelectionSvc, $timeout  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.dcuplinks = dcuplinksApi.query();
 				$scope.dcuplinksSelected = '';

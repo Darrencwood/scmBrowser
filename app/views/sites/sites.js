@@ -7,11 +7,15 @@ angular.module('myApp.sites', ['ngRoute'])
   });
 }])
 .controller('sitesCtrl',
-		[ '$scope', 'sitesApi', '$location', 'sitesSelectionSvc', '$timeout', 
-			function($scope, sitesApi, $location, sitesSelectionSvc, $timeout  ) {
+		[ '$scope', 'sitesApi', '$location', 'sitesSelectionSvc', '$timeout'   , 'proxyRegisterSvc', 
+			function($scope, sitesApi, $location, sitesSelectionSvc, $timeout  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.sites = sitesApi.query();
 				$scope.sitesSelected = '';

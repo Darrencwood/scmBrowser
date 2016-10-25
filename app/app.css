@@ -29,6 +29,11 @@ body h2 {
 	color: #dddddd;
 }
 
+nav.navbar ul li form {
+	padding: 15px;
+}
+
+
 .centered-form .panel{
 	background-color: #2C2D2C;
 	#box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;

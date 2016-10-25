@@ -7,11 +7,15 @@ angular.module('myApp.orgsApp_groups', ['ngRoute'])
   });
 }])
 .controller('orgsApp_groupsCtrl',
-		[ '$scope', 'orgsApp_groupsApi', '$location', 'orgsApp_groupsSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
-			function($scope, orgsApp_groupsApi, $location, orgsApp_groupsSelectionSvc, $timeout  , orgsSelectionSvc  ) {
+		[ '$scope', 'orgsApp_groupsApi', '$location', 'orgsApp_groupsSelectionSvc', '$timeout' , 'orgsSelectionSvc'   , 'proxyRegisterSvc', 
+			function($scope, orgsApp_groupsApi, $location, orgsApp_groupsSelectionSvc, $timeout  , orgsSelectionSvc  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.orgsApp_groupsSelected = orgsSelectionSvc.getorgs();
 				$scope.orgsApp_groups = orgsApp_groupsApi.query({ orgid: $scope.orgsApp_groupsSelected.id });

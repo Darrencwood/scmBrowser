@@ -392,7 +392,7 @@ loadSwagger(function(data){
   
   // GENERATE MAIN MENU
   openMenuTpl(function(view){
-    mainMenu = views + 'main/menu.html';
+    mainMenu = views + 'browser/browser_menu.html';
     fs.open(mainMenu, 'w', (err, fd) => {
       console.log('Generating ' + mainMenu);
       fs.write(fd, Mustache.render(view, elements));

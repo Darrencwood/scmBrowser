@@ -7,11 +7,15 @@ angular.module('myApp.broadcasts', ['ngRoute'])
   });
 }])
 .controller('broadcastsCtrl',
-		[ '$scope', 'broadcastsApi', '$location', 'broadcastsSelectionSvc', '$timeout', 
-			function($scope, broadcastsApi, $location, broadcastsSelectionSvc, $timeout  ) {
+		[ '$scope', 'broadcastsApi', '$location', 'broadcastsSelectionSvc', '$timeout'   , 'proxyRegisterSvc', 
+			function($scope, broadcastsApi, $location, broadcastsSelectionSvc, $timeout  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.broadcasts = broadcastsApi.query();
 				$scope.broadcastsSelected = '';

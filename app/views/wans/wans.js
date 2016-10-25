@@ -7,11 +7,15 @@ angular.module('myApp.wans', ['ngRoute'])
   });
 }])
 .controller('wansCtrl',
-		[ '$scope', 'wansApi', '$location', 'wansSelectionSvc', '$timeout', 
-			function($scope, wansApi, $location, wansSelectionSvc, $timeout  ) {
+		[ '$scope', 'wansApi', '$location', 'wansSelectionSvc', '$timeout'   , 'proxyRegisterSvc', 
+			function($scope, wansApi, $location, wansSelectionSvc, $timeout  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.wans = wansApi.query();
 				$scope.wansSelected = '';

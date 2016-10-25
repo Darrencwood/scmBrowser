@@ -7,11 +7,15 @@ angular.module('myApp.users', ['ngRoute'])
   });
 }])
 .controller('usersCtrl',
-		[ '$scope', 'usersApi', '$location', 'usersSelectionSvc', '$timeout', 
-			function($scope, usersApi, $location, usersSelectionSvc, $timeout  ) {
+		[ '$scope', 'usersApi', '$location', 'usersSelectionSvc', '$timeout'   , 'proxyRegisterSvc', 
+			function($scope, usersApi, $location, usersSelectionSvc, $timeout  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.users = usersApi.query();
 				$scope.usersSelected = '';

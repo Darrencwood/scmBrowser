@@ -7,11 +7,15 @@ angular.module('myApp.orgsClusters', ['ngRoute'])
   });
 }])
 .controller('orgsClustersCtrl',
-		[ '$scope', 'orgsClustersApi', '$location', 'orgsClustersSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
-			function($scope, orgsClustersApi, $location, orgsClustersSelectionSvc, $timeout  , orgsSelectionSvc  ) {
+		[ '$scope', 'orgsClustersApi', '$location', 'orgsClustersSelectionSvc', '$timeout' , 'orgsSelectionSvc'   , 'proxyRegisterSvc', 
+			function($scope, orgsClustersApi, $location, orgsClustersSelectionSvc, $timeout  , orgsSelectionSvc  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.orgsClustersSelected = orgsSelectionSvc.getorgs();
 				$scope.orgsClusters = orgsClustersApi.query({ orgid: $scope.orgsClustersSelected.id });

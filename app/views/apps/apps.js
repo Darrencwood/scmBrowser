@@ -7,11 +7,15 @@ angular.module('myApp.apps', ['ngRoute'])
   });
 }])
 .controller('appsCtrl',
-		[ '$scope', 'appsApi', '$location', 'appsSelectionSvc', '$timeout', 
-			function($scope, appsApi, $location, appsSelectionSvc, $timeout  ) {
+		[ '$scope', 'appsApi', '$location', 'appsSelectionSvc', '$timeout'   , 'proxyRegisterSvc', 
+			function($scope, appsApi, $location, appsSelectionSvc, $timeout  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.apps = appsApi.query();
 				$scope.appsSelected = '';

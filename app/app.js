@@ -11,9 +11,11 @@ angular.module('myApp', [
 	'ui.grid.selection',
 	'formly', 
 	'formlyBootstrap',
-  'myApp.proxyRegister',
-  'myApp.main',
+  'myApp.browser',
+  'myApp.networkTopology',
+  'myApp.menu',
   'myApp.ap',
+  'myApp.apps',
   'myApp.appGroups',
   'myApp.bgpneighs',
   'myApp.broadcasts',
@@ -51,6 +53,7 @@ angular.module('myApp', [
   'myApp.orgsZones',
   'myApp.outboundRules',
   'myApp.pathRules',
+  'myApp.ports',
   'myApp.sites',
   'myApp.ssids',
   'myApp.switches',
@@ -61,6 +64,6 @@ angular.module('myApp', [
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');
 
-  $routeProvider.otherwise({redirectTo: '/proxyRegister'});
+  $routeProvider.otherwise({redirectTo: '/menu'});
 }]);
 

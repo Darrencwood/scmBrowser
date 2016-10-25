@@ -7,11 +7,15 @@ angular.module('myApp.pathRules', ['ngRoute'])
   });
 }])
 .controller('pathRulesCtrl',
-		[ '$scope', 'pathRulesApi', '$location', 'pathRulesSelectionSvc', '$timeout', 
-			function($scope, pathRulesApi, $location, pathRulesSelectionSvc, $timeout  ) {
+		[ '$scope', 'pathRulesApi', '$location', 'pathRulesSelectionSvc', '$timeout'   , 'proxyRegisterSvc', 
+			function($scope, pathRulesApi, $location, pathRulesSelectionSvc, $timeout  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.pathRules = pathRulesApi.query();
 				$scope.pathRulesSelected = '';

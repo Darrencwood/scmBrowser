@@ -7,11 +7,15 @@ angular.module('myApp.inboundRules', ['ngRoute'])
   });
 }])
 .controller('inboundRulesCtrl',
-		[ '$scope', 'inboundRulesApi', '$location', 'inboundRulesSelectionSvc', '$timeout', 
-			function($scope, inboundRulesApi, $location, inboundRulesSelectionSvc, $timeout  ) {
+		[ '$scope', 'inboundRulesApi', '$location', 'inboundRulesSelectionSvc', '$timeout'   , 'proxyRegisterSvc', 
+			function($scope, inboundRulesApi, $location, inboundRulesSelectionSvc, $timeout  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.inboundRules = inboundRulesApi.query();
 				$scope.inboundRulesSelected = '';

@@ -7,11 +7,15 @@ angular.module('myApp.clusters', ['ngRoute'])
   });
 }])
 .controller('clustersCtrl',
-		[ '$scope', 'clustersApi', '$location', 'clustersSelectionSvc', '$timeout', 
-			function($scope, clustersApi, $location, clustersSelectionSvc, $timeout  ) {
+		[ '$scope', 'clustersApi', '$location', 'clustersSelectionSvc', '$timeout'   , 'proxyRegisterSvc', 
+			function($scope, clustersApi, $location, clustersSelectionSvc, $timeout  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.clusters = clustersApi.query();
 				$scope.clustersSelected = '';

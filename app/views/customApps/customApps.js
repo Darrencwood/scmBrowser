@@ -7,11 +7,15 @@ angular.module('myApp.customApps', ['ngRoute'])
   });
 }])
 .controller('customAppsCtrl',
-		[ '$scope', 'customAppsApi', '$location', 'customAppsSelectionSvc', '$timeout', 
-			function($scope, customAppsApi, $location, customAppsSelectionSvc, $timeout  ) {
+		[ '$scope', 'customAppsApi', '$location', 'customAppsSelectionSvc', '$timeout'   , 'proxyRegisterSvc', 
+			function($scope, customAppsApi, $location, customAppsSelectionSvc, $timeout  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.customApps = customAppsApi.query();
 				$scope.customAppsSelected = '';

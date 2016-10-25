@@ -7,11 +7,15 @@ angular.module('myApp.bgpneighs', ['ngRoute'])
   });
 }])
 .controller('bgpneighsCtrl',
-		[ '$scope', 'bgpneighsApi', '$location', 'bgpneighsSelectionSvc', '$timeout', 
-			function($scope, bgpneighsApi, $location, bgpneighsSelectionSvc, $timeout  ) {
+		[ '$scope', 'bgpneighsApi', '$location', 'bgpneighsSelectionSvc', '$timeout'   , 'proxyRegisterSvc', 
+			function($scope, bgpneighsApi, $location, bgpneighsSelectionSvc, $timeout  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.bgpneighs = bgpneighsApi.query();
 				$scope.bgpneighsSelected = '';

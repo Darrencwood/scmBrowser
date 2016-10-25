@@ -7,11 +7,15 @@ angular.module('myApp.orgsBgpneighs', ['ngRoute'])
   });
 }])
 .controller('orgsBgpneighsCtrl',
-		[ '$scope', 'orgsBgpneighsApi', '$location', 'orgsBgpneighsSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
-			function($scope, orgsBgpneighsApi, $location, orgsBgpneighsSelectionSvc, $timeout  , orgsSelectionSvc  ) {
+		[ '$scope', 'orgsBgpneighsApi', '$location', 'orgsBgpneighsSelectionSvc', '$timeout' , 'orgsSelectionSvc'   , 'proxyRegisterSvc', 
+			function($scope, orgsBgpneighsApi, $location, orgsBgpneighsSelectionSvc, $timeout  , orgsSelectionSvc  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.orgsBgpneighsSelected = orgsSelectionSvc.getorgs();
 				$scope.orgsBgpneighs = orgsBgpneighsApi.query({ orgid: $scope.orgsBgpneighsSelected.id });

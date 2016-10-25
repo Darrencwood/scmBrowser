@@ -7,11 +7,15 @@ angular.module('myApp.zones', ['ngRoute'])
   });
 }])
 .controller('zonesCtrl',
-		[ '$scope', 'zonesApi', '$location', 'zonesSelectionSvc', '$timeout', 
-			function($scope, zonesApi, $location, zonesSelectionSvc, $timeout  ) {
+		[ '$scope', 'zonesApi', '$location', 'zonesSelectionSvc', '$timeout'   , 'proxyRegisterSvc', 
+			function($scope, zonesApi, $location, zonesSelectionSvc, $timeout  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.zones = zonesApi.query();
 				$scope.zonesSelected = '';

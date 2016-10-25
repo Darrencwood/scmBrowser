@@ -7,11 +7,15 @@ angular.module('myApp.sitesClusters', ['ngRoute'])
   });
 }])
 .controller('sitesClustersCtrl',
-		[ '$scope', 'sitesClustersApi', '$location', 'sitesClustersSelectionSvc', '$timeout',  'sitesSelectionSvc' , 
-			function($scope, sitesClustersApi, $location, sitesClustersSelectionSvc, $timeout  , sitesSelectionSvc  ) {
+		[ '$scope', 'sitesClustersApi', '$location', 'sitesClustersSelectionSvc', '$timeout' , 'sitesSelectionSvc'   , 'proxyRegisterSvc', 
+			function($scope, sitesClustersApi, $location, sitesClustersSelectionSvc, $timeout  , sitesSelectionSvc  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.sitesClustersSelected = sitesSelectionSvc.getsites();
 				$scope.sitesClusters = sitesClustersApi.query({ siteid: $scope.sitesClustersSelected.id });

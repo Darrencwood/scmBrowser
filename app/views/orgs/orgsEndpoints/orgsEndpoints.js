@@ -7,11 +7,15 @@ angular.module('myApp.orgsEndpoints', ['ngRoute'])
   });
 }])
 .controller('orgsEndpointsCtrl',
-		[ '$scope', 'orgsEndpointsApi', '$location', 'orgsEndpointsSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
-			function($scope, orgsEndpointsApi, $location, orgsEndpointsSelectionSvc, $timeout  , orgsSelectionSvc  ) {
+		[ '$scope', 'orgsEndpointsApi', '$location', 'orgsEndpointsSelectionSvc', '$timeout' , 'orgsSelectionSvc'   , 'proxyRegisterSvc', 
+			function($scope, orgsEndpointsApi, $location, orgsEndpointsSelectionSvc, $timeout  , orgsSelectionSvc  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.orgsEndpointsSelected = orgsSelectionSvc.getorgs();
 				$scope.orgsEndpoints = orgsEndpointsApi.query({ orgid: $scope.orgsEndpointsSelected.id });

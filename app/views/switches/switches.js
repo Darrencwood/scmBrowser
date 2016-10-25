@@ -7,11 +7,15 @@ angular.module('myApp.switches', ['ngRoute'])
   });
 }])
 .controller('switchesCtrl',
-		[ '$scope', 'switchesApi', '$location', 'switchesSelectionSvc', '$timeout', 
-			function($scope, switchesApi, $location, switchesSelectionSvc, $timeout  ) {
+		[ '$scope', 'switchesApi', '$location', 'switchesSelectionSvc', '$timeout'   , 'proxyRegisterSvc', 
+			function($scope, switchesApi, $location, switchesSelectionSvc, $timeout  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.switches = switchesApi.query();
 				$scope.switchesSelected = '';

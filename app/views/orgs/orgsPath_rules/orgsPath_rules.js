@@ -7,11 +7,15 @@ angular.module('myApp.orgsPath_rules', ['ngRoute'])
   });
 }])
 .controller('orgsPath_rulesCtrl',
-		[ '$scope', 'orgsPath_rulesApi', '$location', 'orgsPath_rulesSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
-			function($scope, orgsPath_rulesApi, $location, orgsPath_rulesSelectionSvc, $timeout  , orgsSelectionSvc  ) {
+		[ '$scope', 'orgsPath_rulesApi', '$location', 'orgsPath_rulesSelectionSvc', '$timeout' , 'orgsSelectionSvc'   , 'proxyRegisterSvc', 
+			function($scope, orgsPath_rulesApi, $location, orgsPath_rulesSelectionSvc, $timeout  , orgsSelectionSvc  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.orgsPath_rulesSelected = orgsSelectionSvc.getorgs();
 				$scope.orgsPath_rules = orgsPath_rulesApi.query({ orgid: $scope.orgsPath_rulesSelected.id });

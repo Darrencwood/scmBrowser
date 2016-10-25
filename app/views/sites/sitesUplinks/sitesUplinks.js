@@ -7,11 +7,15 @@ angular.module('myApp.sitesUplinks', ['ngRoute'])
   });
 }])
 .controller('sitesUplinksCtrl',
-		[ '$scope', 'sitesUplinksApi', '$location', 'sitesUplinksSelectionSvc', '$timeout',  'sitesSelectionSvc' , 
-			function($scope, sitesUplinksApi, $location, sitesUplinksSelectionSvc, $timeout  , sitesSelectionSvc  ) {
+		[ '$scope', 'sitesUplinksApi', '$location', 'sitesUplinksSelectionSvc', '$timeout' , 'sitesSelectionSvc'   , 'proxyRegisterSvc', 
+			function($scope, sitesUplinksApi, $location, sitesUplinksSelectionSvc, $timeout  , sitesSelectionSvc  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.sitesUplinksSelected = sitesSelectionSvc.getsites();
 				$scope.sitesUplinks = sitesUplinksApi.query({ siteid: $scope.sitesUplinksSelected.id });

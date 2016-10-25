@@ -7,11 +7,15 @@ angular.module('myApp.orgsDcinterfaces', ['ngRoute'])
   });
 }])
 .controller('orgsDcinterfacesCtrl',
-		[ '$scope', 'orgsDcinterfacesApi', '$location', 'orgsDcinterfacesSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
-			function($scope, orgsDcinterfacesApi, $location, orgsDcinterfacesSelectionSvc, $timeout  , orgsSelectionSvc  ) {
+		[ '$scope', 'orgsDcinterfacesApi', '$location', 'orgsDcinterfacesSelectionSvc', '$timeout' , 'orgsSelectionSvc'   , 'proxyRegisterSvc', 
+			function($scope, orgsDcinterfacesApi, $location, orgsDcinterfacesSelectionSvc, $timeout  , orgsSelectionSvc  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.orgsDcinterfacesSelected = orgsSelectionSvc.getorgs();
 				$scope.orgsDcinterfaces = orgsDcinterfacesApi.query({ orgid: $scope.orgsDcinterfacesSelected.id });

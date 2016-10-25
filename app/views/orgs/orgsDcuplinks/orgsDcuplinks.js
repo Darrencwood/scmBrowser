@@ -7,11 +7,15 @@ angular.module('myApp.orgsDcuplinks', ['ngRoute'])
   });
 }])
 .controller('orgsDcuplinksCtrl',
-		[ '$scope', 'orgsDcuplinksApi', '$location', 'orgsDcuplinksSelectionSvc', '$timeout',  'orgsSelectionSvc' , 
-			function($scope, orgsDcuplinksApi, $location, orgsDcuplinksSelectionSvc, $timeout  , orgsSelectionSvc  ) {
+		[ '$scope', 'orgsDcuplinksApi', '$location', 'orgsDcuplinksSelectionSvc', '$timeout' , 'orgsSelectionSvc'   , 'proxyRegisterSvc', 
+			function($scope, orgsDcuplinksApi, $location, orgsDcuplinksSelectionSvc, $timeout  , orgsSelectionSvc  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.orgsDcuplinksSelected = orgsSelectionSvc.getorgs();
 				$scope.orgsDcuplinks = orgsDcuplinksApi.query({ orgid: $scope.orgsDcuplinksSelected.id });

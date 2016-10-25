@@ -7,11 +7,15 @@ angular.module('myApp.outboundRules', ['ngRoute'])
   });
 }])
 .controller('outboundRulesCtrl',
-		[ '$scope', 'outboundRulesApi', '$location', 'outboundRulesSelectionSvc', '$timeout', 
-			function($scope, outboundRulesApi, $location, outboundRulesSelectionSvc, $timeout  ) {
+		[ '$scope', 'outboundRulesApi', '$location', 'outboundRulesSelectionSvc', '$timeout'   , 'proxyRegisterSvc', 
+			function($scope, outboundRulesApi, $location, outboundRulesSelectionSvc, $timeout  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.outboundRules = outboundRulesApi.query();
 				$scope.outboundRulesSelected = '';

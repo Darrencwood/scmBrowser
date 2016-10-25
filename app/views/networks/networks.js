@@ -7,11 +7,15 @@ angular.module('myApp.networks', ['ngRoute'])
   });
 }])
 .controller('networksCtrl',
-		[ '$scope', 'networksApi', '$location', 'networksSelectionSvc', '$timeout', 
-			function($scope, networksApi, $location, networksSelectionSvc, $timeout  ) {
+		[ '$scope', 'networksApi', '$location', 'networksSelectionSvc', '$timeout'   , 'proxyRegisterSvc', 
+			function($scope, networksApi, $location, networksSelectionSvc, $timeout  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.networks = networksApi.query();
 				$scope.networksSelected = '';

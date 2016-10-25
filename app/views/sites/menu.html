@@ -1,10 +1,10 @@
 <!-- Sidebar -->
 <div id="sidebar-wrapper">
 	<ul class="sidebar-nav">
-		<li><a href="#!/sites/sitesBroadcasts">Broadcasts</a></li>
-		<li><a href="#!/sites/sitesClusters">Clusters</a></li>
-		<li><a href="#!/sites/sitesNodes">Nodes</a></li>
-		<li><a href="#!/sites/sitesUplinks">Uplinks</a></li>
-		<li><a href="#!/sites/sitesZones">Zones</a></li>
+		<li><a href="{{ isProxyRegister? '#!/sites/sitesBroadcasts' : '#!/browser' }} ">Broadcasts</a></li>
+		<li><a href="{{ isProxyRegister? '#!/sites/sitesClusters' : '#!/browser' }} ">Clusters</a></li>
+		<li><a href="{{ isProxyRegister? '#!/sites/sitesNodes' : '#!/browser' }} ">Nodes</a></li>
+		<li><a href="{{ isProxyRegister? '#!/sites/sitesUplinks' : '#!/browser' }} ">Uplinks</a></li>
+		<li><a href="{{ isProxyRegister? '#!/sites/sitesZones' : '#!/browser' }} ">Zones</a></li>
 	</ul>
 </div>

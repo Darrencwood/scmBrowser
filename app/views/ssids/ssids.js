@@ -7,11 +7,15 @@ angular.module('myApp.ssids', ['ngRoute'])
   });
 }])
 .controller('ssidsCtrl',
-		[ '$scope', 'ssidsApi', '$location', 'ssidsSelectionSvc', '$timeout', 
-			function($scope, ssidsApi, $location, ssidsSelectionSvc, $timeout  ) {
+		[ '$scope', 'ssidsApi', '$location', 'ssidsSelectionSvc', '$timeout'   , 'proxyRegisterSvc', 
+			function($scope, ssidsApi, $location, ssidsSelectionSvc, $timeout  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.ssids = ssidsApi.query();
 				$scope.ssidsSelected = '';

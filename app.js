@@ -6,14 +6,10 @@ var express  = require('express'),
 		bodyParser = require('body-parser'),
 		methodOverride = require('method-override'),
 		httpProxy = require('http-proxy'),
-		path = require('path'); 
+		path = require('path'),
+		url = require('url'); 
 
-var apiProxy = httpProxy.createProxyServer({
-  secure: false,
-  headers: {
-    host: 'cc.vlab.test'
-  }
-});
+var apiProxy = undefined;
 
 var target = '';
 
@@ -29,6 +25,42 @@ proxyRouter.post('/registerUrl', function(req, res) {
 	if (!req.body || !req.body.url) return res.sendStatus(400);
 	target = req.body.url;
 	console.log('Reconfigure target to : ' + target);
+	let hostname = url.parse(target).hostname;
+	console.log('Recondifure host to : ' + hostname);
+	apiProxy = httpProxy.createProxyServer({
+    secure: false,
+    headers: {
+      host: hostname
+    }
+  });
+  
+  apiProxy.on('proxyReq', function(proxyReq, req, res, options) {
+	  console.log('---------- proxyReq -------------');
+	  console.log(req.headers);
+	  console.log(req.method);
+	  console.log(req.url);
+	  console.log(req.body);
+	  if(req.body) {
+	    let bodyData = JSON.stringify(req.body);
+	    proxyReq.setHeader('Content-Type', 'application/json');
+	    proxyReq.setHeader('Content-Lenght', Buffer.byteLength(bodyData));
+	    proxyReq.write(bodyData);
+	  }
+  });
+
+  apiProxy.on('proxyRes', function(proxyRes, req, res, options) {
+	  console.log('---------- proxyRes -------------');
+	  console.log(JSON.stringify(proxyRes.headers, true, 2));
+	  console.log(JSON.stringify(proxyRes.url, true, 2));
+	  console.log(JSON.stringify(proxyRes.body, true, 2));
+  });
+
+
+  apiProxy.on('error', function (err, req, res) {
+	  console.log('error:');
+	  console.log(err);
+  });
+  
 	return res.sendStatus(200);
 });
 
@@ -48,33 +80,6 @@ app.all('/api/*', function(req, res) {
   	return res.sendStatus(400);
   }
 });                                       
-
-apiProxy.on('proxyReq', function(proxyReq, req, res, options) {
-	console.log('---------- proxyReq -------------');
-	console.log(req.headers);
-	console.log(req.method);
-	console.log(req.url);
-	console.log(req.body);
-	if(req.body) {
-	  let bodyData = JSON.stringify(req.body);
-	  proxyReq.setHeader('Content-Type', 'application/json');
-	  proxyReq.setHeader('Content-Lenght', Buffer.byteLength(bodyData));
-	  proxyReq.write(bodyData);
-	}
-});
-
-apiProxy.on('proxyRes', function(proxyRes, req, res, options) {
-	console.log('---------- proxyRes -------------');
-	console.log(JSON.stringify(proxyRes.headers, true, 2));
-	console.log(JSON.stringify(proxyRes.url, true, 2));
-	console.log(JSON.stringify(proxyRes.body, true, 2));
-});
-
-
-apiProxy.on('error', function (err, req, res) {
-	console.log('error:');
-	console.log(err);
-});
 
 app.listen(8888);
 console.log("App listening on port 8888");

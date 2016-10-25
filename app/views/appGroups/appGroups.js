@@ -7,11 +7,15 @@ angular.module('myApp.appGroups', ['ngRoute'])
   });
 }])
 .controller('appGroupsCtrl',
-		[ '$scope', 'appGroupsApi', '$location', 'appGroupsSelectionSvc', '$timeout', 
-			function($scope, appGroupsApi, $location, appGroupsSelectionSvc, $timeout  ) {
+		[ '$scope', 'appGroupsApi', '$location', 'appGroupsSelectionSvc', '$timeout'   , 'proxyRegisterSvc', 
+			function($scope, appGroupsApi, $location, appGroupsSelectionSvc, $timeout  , proxyRegisterSvc) {
 				$scope.showUploadResults = false;
 				$scope.showSelectedRecord = false;
 				$scope.updateResults =[];
+				
+				$scope.isProxyRegister = function() {
+					return proxyRegisterSvc.hasRegister;
+				}
 				
 				$scope.appGroups = appGroupsApi.query();
 				$scope.appGroupsSelected = '';

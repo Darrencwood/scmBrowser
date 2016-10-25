@@ -4,7 +4,7 @@
 	<div ng-include="'/views{{& back}}/menu.html'"></div>
 	{{/back}}
 	{{^back}}
-	<div ng-include="'/views/main/main_menu.html'" ng-if="!showSelectedRecord"></div>
+	<div ng-include="'/views/browser/browser_menu.html'" ng-if="!showSelectedRecord"></div>
 	<div ng-include="'/views/{{name}}/menu.html'" ng-if="showSelectedRecord"></div>
 	{{/back}}
 	<!-- /#sidebar-wrapper -->
