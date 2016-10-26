@@ -17,6 +17,7 @@
     "csv-js": "1.1.1",
     "vis": "^4.16.1",
     "underscore": "^1.8.3",
-    "angular-underscore-module": "^1.8.3"
+    "angular-underscore-module": "1.0.3"
+
   }
 }

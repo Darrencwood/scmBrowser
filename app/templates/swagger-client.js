@@ -224,6 +224,7 @@ function findSubMenuItem(data, mmap) {
         if (method == "post") {
           op.values.sampleHeaders = downloadSamples[newMmap.definition].sampleHeaders;
           op.values.sampleData = downloadSamples[newMmap.definition].sampleData;
+          op.values.canPost = true;
         }
         v.mmap = newMmap;
       });
@@ -298,6 +299,7 @@ function getMainElements(data) {
         if (method == "post"){
           op.values.sampleHeaders = downloadSamples[mmap.definition].sampleHeaders;
           op.values.sampleData = downloadSamples[mmap.definition].sampleData;
+          op.values.canPost = true;
         }
         v.mmap = mmap;
         
