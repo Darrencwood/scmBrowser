@@ -18,6 +18,7 @@
 	            		<div class='row'>
 	            			<h2>{{title}}</h2>
 	            		</div>
+	            		
 						<div class='row' >
 							<div  class='col-xs-1 col-sm-1 col-md-1' ng-show="!showSelectedRecord">
 								<a id="download" class="btn btn-primary" role="button">

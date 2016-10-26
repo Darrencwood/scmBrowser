@@ -33,6 +33,9 @@ nav.navbar ul li form {
 	padding: 15px;
 }
 
+nav.navbar ul.nav li.nav-item a {
+	font-size: 18px;
+}
 
 .centered-form .panel{
 	background-color: #2C2D2C;
@@ -240,3 +243,7 @@ a#download, a#upload, div#closeButton{
   	}
 }
 
+#mynetwork {
+  width: 100%;
+  border: 1px solid lightgray;
+}

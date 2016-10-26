@@ -1,5 +1,6 @@
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
+  'underscore',
   'ngRoute',
   'ngResource',
   'ui.grid', 
