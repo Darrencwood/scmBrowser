@@ -6,13 +6,12 @@ angular.module('myApp.networkTopology', ['ngRoute'])
   });
 }])
 .controller('networkTopologyCtrl',
-	[ '$scope', '$location', 'proxyRegisterSvc', 'orgsSitesApi', 'orgsWansApi', 
+	[ '$scope', '$location', 'proxyRegisterSvc', 'orgsSitesApi', 'orgsWansApi', 'orgsSelectionSvc',
 	  'orgsUplinksApi', 'orgsZonesApi', 'orgsNetworksApi', '_', '$q', 
-		function($scope, $location, proxyRegisterSvc, orgsSitesApi, orgsWansApi, 
+		function($scope, $location, proxyRegisterSvc, orgsSitesApi, orgsWansApi, orgsSelectionSvc,
 		          orgsUplinksApi, orgsZonesApi, orgsNetworksApi, _ , $q){
 		
 		  $scope.proxy = '';
-		  $scope.isProxyRegister = false;
 		  $scope.menuItems = [ {name: 'All', id:'All'} ];
 		  
 		  let nodes = new vis.DataSet([]);
@@ -191,27 +190,24 @@ angular.module('myApp.networkTopology', ['ngRoute'])
 		    draw(id);
 		  }
 		
-		  $scope.connect = function() {
-        proxyRegisterSvc.setUrl($scope.proxy);
-        $scope.isProxyRegister = true;
-        
-        $q.all([
-            orgsWansApi.query({ orgid: 'org-PacketsInc-ddd7fa358e8fda62' }).$promise,
-            orgsSitesApi.query({ orgid: 'org-PacketsInc-ddd7fa358e8fda62' }).$promise,
-            orgsZonesApi.query({ orgid: 'org-PacketsInc-ddd7fa358e8fda62' }).$promise,
-            orgsNetworksApi.query({ orgid: 'org-PacketsInc-ddd7fa358e8fda62' }).$promise,
-          ])
-          .then(function(data){
-            $scope.wans = data[0];
-            $scope.sites = data[1];
-            $scope.zones = data[2];
-            $scope.networks = data[3];
-            
-            getMenuEntries();
-            draw({id:'All'});
-          });
-        
-		  }
+
+      orgSelected = orgsSelectionSvc.getorgs();
+      console.log(orgSelected);
+      $q.all([
+          orgsWansApi.query({ orgid: orgSelected.id }).$promise,
+          orgsSitesApi.query({ orgid: orgSelected.id }).$promise,
+          orgsZonesApi.query({ orgid: orgSelected.id }).$promise,
+          orgsNetworksApi.query({ orgid: orgSelected.id }).$promise,
+        ])
+        .then(function(data){
+          $scope.wans = data[0];
+          $scope.sites = data[1];
+          $scope.zones = data[2];
+          $scope.networks = data[3];
+          
+          getMenuEntries();
+          draw({id:'All'});
+        });
 
 		}
 	]

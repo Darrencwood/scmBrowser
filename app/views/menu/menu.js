@@ -10,11 +10,9 @@ angular.module('myApp.menu', ['ngRoute'])
 .controller('menuCtrl',
 	[ '$scope', '$location', 
 		function($scope, $location){
+		  $location.path('/browser');
 		  $scope.browser = function() {
 		    $location.path('/browser');
-		  }
-		  $scope.networkTopology = function() {
-		    $location.path('/network_topology');
 		  }
 		}
 	]
